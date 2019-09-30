@@ -11,7 +11,6 @@ import { LitElement, html, css } from 'lit-element';
 // import './Sc404.js';
 
 export class ScApp extends LitElement {
-
   static get styles() {
     return [
       css`
@@ -39,7 +38,9 @@ export class ScApp extends LitElement {
       // case ROUTES.PAGES.GAME:
       //   return html`<sc-game>HELLO WORLD</sc-game>`;
       default:
-        return html`<sc-404>HELLO WORLD</sc-404>`;
+        return html`
+          <sc-404>HELLO WORLD</sc-404>
+        `;
     }
   }
 }
