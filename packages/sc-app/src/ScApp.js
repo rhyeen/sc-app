@@ -1,21 +1,17 @@
 import { LitElement, html, css } from 'lit-element';
-// import { connect } from 'pwa-helpers/connect-mixin.js';
-// import { localStore } from '../state/store.js';
-// import { installRouter } from 'pwa-helpers/router.js';
-// import { updateMetadata } from 'pwa-helpers/metadata.js';
-// import * as Actions from '../state/actions.js';
-// import * as Selector from '../state/selectors.js';
-
-// import { ROUTES } from '../entities/root.js';
-// import { LOCALE_EN } from '../../internal_comps/sc_locale/src/entities/en.js';
-// import './Sc404.js';
-
+import { connect } from 'pwa-helpers/connect-mixin.js';
 import { Log } from 'interface-handler/src/logger.js';
+import { installRouter } from 'pwa-helpers/router.js';
+import { updateMetadata } from 'pwa-helpers/metadata.js';
+import { localStore } from './state/store.js';
+import { Localize } from '../../utils/localizer.js';
+import * as Actions from './state/actions.js';
+import * as Selector from './state/selectors.js';
+import { ROUTES } from './entities/route.js';
 
-import { Card } from '@shardedcards/sct-card/dist/browser/entities/card/sct-card.js';
-import { CardRarity } from '@shardedcards/sct-card/dist/browser/enums/sct-card-rarity.js';
+import { LOCALE_EN } from '../../locale/en.js';
 
-export class ScApp extends LitElement {
+export class ScApp extends connect(localStore)(LitElement) {
   static get styles() {
     return [
       css`
@@ -32,22 +28,59 @@ export class ScApp extends LitElement {
     `;
   }
 
+  constructor() {
+    super();
+    Localize.setLocale('EN', LOCALE_EN);
+    Localize.useFallbackLocale('EN');
+  }
+
+  firstUpdated() {
+    installRouter(location =>
+      localStore.dispatch(Actions.navigate(decodeURIComponent(location.pathname))),
+    );
+  }
+
+  updated(changedProps) {
+    if (changedProps.has('_page')) {
+      updateMetadata({
+        title: this._getPageTitle(this._page),
+      });
+    }
+  }
+
   static get properties() {
     return {
       _page: { type: String },
     };
   }
 
+  stateChanged(state) {
+    this._page = Selector.getActivePage(state);
+  }
+
   _activePageHtml() {
-    const card = new Card(CardRarity.Common);
-    Log.debug(card);
     switch (this._page) {
-      // case ROUTES.PAGES.GAME:
-      //   return html`<sc-game>HELLO WORLD</sc-game>`;
+      case ROUTES.PAGES.GAME:
+        return html`
+          <sc-game></sc-game>
+        `;
       default:
         return html`
-          <sc-404>HELLO WORLD</sc-404>
+          <sc-404></sc-404>
         `;
+    }
+  }
+
+  static _getPageTitle(page) {
+    const title = Localize.localeMap.SC_ROOT.TITLE.APP_NAME;
+    switch (page) {
+      case ROUTES.PAGES.GAME:
+        return `${title} | ${Localize.localeMap.SC_ROOT.TITLE.PLAY}`;
+      case ROUTES.PAGES.NOT_FOUND:
+        return `${title} | ${Localize.localeMap.SC_ROOT.TITLE.NOT_FOUND}`;
+      default:
+        Log.error(`unexpected page: ${page}`);
+        return title;
     }
   }
 }
