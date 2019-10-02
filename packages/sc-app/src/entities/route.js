@@ -1,5 +1,5 @@
 import { Log } from 'interface-handler/src/logger.js';
-import { firebaseFunctions } from '../../../utils/firebase-init.js';
+import { firebaseFunctions } from '../../../utils/firebase.js';
 
 export const ROUTES = {
   PAGES: {

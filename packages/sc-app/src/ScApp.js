@@ -43,7 +43,7 @@ export class ScApp extends connect(localStore)(LitElement) {
   updated(changedProps) {
     if (changedProps.has('_page')) {
       updateMetadata({
-        title: this._getPageTitle(this._page),
+        title: ScApp._getPageTitle(this._page),
       });
     }
   }
