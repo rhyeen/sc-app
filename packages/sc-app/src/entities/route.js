@@ -1,6 +1,3 @@
-import { Log } from 'interface-handler/src/logger.js';
-import { firebaseFunctions } from '../../../utils/firebase.js';
-
 export const ROUTES = {
   PAGES: {
     GAME: 'ROUTE_PAGE_GAME',
@@ -27,11 +24,6 @@ export class Route {
 
   static getPageFromPath(path) {
     const endpoint = this._getEndpoint(path);
-    firebaseFunctions
-      .httpsCallable('helloWorld')({ text: 'hello' })
-      .then(result => {
-        Log.error(result);
-      });
     return this._getPageFromEndpoint(endpoint);
   }
 
