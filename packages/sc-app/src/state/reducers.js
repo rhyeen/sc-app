@@ -1,6 +1,7 @@
 import * as Actions from './actions.js';
 
 import { ROUTES } from '../entities/route.js';
+import { localStore } from './store.js';
 
 const INITIAL_STATE = {
   route: {
@@ -18,7 +19,7 @@ function _updateActivePage(state, activePage) {
   };
 }
 
-const app = (state = INITIAL_STATE, action) => {
+const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case Actions.UPDATE_ACTIVE_PAGE.SUCCESS:
       return _updateActivePage(state, action.activePage);
@@ -27,4 +28,4 @@ const app = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default app;
+localStore.addReducers({ root: reducer });
