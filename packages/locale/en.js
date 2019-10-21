@@ -115,10 +115,6 @@ export const LOCALE_EN = {
       NAME: 'cost',
       DESCRIPTION: amount => `+${amount} to energy cost.`,
     },
-    SHIELD: {
-      NAME: 'shield',
-      DESCRIPTION: amount => `+${amount} to current shield.`,
-    },
     RANGE: {
       NAME: 'range',
       DESCRIPTION: amount => `+${amount} to attack range.`,
@@ -128,6 +124,10 @@ export const LOCALE_EN = {
     EXHAUSTED: {
       NAME: 'exhausted',
       DESCRIPTION: () => 'Cannot attack this turn.',
+    },
+    SHIELD: {
+      NAME: 'shield',
+      DESCRIPTION: amount => `+${amount} to current shield.`,
     },
   },
 };

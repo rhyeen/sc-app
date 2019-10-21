@@ -1,28 +1,29 @@
 import { INTERFACE_STATE, InterfaceState } from 'interface-handler/src/interface-state.js';
-import * as CallHttp from './firebase/game.js';
+import * as CallHttp from './firebase/craft.js';
 
-export function beginGame() {
+
+export function getCraftingBaseCard() {
   switch (InterfaceState.get()) {
     case INTERFACE_STATE.HTTP:
-      return CallHttp.beginGame();
+      return CallHttp.getCraftingBaseCard();
     default:
       return InterfaceState.invalid();
   }
 }
 
-export function endCrafting(turn) {
+export function getCraftingParts() {
   switch (InterfaceState.get()) {
     case INTERFACE_STATE.HTTP:
-      return CallHttp.endCrafting(turn);
+      return CallHttp.getCraftingParts();
     default:
       return InterfaceState.invalid();
   }
 }
 
-export function endTurn(turn) {
+export function getCardIdentifiers(card) {
   switch (InterfaceState.get()) {
     case INTERFACE_STATE.HTTP:
-      return CallHttp.endTurn(turn);
+      return CallHttp.getCardIdentifiers(card);
     default:
       return InterfaceState.invalid();
   }
