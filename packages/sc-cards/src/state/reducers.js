@@ -1,4 +1,5 @@
-import { CardType } from '@shardedcards/sct-card/dist/browser/enums/sct-card-type.js';
+import { CardType } from '@shardedcards/sc-types/dist/card/enums/card-type.js';
+
 import { Log } from 'interface-handler/src/logger';
 import * as Actions from './actions.js';
 import * as Cards from '../services/card-selection.js';

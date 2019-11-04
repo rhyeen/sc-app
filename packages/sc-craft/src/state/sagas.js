@@ -1,5 +1,5 @@
 import { all, takeEvery, takeLatest, put, call } from 'redux-saga/effects'; // eslint-disable-line import/extensions
-import { DraftCardModifier } from '@shardedcards/sct-card/dist/browser/services/draft-card-modifier.js';
+import { DraftCardModifier } from '@shardedcards/sc-types/dist/card/services/draft-card-modifier.js';
 import * as Actions from './actions.js';
 import * as CraftInterface from '../services/interface/craft.js';
 import * as Selectors from './selectors.js';

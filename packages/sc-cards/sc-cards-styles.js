@@ -1,6 +1,6 @@
 import { css } from 'lit-element';
 import { Log } from 'interface-handler/src/logger.js';
-import { CardRarity } from '@shardedcards/sct-card/dist/browser/enums/sct-card-rarity.js';
+import { CardRarity } from '@shardedcards/sc-types/dist/card/enums/card-rarity.js'
 
 export const CARD_RARITIES = {
   UNDEFINED: {

@@ -1,7 +1,9 @@
-import { StaticCardAbilityId, VariableCardAbilityId } from "@shardedcards/sct-card/dist/browser/enums/card-ability.js";
-import { CardConditionsKey } from "@shardedcards/sct-card/dist/browser/enums/card-conditions.js";
-import { CardStatKey } from "@shardedcards/sct-card/dist/browser/enums/card-stat.js";
+import { StaticCardAbilityId, VariableCardAbilityId } from '@shardedcards/sc-types/dist/card/enums/card-ability.js';
+import { CardConditionsKey } from '@shardedcards/sc-types/dist/card/enums/card-conditions.js';
+import { CardStatKey } from '@shardedcards/sc-types/dist/card/enums/card-stat.js';
 import { Localize } from '../../../utils/localizer.js';
+
+
 
 import { 
   EnergizeIcon,

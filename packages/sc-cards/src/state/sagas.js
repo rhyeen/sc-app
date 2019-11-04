@@ -1,9 +1,9 @@
 import { put, takeEvery, takeLatest, all, call } from 'redux-saga/effects';  // eslint-disable-line import/extensions
-import { ActionTargetType } from '@shardedcards/sct-turn/dist/browser/enums/action-type.js';
-import { PlaceMinionAction, PlayMinionAttackAction, PlayMinionAbilityAction, PlaySpellAbilityAction } from '@shardedcards/sct-turn/dist/browser/entities/turn-action.js';
-import { OpponentMinionActionTarget, PlayerMinionActionTarget, PlayerActionTarget } from '@shardedcards/sct-turn/dist/browser/entities/action-target.js';
-import { CardType } from '@shardedcards/sct-card/dist/browser/enums/sct-card-type.js';
-import { AbilityRetriever } from '@shardedcards/sct-card/dist/browser/services/ability-retriever.js';
+import { ActionTargetType } from '@shardedcards/sc-types/dist/turn/enums/action-type.js';
+import { PlaceMinionAction, PlayMinionAttackAction, PlayMinionAbilityAction, PlaySpellAbilityAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action.js';
+import { OpponentMinionActionTarget, PlayerMinionActionTarget, PlayerActionTarget } from '@shardedcards/sc-types/dist/turn/entities/action-target';
+import { CardType } from '@shardedcards/sc-types/dist/card/enums/card-type.js';
+import { AbilityRetriever } from '@shardedcards/sc-types/dist/card/services/ability-targets.js';
 import { Log } from 'interface-handler/src/logger';
 import { localStore } from './store.js';
 import * as Selectors from './selectors.js';
