@@ -1,10 +1,10 @@
 import { all, takeEvery, takeLatest, put, call } from 'redux-saga/effects'; // eslint-disable-line import/extensions
 import { DraftCardModifier } from '@shardedcards/sc-types/dist/card/services/draft-card-modifier.js';
+import { Log } from 'interface-handler/src/logger.js';
 import * as Actions from './actions.js';
 import * as CraftInterface from '../services/interface/craft.js';
 import * as Selectors from './selectors.js';
 import { localStore } from './store.js';
-import { buildCardDetails } from '../services/card-builder.js';
 import * as GameActions from '../../../sc-game/src/state/actions.js';
 import { ACTION_TYPES } from '../../../sc_shared/src/entities/turn-keywords.js';
 
@@ -26,13 +26,6 @@ function* _setCraftingParts() {
   }
 }
 
-function* _finishAddCraftingPart() {
-  const forgeCard = yield _getModifiedForgeCard();
-  const action = yield _getAddCraftingPartAction();
-  yield put(GameActions.recordAction(action));
-  yield put(Actions.finishAddCraftingPart.success(forgeCard));
-}
-
 function _getModifiedForgeCard() {
   const state = localStore.getState();
   const { craftingPart, forgeSlot } = Selectors.getSelectedCraftingPartSelector(state);
@@ -50,6 +43,19 @@ function _getAddCraftingPartAction() {
   };
 }
 
+function* _finishAddCraftingPart() {
+  const forgeCard = yield _getModifiedForgeCard();
+  const action = yield _getAddCraftingPartAction();
+  yield put(GameActions.recordAction(action));
+  yield put(Actions.finishAddCraftingPart.success(forgeCard));
+}
+
+function _getFinalCard() {
+  const state = localStore.getState();
+  const { draftCard } = Selectors.getSelectedForgeSlotCardSelector(state);
+  return draftCard.buildCard();
+}
+
 function* _finishForgingCard() {
   try {
     const finalCard = yield _getFinalCard();
@@ -60,20 +66,6 @@ function* _finishForgingCard() {
   } catch (e) {
     yield Log.error(`@TODO: unable to _finishForgingCard(): ${e}`);
   }
-}
-
-function _getFinalCard() {
-  const state = localStore.getState();
-  const { draftCard } = Selectors.getSelectedForgeSlotCardSelector(state);
-  return draftCard.buildCard();
-}
-
-function* _addCraftedCardToDeck({numberOfInstances}) {
-  // @NOTE: I originally added the card to the actual discard pile, but since we don't have
-  // the instance ids yet, it's a futile effort.
-  const action = yield _getAddCraftedCardToDeckAction(numberOfInstances);
-  yield put(GameActions.recordAction(action));
-  yield put(Actions.addCraftedCardToDeck.success());
 }
 
 function _getAddCraftedCardToDeckAction(numberOfInstances) {
@@ -89,10 +81,12 @@ function _getAddCraftedCardToDeckAction(numberOfInstances) {
   };
 }
 
-function* _finishForgeSelectedCraftingBaseCard({forgeSlotIndex}) {
-  const action = yield _getForgeBaseCardAction(forgeSlotIndex);
+function* _addCraftedCardToDeck({numberOfInstances}) {
+  // @NOTE: I originally added the card to the actual discard pile, but since we don't have
+  // the instance ids yet, it's a futile effort.
+  const action = yield _getAddCraftedCardToDeckAction(numberOfInstances);
   yield put(GameActions.recordAction(action));
-  yield put(Actions.finishForgeSelectedCraftingBaseCard.success(forgeSlotIndex));
+  yield put(Actions.addCraftedCardToDeck.success());
 }
 
 function _getForgeBaseCardAction(forgeSlotIndex) {
@@ -100,6 +94,12 @@ function _getForgeBaseCardAction(forgeSlotIndex) {
     type: ACTION_TYPES.CRAFT_BASE_CARD,
     forgeSlotIndex
   };
+}
+
+function* _finishForgeSelectedCraftingBaseCard({forgeSlotIndex}) {
+  const action = yield _getForgeBaseCardAction(forgeSlotIndex);
+  yield put(GameActions.recordAction(action));
+  yield put(Actions.finishForgeSelectedCraftingBaseCard.success(forgeSlotIndex));
 }
 
 function* saga() {

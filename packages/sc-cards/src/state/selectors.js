@@ -18,14 +18,19 @@ export const getCards = createSelector(
   (cards) => cards
 );
 
+function _getHandCard(handCard, cards) {
+  return {
+    ...handCard,
+    card: getCard(cards, handCard.id, handCard.instance)
+  };
+}
+
 export const getHandCards = createSelector(
   _playerHandCardsSelector,
   _cardsSelector,
   (hand, cards) => {
     const handCards = [];
-    for (const handCard of hand) {
-      handCards.push(_getHandCard(handCard, cards));
-    }
+    hand.forEach(handCard => handCards.push(_getHandCard(handCard, cards)));
     return handCards;
   }
 );
@@ -34,13 +39,6 @@ export const getHandRefillSize = createSelector(
   _playerHandRefillSizeSelector,
   (playerHandRefillSizeSelector) => playerHandRefillSizeSelector
 );
-
-function _getHandCard(handCard, cards) {
-  return {
-    ...handCard,
-    card: getCard(cards, handCard.id, handCard.instance)
-  };
-}
 
 export const getDeckSize = createSelector(
   _playerDeckSelector,
@@ -88,6 +86,22 @@ export const getSelectedAbility = createSelector(
     })
 );
 
+function _getFieldSlot(fieldSlots, playAreaIndex, cards) {
+  return {
+    ...fieldSlots[playAreaIndex],
+    playAreaIndex,
+    card: getCard(cards, fieldSlots[playAreaIndex].id, fieldSlots[playAreaIndex].instance)
+  };
+}
+
+function _getFieldSlots(fieldSlots, cards) {
+  return [
+    _getFieldSlot(fieldSlots, 0, cards),
+    _getFieldSlot(fieldSlots, 1, cards),
+    _getFieldSlot(fieldSlots, 2, cards)
+  ];
+}
+
 export const getPlayerFieldSlots = createSelector(
   _playerFieldSlotsSelector,
   _cardsSelector,
@@ -108,19 +122,3 @@ export const getOpponentFieldBacklogSizes = createSelector(
       backlog[2].size
     ]
 );
-
-function _getFieldSlots(fieldSlots, cards) {
-  return [
-    _getFieldSlot(fieldSlots, 0, cards),
-    _getFieldSlot(fieldSlots, 1, cards),
-    _getFieldSlot(fieldSlots, 2, cards)
-  ];
-}
-
-function _getFieldSlot(fieldSlots, playAreaIndex, cards) {
-  return {
-    ...fieldSlots[playAreaIndex],
-    playAreaIndex,
-    card: getCard(cards, fieldSlots[playAreaIndex].id, fieldSlots[playAreaIndex].instance)
-  };
-}

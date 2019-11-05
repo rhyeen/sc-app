@@ -1,13 +1,13 @@
 import { put, takeEvery, takeLatest, all, call } from 'redux-saga/effects';  // eslint-disable-line import/extensions
 import { ActionTargetType } from '@shardedcards/sc-types/dist/turn/enums/action-type.js';
-import { PlaceMinionAction, PlayMinionAttackAction, PlayMinionAbilityAction, PlaySpellAbilityAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action.js';
-import { OpponentMinionActionTarget, PlayerMinionActionTarget, PlayerActionTarget } from '@shardedcards/sc-types/dist/turn/entities/action-target';
+// import { PlaceMinionAction, PlayMinionAttackAction, PlayMinionAbilityAction, PlaySpellAbilityAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action.js';
+import { PlaceMinionAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action/place-minion-action.js';
+import { OpponentMinionActionTarget, PlayerMinionActionTarget, PlayerActionTarget } from '@shardedcards/sc-types/dist/turn/entities/action-target.js';
 import { CardType } from '@shardedcards/sc-types/dist/card/enums/card-type.js';
 import { AbilityRetriever } from '@shardedcards/sc-types/dist/card/services/ability-targets.js';
-import { Log } from 'interface-handler/src/logger';
+import { Log } from 'interface-handler/src/logger.js';
 import { localStore } from './store.js';
 import * as Selectors from './selectors.js';
-import * as StatusActions from '../../../sc-status/src/state/actions.js';
 import * as Actions from './actions.js';
 import * as GameActions from '../../../sc-game/src/state/actions.js';
 import * as CardsInterface from '../services/interface/cards.js';
@@ -31,76 +31,31 @@ function* _setPlayerDecks() {
   }
 }
 
-function* _summonMinion({playAreaIndex}) {
-  const { discardedCard, updatedCards, statusUpdates } = yield _prepareSummonMinion(playAreaIndex);
-  const action = yield _getSummonMinionAction(playAreaIndex);
-  yield put(GameActions.recordAction(action));
-  yield put(Actions.summonMinion.success(playAreaIndex, updatedCards, discardedCard));
-  yield _handleStatusUpdates(statusUpdates);
-}
-
-function _prepareSummonMinion(playAreaIndex) {
-  const state = localStore.getState();
-  const selectedCard = Selectors.getSelectedCard(state);
-  const playerFieldCard = Selectors.getPlayerFieldSlots(state)[playAreaIndex];
-  const discardedCard = {
-    id: playerFieldCard.id,
-    instance: playerFieldCard.instance,
-  };
-  const { updatedCards, statusUpdates } = CardTurnActions.summonMinion(selectedCard, playerFieldCard);
-  return { discardedCard, updatedCards, statusUpdates };
-}
-
 function _getSummonMinionAction(playAreaIndex) {
   const state = localStore.getState();
   const selectedCard = Selectors.getSelectedCard(state);
-  const action = new PlaceMinionAction(selectedCard.handIndex, playAreaIndex);
-  return action.json();
+  return new PlaceMinionAction(selectedCard.handIndex, playAreaIndex);
 }
 
-function* _attackMinion({playAreaIndex}) {
-  const { updatedCards, addedToDiscardPile, playerFieldSlots, opponentFieldSlots } = _prepareAttackMinion(playAreaIndex);
-  const action = yield _getAttackMinionAction(playAreaIndex);
-  yield put(GameActions.recordAction(action));
-  yield put(Actions.attackMinion.success(updatedCards, addedToDiscardPile, playerFieldSlots, opponentFieldSlots));
-}
-
-function _prepareAttackMinion(playAreaIndex) {
-  const state = localStore.getState();
-  const selectedCard = Selectors.getSelectedCard(state);
-  const playerFieldSlots = Selectors.getPlayerFieldSlots(state);
-  const opponentFieldSlots = Selectors.getOpponentFieldSlots(state);
-  const playerFieldCard = playerFieldSlots[selectedCard.playAreaIndex];
-  const opponentFieldCard = opponentFieldSlots[playAreaIndex];
-  const cards = Selectors.getCards(state);
-  const addedToDiscardPile = [];
-  const { updatedCards, attackerDiscarded, attackedDiscarded } = CardTurnActions.attackMinion(cards, playerFieldCard, opponentFieldCard);
-  if (attackerDiscarded) {
-    addedToDiscardPile.push({
-      id: playerFieldSlots[selectedCard.playAreaIndex].id,
-      instance: playerFieldSlots[selectedCard.playAreaIndex].instance
-    });
-    playerFieldSlots[selectedCard.playAreaIndex] = {
-      id: null,
-      instance: null
-    };
-  }
-  if (attackedDiscarded) {
-    opponentFieldSlots[playAreaIndex] = {
-      id: null,
-      instance: null
-    };
-  }
-  return { updatedCards, addedToDiscardPile, playerFieldSlots, opponentFieldSlots };
+function* _summonMinion({playAreaIndex}) {
+  const action = yield _getSummonMinionAction(playAreaIndex);
+  yield put(GameActions.fulfillTurnAction(action));
+  yield put(Actions.summonMinion.success());
 }
 
 function _getAttackMinionAction(playAreaIndex) {
   const state = localStore.getState();
   const selectedCard = Selectors.getSelectedCard(state);
   const target = new OpponentMinionActionTarget(playAreaIndex);
-  const action = new PlayMinionAttackAction(selectedCard.playAreaIndex, [target]);
-  return action.json();
+  return new PlayMinionAttackAction(selectedCard.playAreaIndex, [target]);
 }
+
+function* _attackMinion({playAreaIndex}) {
+  const action = yield _getAttackMinionAction(playAreaIndex);
+  yield put(GameActions.fulfillTurnAction(action));
+  yield put(Actions.attackMinion.success());
+}
+
 
 function* _setPlayingField() {
   try {
@@ -111,19 +66,14 @@ function* _setPlayingField() {
   }
 }
 
-function* _clearHand() {
-  const addedToDiscardPile = yield _prepareClearHand();
-  yield put(Actions.clearHand.success(addedToDiscardPile));
-}
-
 function _prepareClearHand() {
   const state = localStore.getState();
   return Selectors.getHandCards(state);
 }
 
-function* _refreshPlayerCards() {
-  const updatedCards = yield _prepareRefreshPlayerCards();
-  yield put(Actions.refreshPlayerCards.success(updatedCards));
+function* _clearHand() {
+  const addedToDiscardPile = yield _prepareClearHand();
+  yield put(Actions.clearHand.success(addedToDiscardPile));
 }
 
 function _prepareRefreshPlayerCards() {
@@ -134,52 +84,23 @@ function _prepareRefreshPlayerCards() {
   return CardTurnActions.refreshCards(refreshReadyCards);
 }
 
-function* _useCardAbility({playAreaIndex}) {
-  const { updatedCards, addedToDiscardPile, playerFieldSlots, opponentFieldSlots, statusUpdates } = yield _prepareUseCardAbility(playAreaIndex);
-  yield _handleStatusUpdates(statusUpdates);
-  const action = yield _getUseCardAbilityAction(playAreaIndex);
-  yield put(GameActions.recordAction(action));
-  yield put(Actions.useCardAbility.success(updatedCards, addedToDiscardPile, playerFieldSlots, opponentFieldSlots));
-}
-
-function _prepareUseCardAbility(playAreaIndex) {
-  const state = localStore.getState();
-  const selectedAbility = Selectors.getSelectedAbility(state);
-  const playerFieldSlots = Selectors.getPlayerFieldSlots(state);
-  const opponentFieldSlots = Selectors.getOpponentFieldSlots(state);
-  const cards = Selectors.getCards(state);
-  return CardTurnActions.useCardAbility(cards, playAreaIndex, selectedAbility, playerFieldSlots, opponentFieldSlots);
-}
-
-function _handleStatusUpdates(statusUpdates) {
-  if (!statusUpdates) {
-    return;
-  }
-  return put(StatusActions.updateStatus(statusUpdates));
-}
-
-function _getUseCardAbilityAction(playAreaIndex) {
-  const state = localStore.getState();
-  const selectedAbility = Selectors.getSelectedAbility(state);
-  const target = _getActionTargetFromSelectedAbility(selectedAbility, playAreaIndex);
-  const action = _getActionFromSelectedAbility(selectedAbility, [target]);
-  return action.json();
+function* _refreshPlayerCards() {
+  const updatedCards = yield _prepareRefreshPlayerCards();
+  yield put(Actions.refreshPlayerCards.success(updatedCards));
 }
 
 function _getActionFromSelectedAbility(selectedAbility, actionTargets) {
-  let action = null;
+  const state = localStore.getState();
+  const selectedCard = Selectors.getSelectedCard(state);
   switch(selectedAbility.card.type) {
     case CardType.Minion:
-      action = new PlayMinionAbilityAction(selectedCard.playAreaIndex, actionTargets);
-      break;
+      return new PlayMinionAbilityAction(selectedCard.playAreaIndex, actionTargets);
     case CardType.Spell:
-      action = new PlaySpellAbilityAction(selectedCard.handIndex, actionTargets);
-      break;
+      return new PlaySpellAbilityAction(selectedCard.handIndex, actionTargets);
     default:
       Log.error(`Unexpected card type: ${selectedAbility.card.type}`);
       return null;
   }
-  return action.json();
 }
 
 function _getActionTargetFromSelectedAbility(selectedAbility, playAreaIndex) {
@@ -196,6 +117,19 @@ function _getActionTargetFromSelectedAbility(selectedAbility, playAreaIndex) {
   }
 }
 
+function _getUseCardAbilityAction(playAreaIndex) {
+  const state = localStore.getState();
+  const selectedAbility = Selectors.getSelectedAbility(state);
+  const target = _getActionTargetFromSelectedAbility(selectedAbility, playAreaIndex);
+  return _getActionFromSelectedAbility(selectedAbility, [target]);
+}
+
+function* _useCardAbility({playAreaIndex}) {
+  const action = yield _getUseCardAbilityAction(playAreaIndex);
+  yield put(GameActions.fulfillTurnAction(action));
+  yield put(Actions.useCardAbility.success());
+}
+
 function* _selectAbility({abilityId}) {
   const ability = AbilityRetriever.getDefaultedAbility(abilityId);
   if (ability.targetsOpponentMinion()) {
@@ -210,18 +144,18 @@ function* _selectAbility({abilityId}) {
   }
 }
 
+function isOpponentTargetedAbilitySelected() {
+  const state = localStore.getState();
+  const selectedAbility = Selectors.getSelectedAbility(state);
+  return selectedAbility.targets === ActionTargetType.TargetOpponentMinion;
+}
+
 function* _cancelSelectMinionTargetedAbility() {
   if (isOpponentTargetedAbilitySelected()) {
     yield put(Actions.cancelSelectOpponentMinionTargetedAbility());
   } else {
     yield put(Actions.cancelSelectPlayerMinionTargetedAbility());
   }
-}
-
-function isOpponentTargetedAbilitySelected() {
-  const state = localStore.getState();
-  const selectedAbility = Selectors.getSelectedAbility(state);
-  return selectedAbility.targets === ActionTargetType.TargetOpponentMinion;
 }
 
 function* saga() {

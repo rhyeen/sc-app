@@ -1,5 +1,6 @@
 import * as Actions from './actions.js';
 import { EnergyStatus } from '../services/energy-status.js';
+import { localStore } from './store.js';
 
 const INITIAL_STATE = {
   entities: {
@@ -101,29 +102,28 @@ function _setPlayerMaxEnergy(state, energy) {
 }
 
 const reducer = (state = INITIAL_STATE, action) => {
-  let newState; let newEnergies;
+  let newState = state; let newEnergies;
   switch (action.type) {
     case Actions.SET_PLAYER_STATUS.SUCCESS:
-      newState = _setPlayerCurrentHealth(state, action.status.health.current);
+      newState = _setPlayerCurrentHealth(newState, action.status.health.current);
       newState = _setPlayerMaxHealth(newState, action.status.health.max);
       newState = _setPlayerCurrentEnergy(newState, action.status.energy.current);
       return _setPlayerMaxEnergy(newState, action.status.energy.max);
     case Actions.SET_PLAYER_HEALTH:
-      return _setPlayerCurrentHealth(state, action.health);
+      return _setPlayerCurrentHealth(newState, action.health);
     case Actions.RESET_PLAYER_ENERGY:
-    return _setPlayerMaxEnergy(state, state.entities.player.energy.max);   
+    return _setPlayerMaxEnergy(newState, newState.entities.player.energy.max);   
     case Actions.ALLOCATE_PLAYER_ENERGY:
-      return _setPlayerPendingEnergy(state, EnergyStatus.setValidEnergy(state.energy.current - action.energyCost));
+      return _setPlayerPendingEnergy(newState, EnergyStatus.setValidEnergy(newState.energy.current - action.energyCost));
     case Actions.SPEND_ALLOCATED_PLAYER_ENERGY.SUCCESS:
-      return _setPlayerCurrentEnergy(state, state.entities.player.energy.pending);
+      return _setPlayerCurrentEnergy(newState, newState.entities.player.energy.pending);
     case Actions.CANCEL_ALLOCATED_PLAYER_ENERGY:
-      return _setPlayerPendingEnergy(state, state.entities.player.energy.current);
+      return _setPlayerPendingEnergy(newState, newState.entities.player.energy.current);
     case Actions.MODIFY_PLAYER_ENERGY.SUCCESS:
-      newEnergies = EnergyStatus.getModifiedEnergy(state.entities.player.energy, action.maxEnergyModifier, action.currentEnergyModifier);
-      newState = _setPlayerCurrentEnergy(state, newEnergies.current);
+      newEnergies = EnergyStatus.getModifiedEnergy(newState.entities.player.energy, action.maxEnergyModifier, action.currentEnergyModifier);
+      newState = _setPlayerCurrentEnergy(newState, newEnergies.current);
       return _setPlayerMaxEnergy(newState, newEnergies.max);
     case Actions.UPDATE_STATUS:
-      newState = state;
       if (!action.statusUpdates) {
         return newState;
       }
@@ -141,7 +141,7 @@ const reducer = (state = INITIAL_STATE, action) => {
       }
       return newState;
     default:
-      return state;
+      return newState;
   }
 };
 

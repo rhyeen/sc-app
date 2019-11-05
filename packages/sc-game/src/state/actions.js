@@ -52,3 +52,9 @@ export const loseGame = {
   request: () => ReduxAction.action(LOSE_GAME.REQUEST, {}),
   success: () => ReduxAction.action(LOSE_GAME.SUCCESS, {}),
 };
+
+export const FULFILL_TURN_ACTION = ra.createRequestTypes('FULFILL_TURN_ACTION');
+export const fulfillTurnAction = {
+  request: (turnAction) => ReduxAction.action(FULFILL_TURN_ACTION.REQUEST, {turnAction}),
+  success: () => ReduxAction.action(FULFILL_TURN_ACTION.SUCCESS, {}),
+};

@@ -1,5 +1,14 @@
-import { html, svg } from 'lit-element';
+import { html, svg, css } from 'lit-element';
 import {classMap} from 'lit-html/directives/class-map.js';
+
+function getBaseSvg(customClasses, definedClass, svgContent) {
+  const classes = {};
+  classes[definedClass] = true;
+  customClasses.forEach(customClass => {
+    classes[customClass] = true;
+  });
+  return html`<svg class=${classMap(classes)} viewBox="0 0 24 24" svg-icon>${svgContent}</svg>`
+}
 
 export function MenuIcon(customClasses) { return getBaseSvg(customClasses, 'menu-svg-icon', svg`<path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/>`) }
 export function EnergyIcon(customClasses) { return getBaseSvg(customClasses, 'energy-svg-icon', svg`<path d="M19 12l-7 10-7-10 7-10"/>`) }
@@ -21,15 +30,6 @@ export function ReachIcon(customClasses) { return getBaseSvg(customClasses, 'rea
 export function ForgeIcon(customClasses) { return getBaseSvg(customClasses, 'forge-svg-icon', svg`<path d="M9,5V10C13.03,12.47 8.44,14.97 6,16V19H21V16C14.59,13.27 17.47,9 22,8V5H9M2,6C2.81,8.13 4.42,9.5 7,10V6H2Z" />`) }
 export function EmptySlotIcon(customClasses) { return getBaseSvg(customClasses, 'empty-slot-svg-icon', svg`<path d="M2.2 16.06L3.88 12 2.2 7.94l4.06-1.68L7.94 2.2 12 3.88l4.06-1.68 1.68 4.06 4.06 1.68L20.12 12l1.68 4.06-4.06 1.68-1.68 4.06L12 20.12 7.94 21.8l-1.68-4.06-4.06-1.68M4.81 9l1.24 3-1.24 3 2.98 1.21L9 19.19l3-1.24 3 1.24 1.21-2.98L19.19 15l-1.24-3 1.24-3-2.98-1.21L15 4.81l-3 1.24-3-1.24-1.21 2.98L4.81 9z"/>`) }
 export function RemoveIcon(customClasses) { return getBaseSvg(customClasses, 'remove-svg-icon', svg`<path d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12m2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12M15.5 4l-1-1h-5l-1 1H5v2h14V4h-3.5z"/>`) }
-
-function getBaseSvg(customClasses, definedClass, svgContent) {
-  const classes = {};
-  classes[definedClass] = true;
-  for (const customClass of customClasses) {
-    classes[customClass] = true;
-  }
-  return html`<svg class=${classMap(classes)} viewBox="0 0 24 24" svg-icon>${svgContent}</svg>`
-}
 
 export const ScIconsStyles = css`
   [svg-icon] {

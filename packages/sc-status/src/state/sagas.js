@@ -1,7 +1,8 @@
-import { put, takeEvery, takeLatest, all, call } from 'redux-saga/effects';
-import { Log } from 'interface-handler/src/logger';
+import { put, takeEvery, takeLatest, all, call } from 'redux-saga/effects'; // eslint-disable-line import/extensions
+import { Log } from 'interface-handler/src/logger.js';
 import * as Actions from './actions.js';
 import * as StatusInterface from '../services/interface/status.js';
+import { localStore } from './store.js';
 
 function* _spendAllocatedPlayerEnergy() {
   yield put(Actions.spendAllocatedPlayerEnergy.success());

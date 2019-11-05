@@ -9,6 +9,7 @@ import * as CardsActions from '../../../sc-cards/src/state/actions.js';
 import * as StatusActions from '../../../sc-status/src/state/actions.js';
 import * as CraftActions from '../../../sc-craft/src/state/actions.js';
 import { GAME_STATES } from '../entities/game-states.js';
+import { GameDefiner } from '../services/game-definer.js';
 
 function* _beginTurn() {
   yield put(CardsActions.setPlayerDecks.request());
@@ -82,6 +83,18 @@ function* _endTurn() {
   yield put(Actions.beginCrafting.request());
 }
 
+function _executeTurnAction(turnAction) {
+  const game = GameDefiner.getGame();
+  const result = turnAction.execute(game);
+  debugger;
+}
+
+function* _fulfillTurnAction({turnAction}) {
+  yield call(_executeTurnAction, turnAction);
+  yield put(Actions.recordAction(turnAction.json()));
+  yield put(Actions.fulfillTurnAction.success());
+}
+
 function* saga() {
   yield all([
     takeLatest(Actions.RESET_GAME.REQUEST, _resetGame),
@@ -91,6 +104,7 @@ function* saga() {
     takeLatest(Actions.LOSE_GAME.REQUEST, _loseGame),
     takeLatest(Actions.END_TURN.REQUEST, _endTurn),
     takeLatest(Actions.BEGIN_TURN.REQUEST, _beginTurn),
+    takeLatest(Actions.FULFILL_TURN_ACTION.REQUEST, _fulfillTurnAction)
   ]);
 }
 

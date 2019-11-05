@@ -76,31 +76,31 @@ function _addOpponentTurn(state, opponentTurn) {
 }
 
 const reducer = (state = INITIAL_STATE, action) => {
-  let s = state;
+  let newState = state;
   switch (action.type) {
     case Actions.SHOW_IN_GAME_MENU:
-      return _toggleMenuState(s, true);
+      return _toggleMenuState(newState, true);
     case Actions.HIDE_IN_GAME_MENU:
-      return _toggleMenuState(s, false);
+      return _toggleMenuState(newState, false);
     case Actions.RESET_GAME.SUCCESS:
-      s = _toggleMenuState(s, false);
-      return _updateGameState(s, GAME_STATES.PLAYING);
+      newState = _toggleMenuState(newState, false);
+      return _updateGameState(newState, GAME_STATES.PLAYING);
     case Actions.BEGIN_CRAFTING.SUCCESS:
-      return _updateGameState(s, GAME_STATES.CRAFTING);
+      return _updateGameState(newState, GAME_STATES.CRAFTING);
     case Actions.END_CRAFTING.SUCCESS:
-      s = _updateGameState(s, GAME_STATES.PLAYING);
-      s = _endTurn(s);
-      return _addOpponentTurn(s, action.opponentTurn);
+      newState = _updateGameState(newState, GAME_STATES.PLAYING);
+      newState = _endTurn(newState);
+      return _addOpponentTurn(newState, action.opponentTurn);
     case Actions.WIN_GAME.SUCCESS:
-      return _updateGameState(s, GAME_STATES.WIN);
+      return _updateGameState(newState, GAME_STATES.WIN);
     case Actions.LOSE_GAME.SUCCESS:
-      return _updateGameState(s, GAME_STATES.LOSE);
+      return _updateGameState(newState, GAME_STATES.LOSE);
     case Actions.RECORD_ACTION:
-      return _updatePendingTurn(s, action.action);
+      return _updatePendingTurn(newState, action.action);
     case Actions.END_TURN.SUCCESS:
-      return _endTurn(s);
+      return _endTurn(newState);
     default:
-      return s;
+      return newState;
   }
 };
 
