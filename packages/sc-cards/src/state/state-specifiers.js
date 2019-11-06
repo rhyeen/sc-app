@@ -4,11 +4,11 @@ export const CARD_SOURCES = {
   CAST_PLAYER_SPELL: 'castPlayerSpell',
   SELECT_PLAYER_MINION: 'selectPlayerSummon',
   SELECT_OPPONENT_MINION: 'selectOpponentSummon',
-  PLAY_PLAYER_MINION: 'playPlayerMinion'
+  PLAY_PLAYER_MINION: 'playPlayerMinion',
 };
 
 export const CARD_TARGETS = {
   PLAYER_MINION: 'playerMinion',
   OPPONENT_MINION: 'opponentMinion',
-  PLAYER: 'player'
+  PLAYER: 'player',
 };

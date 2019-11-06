@@ -1,8 +1,8 @@
 export class EnergyStatus {
-  static getModifiedEnergy({max, current}, maxModifier, currentModifier) {
+  static getModifiedEnergy({ max, current }, maxModifier, currentModifier) {
     return {
       max: EnergyStatus.setValidEnergy(max + maxModifier),
-      current: EnergyStatus.setValidEnergy(current + currentModifier)
+      current: EnergyStatus.setValidEnergy(current + currentModifier),
     };
   }
 

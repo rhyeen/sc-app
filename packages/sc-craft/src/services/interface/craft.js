@@ -1,7 +1,6 @@
 import { INTERFACE_STATE, InterfaceState } from 'interface-handler/src/interface-state.js';
 import * as CallHttp from './firebase/craft.js';
 
-
 export function getCraftingBaseCard() {
   switch (InterfaceState.get()) {
     case INTERFACE_STATE.HTTP:

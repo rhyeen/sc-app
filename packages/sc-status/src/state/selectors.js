@@ -5,20 +5,20 @@ const _playerHealthSelector = state => state.scStatus.entities.player.health;
 
 export const getCurrentEnergy = createSelector(
   _playerEnergySelector,
-  (energy) => energy.current
+  energy => energy.current,
 );
 
 export const getMaxEnergy = createSelector(
   _playerEnergySelector,
-  (energy) => energy.max
+  energy => energy.max,
 );
 
 export const getCurrentHealth = createSelector(
   _playerHealthSelector,
-  (health) => health.current
+  health => health.current,
 );
 
 export const getMaxHealth = createSelector(
   _playerHealthSelector,
-  (health) => health.max
+  health => health.max,
 );

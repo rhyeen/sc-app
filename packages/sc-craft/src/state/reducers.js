@@ -6,31 +6,31 @@ function _resetState() {
     ui: {
       selectedCraftingPart: {
         craftingPartIndex: null,
-        forgeSlotIndex: null
+        forgeSlotIndex: null,
       },
       selectedForgeSlot: {
         forgeSlotIndex: null,
-        finishedCard: null
+        finishedCard: null,
       },
       isCraftingBaseCardSelected: false,
-      isForgingCraftingBaseCard: false
+      isForgingCraftingBaseCard: false,
     },
     entities: {
       forge: {
         slots: [
           {
-            draftCard: null
+            draftCard: null,
           },
           {
-            draftCard: null
-          }
-        ]
+            draftCard: null,
+          },
+        ],
       },
       craftingBaseCard: null,
       craftingParts: [],
       craftingPartsUsed: 0,
       maxCraftingPartsUsed: 1,
-    }
+    },
   };
 }
 
@@ -41,9 +41,9 @@ function _setSelectedCraftingPart(state, craftingPartIndex, forgeSlotIndex) {
       ...state.ui,
       selectedCraftingPart: {
         craftingPartIndex,
-        forgeSlotIndex
-      }
-    }
+        forgeSlotIndex,
+      },
+    },
   };
 }
 
@@ -54,9 +54,9 @@ function _removeSelectedCraftingPart(state) {
       ...state.ui,
       selectedCraftingPart: {
         craftingPartIndex: null,
-        forgeSlotIndex: null
-      }
-    }
+        forgeSlotIndex: null,
+      },
+    },
   };
 }
 
@@ -67,9 +67,9 @@ function _setSelectedForgeSlot(state, forgeSlotIndex) {
       ...state.ui,
       selectedForgeSlot: {
         forgeSlotIndex,
-        finishedCard: null
-      }
-    }
+        finishedCard: null,
+      },
+    },
   };
 }
 
@@ -80,9 +80,9 @@ function _removeSelectedForgeSlot(state) {
       ...state.ui,
       selectedForgeSlot: {
         forgeSlotIndex: null,
-        finishedCard: null
-      }
-    }
+        finishedCard: null,
+      },
+    },
   };
 }
 
@@ -91,8 +91,8 @@ function _setIsCraftingBaseCardSelected(state, isCraftingBaseCardSelected) {
     ...state,
     ui: {
       ...state.ui,
-      isCraftingBaseCardSelected
-    }
+      isCraftingBaseCardSelected,
+    },
   };
 }
 
@@ -103,9 +103,9 @@ function _setFinishedForgeCard(state, finishedCard) {
       ...state.ui,
       selectedForgeSlot: {
         ...state.ui.selectedForgeSlot,
-        finishedCard
-      }
-    }
+        finishedCard,
+      },
+    },
   };
 }
 
@@ -114,8 +114,8 @@ function _setIsForgingCraftingBaseCard(state, isForgingCraftingBaseCard) {
     ...state,
     ui: {
       ...state.ui,
-      isForgingCraftingBaseCard
-    }
+      isForgingCraftingBaseCard,
+    },
   };
 }
 
@@ -126,9 +126,9 @@ function _shallowCopyForgeSlots(state) {
       ...state.entities,
       forge: {
         ...state.entities.forge,
-        slots: [...state.entities.forge.slots]
-      }
-    }
+        slots: [...state.entities.forge.slots],
+      },
+    },
   };
 }
 
@@ -136,7 +136,7 @@ function _setForgeSlotCard(state, forgeSlotIndex, draftCard) {
   const newState = _shallowCopyForgeSlots(state);
   newState.entities.forge.slots[forgeSlotIndex] = {
     ...newState.entities.forge.slots[forgeSlotIndex],
-    draftCard
+    draftCard,
   };
   return newState;
 }
@@ -146,8 +146,8 @@ function _setCraftingBaseCard(state, craftingBaseCard) {
     ...state,
     entities: {
       ...state.entities,
-      craftingBaseCard
-    }
+      craftingBaseCard,
+    },
   };
 }
 
@@ -156,8 +156,8 @@ function _setCraftingParts(state, craftingParts) {
     ...state,
     entities: {
       ...state.entities,
-      craftingParts
-    }
+      craftingParts,
+    },
   };
 }
 
@@ -168,8 +168,8 @@ function _removeCraftingPart(state, craftingPartIndex) {
     ...state,
     entities: {
       ...state.entities,
-      craftingParts
-    }
+      craftingParts,
+    },
   };
 }
 
@@ -179,7 +179,7 @@ function _setCraftingPartsUsed(state, craftingPartsUsed) {
     entities: {
       ...state.entities,
       craftingPartsUsed,
-    }
+    },
   };
 }
 
@@ -206,7 +206,11 @@ const reducer = (state = INITIAL_STATE, action) => {
       newState = _setCraftingPartsUsed(newState, 0);
       return _setCraftingParts(newState, action.craftingParts);
     case Actions.FINISH_ADD_CRAFTING_PART.SUCCESS:
-      newState = _setForgeSlotCard(newState, newState.ui.selectedCraftingPart.forgeSlotIndex, action.draftCard);
+      newState = _setForgeSlotCard(
+        newState,
+        newState.ui.selectedCraftingPart.forgeSlotIndex,
+        action.draftCard,
+      );
       newState = _removeCraftingPart(newState, newState.ui.selectedCraftingPart.craftingPartIndex);
       newState = _setCraftingPartsUsed(newState, newState.entities.craftingPartsUsed + 1);
       return _removeSelectedCraftingPart(newState);
@@ -216,13 +220,25 @@ const reducer = (state = INITIAL_STATE, action) => {
     case Actions.CANCEL_FORGE_SELECTED_CRAFTING_BASE_CARD:
       return _setIsForgingCraftingBaseCard(newState, false);
     case Actions.FINISH_FORGE_SELECTED_CRAFTING_BASE_CARD.SUCCESS:
-      newState = _setForgeSlotCard(newState, action.forgeSlotIndex, newState.entities.craftingBaseCard);
+      newState = _setForgeSlotCard(
+        newState,
+        action.forgeSlotIndex,
+        newState.entities.craftingBaseCard,
+      );
       newState = _setIsForgingCraftingBaseCard(newState, false);
       return _setCraftingBaseCard(newState, null);
     case Actions.ADD_CRAFTING_PART:
-      return _setSelectedCraftingPart(newState, newState.ui.selectedCraftingPart.craftingPartIndex, action.forgeSlotIndex);
+      return _setSelectedCraftingPart(
+        newState,
+        newState.ui.selectedCraftingPart.craftingPartIndex,
+        action.forgeSlotIndex,
+      );
     case Actions.CANCEL_ADD_CRAFTING_PART:
-      return _setSelectedCraftingPart(newState, newState.ui.selectedCraftingPart.craftingPartIndex, null);
+      return _setSelectedCraftingPart(
+        newState,
+        newState.ui.selectedCraftingPart.craftingPartIndex,
+        null,
+      );
     case Actions.FINISH_FORGING_CARD.SUCCESS:
       return _setFinishedForgeCard(newState, action.card);
     case Actions.ADD_CRAFTED_CARD_TO_DECK.SUCCESS:

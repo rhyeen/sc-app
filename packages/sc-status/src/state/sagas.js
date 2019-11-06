@@ -8,14 +8,21 @@ function* _spendAllocatedPlayerEnergy() {
   yield put(Actions.spendAllocatedPlayerEnergy.success());
 }
 
-function* _modifyPlayerEnergy({maxEnergyModifier, currentEnergyModifier}) {
-  yield put(Actions.modifyPlayerEnergy.success({maxEnergyModifier, currentEnergyModifier}));
+function* _modifyPlayerEnergy({ maxEnergyModifier, currentEnergyModifier }) {
+  yield put(Actions.modifyPlayerEnergy.success({ maxEnergyModifier, currentEnergyModifier }));
 }
 
 function* _setPlayerStatus() {
   try {
     const { player } = yield call(StatusInterface.getPlayerStatus);
-    yield put(Actions.setPlayerStatus.success(player.health.max, player.health.current, player.energy.max, player.energy.current));
+    yield put(
+      Actions.setPlayerStatus.success(
+        player.health.max,
+        player.health.current,
+        player.energy.max,
+        player.energy.current,
+      ),
+    );
   } catch (e) {
     yield Log.error(`@TODO: unable to getPlayerStatus(): ${e}`);
   }

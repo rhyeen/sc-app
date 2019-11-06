@@ -13,60 +13,63 @@ const _finishedForgeCardSelector = state => state.scCraft.ui.selectedForgeSlot.f
 
 export const getForgeSlots = createSelector(
   _forgeSelector,
-  (forge) => forge.slots
+  forge => forge.slots,
 );
 
 export const getCraftingBaseCard = createSelector(
   _craftingBaseCardSelector,
-  (craftingBaseCard) => craftingBaseCard
+  craftingBaseCard => craftingBaseCard,
 );
 
 export const getCraftingParts = createSelector(
   _craftingPartsSelector,
-  (craftingParts) => craftingParts
+  craftingParts => craftingParts,
 );
 
 export const emptyForgeSlots = createSelector(
   _forgeSelector,
-  (forge) => forge.slots.findIndex(slot => !!slot.draftCard) >= 0
+  forge => forge.slots.findIndex(slot => !!slot.draftCard) >= 0,
 );
 
 export const getCraftingPartsLeftToUse = createSelector(
   _craftingPartsUsedSelector,
   _maxCraftingPartsUsedSelector,
-  (craftingPartsUsed, maxCraftingPartsUsed) => maxCraftingPartsUsed - craftingPartsUsed
+  (craftingPartsUsed, maxCraftingPartsUsed) => maxCraftingPartsUsed - craftingPartsUsed,
 );
 
 export const isCraftingBaseCardSelected = createSelector(
   _isCraftingBaseCardSelectedSelector,
-  (isCraftingBaseCardSelectedBool) => isCraftingBaseCardSelectedBool
+  isCraftingBaseCardSelectedBool => isCraftingBaseCardSelectedBool,
 );
 
 export const isForgingCraftingBaseCard = createSelector(
   _isForgingCraftingBaseCardSelector,
-  (isForgingCraftingBaseCardBool) => isForgingCraftingBaseCardBool
+  isForgingCraftingBaseCardBool => isForgingCraftingBaseCardBool,
 );
 
 export const getFinishedForgeCard = createSelector(
   _finishedForgeCardSelector,
-  (finishedForgeCard) => finishedForgeCard
+  finishedForgeCard => finishedForgeCard,
 );
 
 export const getSelectedForgeSlotCardSelector = createSelector(
   _selectedForgeSlotSelector,
   _forgeSelector,
   (selectedForgeSlotSelector, forgeSelector) => {
-    if (!selectedForgeSlotSelector.forgeSlotIndex && selectedForgeSlotSelector.forgeSlotIndex !== 0) {
+    if (
+      !selectedForgeSlotSelector.forgeSlotIndex &&
+      selectedForgeSlotSelector.forgeSlotIndex !== 0
+    ) {
       return {
         forgeSlotIndex: null,
-        draftCard: null
+        draftCard: null,
       };
     }
     return {
       forgeSlotIndex: selectedForgeSlotSelector.forgeSlotIndex,
-      ...forgeSelector.slots[selectedForgeSlotSelector.forgeSlotIndex]
+      ...forgeSelector.slots[selectedForgeSlotSelector.forgeSlotIndex],
     };
-  }
+  },
 );
 
 export const getSelectedCraftingPartSelector = createSelector(
@@ -79,7 +82,10 @@ export const getSelectedCraftingPartSelector = createSelector(
     if (selectedCraftingPart.forgeSlotIndex === 0 || selectedCraftingPart.forgeSlotIndex > 0) {
       forgeSlot = { ...forgeSelector.slots[selectedCraftingPart.forgeSlotIndex] };
     }
-    if (selectedCraftingPart.craftingPartIndex === 0 || selectedCraftingPart.craftingPartIndex > 0) {
+    if (
+      selectedCraftingPart.craftingPartIndex === 0 ||
+      selectedCraftingPart.craftingPartIndex > 0
+    ) {
       craftingPart = { ...craftingPartsSelector[selectedCraftingPart.craftingPartIndex] };
     }
     return {
@@ -87,5 +93,5 @@ export const getSelectedCraftingPartSelector = createSelector(
       forgeSlot,
       craftingPart,
     };
-  }
+  },
 );
