@@ -86,10 +86,12 @@ function* _endTurn() {
 function _executeTurnAction(turnAction) {
   const game = GameDefiner.getGame();
   const result = turnAction.execute(game);
-  debugger;
+  // debugger;
+  Log.info('@TODO:');
+  Log.info(result);
 }
 
-function* _fulfillTurnAction({turnAction}) {
+function* _fulfillTurnAction({ turnAction }) {
   yield call(_executeTurnAction, turnAction);
   yield put(Actions.recordAction(turnAction.json()));
   yield put(Actions.fulfillTurnAction.success());
@@ -104,7 +106,7 @@ function* saga() {
     takeLatest(Actions.LOSE_GAME.REQUEST, _loseGame),
     takeLatest(Actions.END_TURN.REQUEST, _endTurn),
     takeLatest(Actions.BEGIN_TURN.REQUEST, _beginTurn),
-    takeLatest(Actions.FULFILL_TURN_ACTION.REQUEST, _fulfillTurnAction)
+    takeLatest(Actions.FULFILL_TURN_ACTION.REQUEST, _fulfillTurnAction),
   ]);
 }
 

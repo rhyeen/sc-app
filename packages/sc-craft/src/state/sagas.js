@@ -1,12 +1,14 @@
 import { all, takeEvery, takeLatest, put, call } from 'redux-saga/effects'; // eslint-disable-line import/extensions
 import { DraftCardModifier } from '@shardedcards/sc-types/dist/card/services/draft-card-modifier.js';
+import { AddCraftedCardToDeckAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action/add-crafted-card-to-deck-action.js';
+import { AddCraftingPartAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action/add-crafting-part-action.js';
+import { CraftBaseCardAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action/craft-base-card-action.js';
 import { Log } from 'interface-handler/src/logger.js';
 import * as Actions from './actions.js';
 import * as CraftInterface from '../services/interface/craft.js';
 import * as Selectors from './selectors.js';
 import { localStore } from './store.js';
 import * as GameActions from '../../../sc-game/src/state/actions.js';
-import { ACTION_TYPES } from '../../../sc_shared/src/entities/turn-keywords.js';
 
 function* _setCraftingBaseCard() {
   try {
@@ -36,11 +38,7 @@ function _getModifiedForgeCard() {
 function _getAddCraftingPartAction() {
   const state = localStore.getState();
   const { craftingPartIndex, forgeSlotIndex } = Selectors.getSelectedCraftingPartSelector(state);
-  return {
-    type: ACTION_TYPES.ADD_CRAFTING_PART,
-    craftingPartIndex,
-    forgeSlotIndex
-  };
+  return new AddCraftingPartAction(craftingPartIndex, forgeSlotIndex);
 }
 
 function* _finishAddCraftingPart() {
@@ -70,18 +68,17 @@ function* _finishForgingCard() {
 
 function _getAddCraftedCardToDeckAction(numberOfInstances) {
   const state = localStore.getState();
-  const { forgeSlotIndex } = Selectors.getSelectedForgeSlotCardSelector(state);  
+  const { forgeSlotIndex } = Selectors.getSelectedForgeSlotCardSelector(state);
   const finishedForgeCard = Selectors.getFinishedForgeCard(state);
-  return {
-    type: ACTION_TYPES.ADD_CRAFTED_CARD_TO_DECK,
+  return new AddCraftedCardToDeckAction(
+    forgeSlotIndex,
     numberOfInstances,
-    cardName: finishedForgeCard.name,
-    cardId: finishedForgeCard.id,
-    forgeSlotIndex
-  };
+    finishedForgeCard.id,
+    finishedForgeCard.name,
+  );
 }
 
-function* _addCraftedCardToDeck({numberOfInstances}) {
+function* _addCraftedCardToDeck({ numberOfInstances }) {
   // @NOTE: I originally added the card to the actual discard pile, but since we don't have
   // the instance ids yet, it's a futile effort.
   const action = yield _getAddCraftedCardToDeckAction(numberOfInstances);
@@ -90,13 +87,10 @@ function* _addCraftedCardToDeck({numberOfInstances}) {
 }
 
 function _getForgeBaseCardAction(forgeSlotIndex) {
-  return {
-    type: ACTION_TYPES.CRAFT_BASE_CARD,
-    forgeSlotIndex
-  };
+  return new CraftBaseCardAction(forgeSlotIndex);
 }
 
-function* _finishForgeSelectedCraftingBaseCard({forgeSlotIndex}) {
+function* _finishForgeSelectedCraftingBaseCard({ forgeSlotIndex }) {
   const action = yield _getForgeBaseCardAction(forgeSlotIndex);
   yield put(GameActions.recordAction(action));
   yield put(Actions.finishForgeSelectedCraftingBaseCard.success(forgeSlotIndex));
@@ -109,7 +103,10 @@ function* saga() {
     takeEvery(Actions.FINISH_ADD_CRAFTING_PART.REQUEST, _finishAddCraftingPart),
     takeEvery(Actions.FINISH_FORGING_CARD.REQUEST, _finishForgingCard),
     takeEvery(Actions.ADD_CRAFTED_CARD_TO_DECK.REQUEST, _addCraftedCardToDeck),
-    takeEvery(Actions.FINISH_FORGE_SELECTED_CRAFTING_BASE_CARD.REQUEST, _finishForgeSelectedCraftingBaseCard),
+    takeEvery(
+      Actions.FINISH_FORGE_SELECTED_CRAFTING_BASE_CARD.REQUEST,
+      _finishForgeSelectedCraftingBaseCard,
+    ),
   ]);
 }
 
