@@ -1,14 +1,24 @@
 import { html, svg, css } from 'lit-element';
-import { classMap } from 'lit-html/directives/class-map.js';
+// import { classMap } from 'lit-html/directives/class-map.js';
 
 function getBaseSvg(customClasses, definedClass, svgContent) {
-  const classes = {};
-  classes[definedClass] = true;
-  customClasses.forEach(customClass => {
-    classes[customClass] = true;
-  });
+  // @NOTE: we cannot use classMap until https://github.com/Polymer/lit-html/issues/930 is resolved.
+  // const classes = {};
+  // classes[definedClass] = true;
+  // if (customClasses) {
+  //   customClasses.forEach(customClass => {
+  //     classes[customClass] = true;
+  //   });
+  // }
+  // return html`
+  //   <svg class=${classMap(classes)} viewBox="0 0 24 24" svg-icon>${svgContent}</svg>
+  // `;
+  let classes = definedClass;
+  if (customClasses && customClasses.length) {
+    classes = [definedClass, ...customClasses].join(' ');
+  }
   return html`
-    <svg class=${classMap(classes)} viewBox="0 0 24 24" svg-icon>${svgContent}</svg>
+    <svg class="${classes}" viewBox="0 0 24 24" svg-icon>${svgContent}</svg>
   `;
 }
 

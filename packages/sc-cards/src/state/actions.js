@@ -28,11 +28,11 @@ export const cancelPlaySelectedMinion = () => ReduxAction.action(CANCEL_PLAY_SEL
 export const PLAY_SELECTED_CARD = ra.createRequestRaw('PLAY_SELECTED_CARD');
 export const playSelectedCard = () => ReduxAction.action(PLAY_SELECTED_CARD, {});
 
-export const SUMMON_MINION = ra.createRequestTypes('SUMMON_MINION');
-export const summonMinion = {
-  request: playAreaIndex => ReduxAction.action(SUMMON_MINION.REQUEST, { playAreaIndex }),
+export const PLACE_MINION = ra.createRequestTypes('PLACE_MINION');
+export const placeMinion = {
+  request: playAreaIndex => ReduxAction.action(PLACE_MINION.REQUEST, { playAreaIndex }),
   success: (playAreaIndex, updatedCards, discardedCard) =>
-    ReduxAction.action(SUMMON_MINION.SUCCESS, { playAreaIndex, updatedCards, discardedCard }),
+    ReduxAction.action(PLACE_MINION.SUCCESS, { playAreaIndex, updatedCards, discardedCard }),
 };
 
 export const SELECT_PLAYER_MINION = ra.createRequestRaw('SELECT_PLAYER_MINION');

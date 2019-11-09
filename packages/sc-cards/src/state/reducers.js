@@ -477,7 +477,7 @@ const reducer = (state = INITIAL_STATE, action) => {
           Log.error(`unexpected card type: ${card.type}`);
           return newState;
       }
-    case Actions.SUMMON_MINION.SUCCESS:
+    case Actions.PLACE_MINION.SUCCESS:
       cardId = newState.ui.selectedCard.id;
       cardInstance = newState.ui.selectedCard.instance;
       // for example, if the placed card got shield from replacing a card.

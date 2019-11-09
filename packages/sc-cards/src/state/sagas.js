@@ -53,7 +53,7 @@ function _getSummonMinionAction(playAreaIndex) {
 function* _summonMinion({ playAreaIndex }) {
   const action = yield _getSummonMinionAction(playAreaIndex);
   yield put(GameActions.fulfillTurnAction(action));
-  yield put(Actions.summonMinion.success());
+  yield put(Actions.placeMinion.success());
 }
 
 function _getAttackMinionAction(playAreaIndex) {
@@ -159,8 +159,8 @@ function* _cancelSelectMinionTargetedAbility() {
 
 function* saga() {
   yield all([
-    takeEvery(Actions.PlaceMinion.REQUEST, _summonMinion),
-    takeEvery(Actions.AttackMinion.REQUEST, _attackMinion),
+    takeEvery(Actions.PLACE_MINION.REQUEST, _summonMinion),
+    takeEvery(Actions.ATTACK_MINION.REQUEST, _attackMinion),
     takeLatest(Actions.SET_PLAYING_FIELD.REQUEST, _setPlayingField),
     takeLatest(Actions.CLEAR_HAND.REQUEST, _clearHand),
     takeEvery(Actions.USE_CARD_ABILITY.REQUEST, _useCardAbility),
