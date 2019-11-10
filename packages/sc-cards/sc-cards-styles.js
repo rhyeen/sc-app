@@ -52,11 +52,31 @@ export const CARDS = {
     ELEVATION: css`0px -4px 20px rgba(0, 0, 0, 0.15)`,
     BORDER_RADIUS: css`16px`,
   },
+  MINION: {
+    WIDTH: css`90px`,
+    PADDING: css`4px`,
+    HEIGHT: css`130px`,
+    ELEVATION: css`1px 1px 5px rgba(0, 0, 0, 0.4)`,
+    BORDER_RADIUS: css`8px`,
+    EXHAUSTED_OPACITY_VALUE: css`0.5`,
+  },
 };
+
+const PLAY_AREA_SEPARATOR_BORDER_SIZE = css`2px`;
 
 export const AREAS = {
   PLAYER_HAND: {
     HEIGHT: css`calc(5*${CARDS.HAND.HEIGHT} + 4px)`, // 4px = last card's extra height
     MARGIN: css`10px`,
+  },
+  PLAY_AREA: {
+    MAX_WIDTH: css`500px`,
+    SEPARATOR: {
+      BORDER_SIZE: PLAY_AREA_SEPARATOR_BORDER_SIZE,
+      BORDER: css`
+        ${PLAY_AREA_SEPARATOR_BORDER_SIZE} solid #EEEEEE
+      `,
+      HEIGHT: css`8px`,
+    },
   },
 };
