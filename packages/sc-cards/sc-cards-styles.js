@@ -42,3 +42,21 @@ export function CardRarityColor(rarity) {
       return CARD_RARITIES.COMMON.COLOR;
   }
 }
+
+export const CARDS = {
+  HAND: {
+    WIDTH: css`350px`,
+    HOVER_RAISE_HEIGHT: css`10px`,
+    HEIGHT: css`32px`,
+    PADDING: css`16px`,
+    ELEVATION: css`0px -4px 20px rgba(0, 0, 0, 0.15)`,
+    BORDER_RADIUS: css`16px`,
+  },
+};
+
+export const AREAS = {
+  PLAYER_HAND: {
+    HEIGHT: css`calc(5*${CARDS.HAND.HEIGHT} + 4px)`, // 4px = last card's extra height
+    MARGIN: css`10px`,
+  },
+};

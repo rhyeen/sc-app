@@ -44,7 +44,9 @@ export const BarItemsStyles = css`
     display: flex;
     align-items: center;
   }
+`;
 
+export const BarItemStyles = css`
   [bar-item] {
     display: flex;
     align-items: center;

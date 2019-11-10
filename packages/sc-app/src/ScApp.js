@@ -32,6 +32,7 @@ export class ScApp extends connect(localStore)(LitElement) {
     super();
     Localize.setLocale('EN', LOCALE_EN);
     Localize.useFallbackLocale('EN');
+    this._page = '';
   }
 
   firstUpdated() {
@@ -46,12 +47,6 @@ export class ScApp extends connect(localStore)(LitElement) {
         title: ScApp._getPageTitle(this._page),
       });
     }
-  }
-
-  static get properties() {
-    return {
-      _page: { type: String },
-    };
   }
 
   stateChanged(state) {
