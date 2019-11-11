@@ -10,7 +10,7 @@ import {
   PlayerActionTarget,
 } from '@shardedcards/sc-types/dist/turn/entities/action-target.js';
 import { CardType } from '@shardedcards/sc-types/dist/card/enums/card-type.js';
-import { AbilityRetriever } from '@shardedcards/sc-types/dist/card/services/ability-targets.js';
+import { AbilityRetriever } from '@shardedcards/sc-types/dist/card/services/ability-retriever.js';
 import { Log } from 'interface-handler/src/logger.js';
 import { localStore } from './store.js';
 import * as Selectors from './selectors.js';

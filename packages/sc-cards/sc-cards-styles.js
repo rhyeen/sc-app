@@ -43,6 +43,11 @@ export function CardRarityColor(rarity) {
   }
 }
 
+const CARDS_MINION_HEIGHT = css`130px`;
+const CARDS_MINION_WIDTH = css`90px`;
+const CARDS_MINION_BORDER_RADIUS = css`8px`;
+const CARDS_MINION_BORDER_SIZE = css`8px`;
+
 export const CARDS = {
   HAND: {
     WIDTH: css`350px`,
@@ -53,13 +58,24 @@ export const CARDS = {
     BORDER_RADIUS: css`16px`,
   },
   MINION: {
-    WIDTH: css`90px`,
+    WIDTH: CARDS_MINION_WIDTH,
     PADDING: css`4px`,
-    HEIGHT: css`130px`,
+    HEIGHT: CARDS_MINION_HEIGHT,
     ELEVATION: css`1px 1px 5px rgba(0, 0, 0, 0.4)`,
-    BORDER_RADIUS: css`8px`,
+    BORDER_RADIUS: CARDS_MINION_BORDER_RADIUS,
     EXHAUSTED_OPACITY_VALUE: css`0.5`,
   },
+  MINION_COVER: {
+    HEIGHT: CARDS_MINION_HEIGHT,
+    WIDTH: CARDS_MINION_WIDTH,
+    PADDING: css`8px`,
+    BORDER_RADIUS: CARDS_MINION_BORDER_RADIUS,
+    PLACE_MINION_BORDER: css`${CARDS_MINION_BORDER_SIZE} dashed #8D6E63`,
+    CAST_TARGET_MINION_BORDER: css`${CARDS_MINION_BORDER_SIZE} dashed #7E57C2`,
+    ATTACK_MINION_BORDER: css`${CARDS_MINION_BORDER_SIZE} dashed #E53935`,
+    BACKGROUND_COLOR: rgba(255, 255, 255, 0.5),
+    BORDER_SIZE: CARDS_MINION_BORDER_SIZE
+  }
 };
 
 const PLAY_AREA_SEPARATOR_BORDER_SIZE = css`2px`;
