@@ -3,6 +3,7 @@ import { connect } from 'pwa-helpers/connect-mixin.js';
 import { Log } from 'interface-handler/src/logger.js';
 import { installRouter } from 'pwa-helpers/router.js';
 import { updateMetadata } from 'pwa-helpers/metadata.js';
+import { InterfaceState, INTERFACE_STATE } from 'interface-handler/src/interface-state';
 import { localStore } from './state/store.js';
 import { Localize } from '../../utils/localizer.js';
 import * as Actions from './state/actions.js';
@@ -10,7 +11,6 @@ import * as Selector from './state/selectors.js';
 import { ROUTES } from './entities/route.js';
 
 import { LOCALE_EN } from '../../locale/en.js';
-import { InterfaceState, INTERFACE_STATE } from 'interface-handler/src/interface-state';
 
 export class ScApp extends connect(localStore)(LitElement) {
   static get styles() {

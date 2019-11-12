@@ -20,6 +20,7 @@ export class ScAttackCardCover extends LitElement {
       ScCoverFieldCardStyles
     ]
   }
+
   render() {
     return html`
       ${this._getAttackResultHtml()}

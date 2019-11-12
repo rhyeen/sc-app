@@ -1,10 +1,10 @@
 import { html, css, LitElement } from 'lit-element';
 import { connect } from 'pwa-helpers/connect-mixin.js';
+import { Game } from '@shardedcards/sc-types/dist/game/entities/game';
 import { localStore } from '../../state/store.js';
 import * as Selector from '../../state/selectors.js';
 import { selectCardFromHand } from '../../state/actions.js';
 import { AREAS, CARDS } from '../../../sc-cards-styles.js';
-import { Game } from '@shardedcards/sc-types/dist/game/entities/game';
 
 export class ScPlayerHand extends connect(localStore)(LitElement) {
   static get styles() {
