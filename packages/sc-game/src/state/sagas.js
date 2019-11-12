@@ -24,8 +24,8 @@ function _buildGame(gameData) {
 }
 
 function* _resetGame() {
-  const { gameData } = yield call(GameInterface.newGame);
-  const game = yield call(_buildGame, gameData);
+  const { data } = yield call(GameInterface.newGame);
+  const game = yield call(_buildGame, data.game);
   yield put(Actions.setGame(game));
   // yield put(CardsActions.setCards.request());
   // yield put(Actions.beginTurn.request());
