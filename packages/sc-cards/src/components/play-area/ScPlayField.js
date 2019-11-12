@@ -1,4 +1,5 @@
 import { html, css, LitElement } from 'lit-element';
+import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { Log } from 'interface-handler/src/logger.js';
 import { localStore } from '../../state/store.js';
@@ -41,6 +42,7 @@ export class ScPlayField extends connect(localStore)(LitElement) {
 
   static get properties() {
     return {
+      game: { type: Game },
       overlay: { type: Boolean },
       owner: { type: String },
       _selectedCardWithAbility: { type: Object },
@@ -71,16 +73,17 @@ export class ScPlayField extends connect(localStore)(LitElement) {
     if (this.overlay) {
       return html`
         <sc-cover-field-card
-          .fieldSlot="${this._fieldSlots[playAreaIndex]}"
-          .selectedCardWithAbility="${this._selectedCardWithAbility}"
-          .owner="${this.owner}"
+          .game=${this.game}
+          .fieldSlot=${this._fieldSlots[playAreaIndex]}
+          .selectedCardWithAbility=${this._selectedCardWithAbility}
+          .owner=${this.owner}
         ></sc-cover-field-card>
       `;
     }
     return html`
       <sc-minion-field-card
-        .fieldSlot="${this._fieldSlots[playAreaIndex]}"
-        .owner="${this.owner}"
+        .fieldSlot=${this._fieldSlots[playAreaIndex]}
+        .owner=${this.owner}
       ></sc-minion-field-card>
     `;
   }

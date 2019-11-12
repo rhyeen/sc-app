@@ -4,6 +4,7 @@ import { localStore } from '../../state/store.js';
 import * as Selector from '../../state/selectors.js';
 import { selectCardFromHand } from '../../state/actions.js';
 import { AREAS, CARDS } from '../../../sc-cards-styles.js';
+import { Game } from '@shardedcards/sc-types/dist/game/entities/game';
 
 export class ScPlayerHand extends connect(localStore)(LitElement) {
   static get styles() {
@@ -90,19 +91,19 @@ export class ScPlayerHand extends connect(localStore)(LitElement) {
 
   static get properties() {
     return {
-      _selectedCard: { type: Object },
-      _handCards: { type: Array },
+      game: { type: Game },
+      _selectedCard: { type: Object }
     };
   }
 
   _playerHandCardsHtml() {
-    return this._handCards.map(
-      (handCard, index) => html`
+    return this.game.player.hand.cards.map(
+      (_, index) => html`
         <sc-player-hand-card
           class="hand-card-${index}"
-          .card="${handCard.card}"
+          .handCardIndex="${index}"
           @click="${() => ScPlayerHand._selectCard(index)}"
-          ?active="${this._isActiveCard(handCard)}"
+          ?active="${this._isActiveCard(index)}"
         ></sc-player-hand-card>
       `,
     );
@@ -112,12 +113,11 @@ export class ScPlayerHand extends connect(localStore)(LitElement) {
     localStore.dispatch(selectCardFromHand(index));
   }
 
-  _isActiveCard(card) {
-    return this._selectedCard.id === card.id && this._selectedCard.instance === card.instance;
+  _isActiveCard(handCardIndex) {
+    return this._selectedCard.handIndex === handCardIndex;
   }
 
   stateChanged(state) {
     this._selectedCard = Selector.getSelectedCard(state);
-    this._handCards = Selector.getHandCards(state);
   }
 }

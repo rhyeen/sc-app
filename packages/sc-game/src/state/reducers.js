@@ -15,6 +15,7 @@ const INITIAL_STATE = {
   entities: {
     pendingTurn: [],
     turnHistory: [],
+    game: null
   },
 };
 
@@ -75,6 +76,16 @@ function _addOpponentTurn(state, opponentTurn) {
   };
 }
 
+function _setGame(state, game) {
+  return {
+    ...state,
+    entities: {
+      ...state.entities,
+      game
+    }
+  }
+}
+
 const reducer = (state = INITIAL_STATE, action) => {
   let newState = state;
   switch (action.type) {
@@ -99,6 +110,8 @@ const reducer = (state = INITIAL_STATE, action) => {
       return _updatePendingTurn(newState, action.action);
     case Actions.END_TURN.SUCCESS:
       return _endTurn(newState);
+    case Actions.SET_GAME:
+      return _setGame(newState, action.game);
     default:
       return newState;
   }

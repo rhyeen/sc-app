@@ -10,6 +10,7 @@ import * as Selector from './state/selectors.js';
 import { ROUTES } from './entities/route.js';
 
 import { LOCALE_EN } from '../../locale/en.js';
+import { InterfaceState, INTERFACE_STATE } from 'interface-handler/src/interface-state';
 
 export class ScApp extends connect(localStore)(LitElement) {
   static get styles() {
@@ -32,6 +33,7 @@ export class ScApp extends connect(localStore)(LitElement) {
     super();
     Localize.setLocale('EN', LOCALE_EN);
     Localize.useFallbackLocale('EN');
+    InterfaceState.set(INTERFACE_STATE.HTTP);
     this._page = '';
   }
 

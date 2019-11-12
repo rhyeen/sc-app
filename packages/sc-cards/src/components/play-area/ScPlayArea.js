@@ -1,4 +1,5 @@
 import { html, css, LitElement } from 'lit-element';
+import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
 import { AREAS } from '../../../sc-cards-styles.js';
 import { PLAY_FIELD_OWNER } from './ScPlayField.js';
 
@@ -39,18 +40,20 @@ export class ScPlayArea extends LitElement {
 
   render() {
     return html`
-      <sc-opponent-field-backlog ?overlay="${this.overlay}"></sc-opponent-field-backlog>
+      <sc-opponent-field-backlog ?overlay=${this.overlay}></sc-opponent-field-backlog>
       <sc-play-field
-        .owner="${PLAY_FIELD_OWNER.OPPONENT}"
-        ?overlay="${this.overlay}"
+        .game=${this.game}
+        .owner=${PLAY_FIELD_OWNER.OPPONENT}
+        ?overlay=${this.overlay}
       ></sc-play-field>
-      <div ?overlay="${this.overlay}" play-field-separator></div>
-      <sc-play-field .owner="${PLAY_FIELD_OWNER.PLAYER}" ?overlay="${this.overlay}"></sc-play-field>
+      <div ?overlay=${this.overlay} play-field-separator></div>
+      <sc-play-field .owner=${PLAY_FIELD_OWNER.PLAYER} ?overlay=${this.overlay}></sc-play-field>
     `;
   }
 
   static get properties() {
     return {
+      game: { type: Game },
       overlay: { type: Boolean },
     };
   }

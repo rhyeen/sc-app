@@ -1,6 +1,7 @@
 import { LitElement, html } from 'lit-element';
+import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
 import { AttackTargets } from '@shardedcards/sc-types/dist/turn/services/attack-targets.js';
- 
+
 import { localStore } from '../../../state/store.js';
 import { 
   attackMinion,
@@ -19,6 +20,7 @@ export class ScCoverFieldCard extends LitElement {
 
   static get properties() { 
     return {
+      game: { type: Game },
       fieldSlot: { type: Object },
       selectedCardWithAbility: { type: Object },
       owner: { type: String }
@@ -125,9 +127,10 @@ export class ScCoverFieldCard extends LitElement {
   _attackCardCover() {
     return html`
       <sc-attack-card-cover
-          .attacker="${this.selectedCardWithAbility}"
-          .attacked="${this.fieldSlot}"
-          @click="${this._attackCardCoverClicked}"></sc-attack-card-cover>
+          .game=${this.game}
+          .attacker=${this.selectedCardWithAbility}
+          .attacked=${this.fieldSlot}
+          @click=${this._attackCardCoverClicked}></sc-attack-card-cover>
     `;
   }
 
@@ -138,8 +141,9 @@ export class ScCoverFieldCard extends LitElement {
   _selectedPlayerMinion() {
     return html`
       <sc-minion-card
-          .card="${this.selectedCardWithAbility.card}"
-          @click="${this._selectedPlayerMinionClicked}"></sc-minion-card>
+          .game=${this.game}
+          .card=${this.selectedCardWithAbility.card}
+          @click=${this._selectedPlayerMinionClicked}></sc-minion-card>
     `;
   }
 
@@ -150,9 +154,10 @@ export class ScCoverFieldCard extends LitElement {
   _placeMinionCover() {
     return html`
       <sc-place-minion-cover
-          .replacer="${this.selectedCardWithAbility}"
-          .replaced="${this.fieldSlot}"
-          @click="${this._placeMinionCoverClicked}"></sc-place-minion-cover>
+          .game=${this.game}
+          .replacer=${this.selectedCardWithAbility}
+          .replaced=${this.fieldSlot}
+          @click=${this._placeMinionCoverClicked}></sc-place-minion-cover>
     `;
   }
 
@@ -163,9 +168,10 @@ export class ScCoverFieldCard extends LitElement {
   _targetOpponentMinionAbilityCover() {
     return html`
       <sc-target-minion-ability-cover
-          .caster="${this.selectedCardWithAbility}"
-          .target="${this.fieldSlot}"
-          @click="${this._targetOpponentMinionAbilityCoverClicked}"></sc-target-minion-ability-cover>
+          .game=${this.game}
+          .caster=${this.selectedCardWithAbility}
+          .target=${this.fieldSlot}
+          @click=${this._targetOpponentMinionAbilityCoverClicked}></sc-target-minion-ability-cover>
     `;
   }
 
@@ -176,9 +182,10 @@ export class ScCoverFieldCard extends LitElement {
   _targetPlayerMinionAbilityCover() {
     return html`
       <sc-target-minion-ability-cover
-          .caster="${this.selectedCardWithAbility}"
-          .target="${this.fieldSlot}"
-          @click="${this._targetPlayerMinionAbilityCoverClicked}"></sc-target-minion-ability-cover>
+          .game=${this.game}
+          .caster=${this.selectedCardWithAbility}
+          .target=${this.fieldSlot}
+          @click=${this._targetPlayerMinionAbilityCoverClicked}></sc-target-minion-ability-cover>
     `;
   }
 

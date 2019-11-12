@@ -1,4 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
+import { localStore } from './state/store';
+import { resetGame } from './state/actions';
 
 export class ScGame extends LitElement {
   static get styles() {
@@ -19,5 +21,10 @@ export class ScGame extends LitElement {
       <sc-game-footer></sc-game-footer>
       <sc-game-overlay></sc-game-overlay>
     `;
+  }
+
+  constructor() {
+    super();
+    localStore.dispatch(resetGame.request());
   }
 }

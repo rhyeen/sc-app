@@ -1,4 +1,5 @@
 import { html, css, LitElement } from 'lit-element';
+import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { localStore } from '../../state/store.js';
 import * as Selectors from '../../state/selectors.js';
@@ -30,6 +31,7 @@ export class ScGameView extends connect(localStore)(LitElement) {
   static get properties() {
     return {
       _isCrafting: { type: Boolean },
+      _game: { type: Game }
     };
   }
 
@@ -41,12 +43,13 @@ export class ScGameView extends connect(localStore)(LitElement) {
       `;
     }
     return html`
-      <sc-play-area></sc-play-area>
-      <sc-player-hand></sc-player-hand>
+      <sc-play-area .game=${this._game}></sc-play-area>
+      <sc-player-hand .game=${this._game}></sc-player-hand>
     `;
   }
 
   stateChanged(state) {
     this._isCrafting = Selectors.isCrafting(state);
+    this._game = Selectors.getGame(state);
   }
 }

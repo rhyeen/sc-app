@@ -1,6 +1,6 @@
 import { LitElement, css, html } from 'lit-element';
-import * as Selector from '../../../state/selectors.js';
-import { localStore } from '../../../state/store.js';
+import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
+import { PlayMinionAttackAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action/play-minion-attack-action.js';
 import { CARDS } from '../../../../sc-cards-styles.js';
 import { ScIconsStyles, DeadIcon } from '../../../../../sc-app/src/components/shared/ScIcons.js';
 import { ScCoverFieldCardStyles } from './sc-cover-field-card-styles.js';
@@ -22,44 +22,58 @@ export class ScAttackCardCover extends LitElement {
   }
   render() {
     return html`
-      <div minion-cover-top>${this._getAttackedResultHtml()}</div>
-      <div minion-cover-separator></div>
-      <div minion-cover-bottom>${this._getAttackerResultHtml()}</div>
+      ${this._getAttackResultHtml()}
     `;
   }
 
   static get properties() { 
     return {
-      attacker: { type: Object },
-      attacked: { type: Object }
+      game: { type: Game },
+      playMinionAttackAction: { type: PlayMinionAttackAction },
+      actionTargetIndex: { type: Number }
     }
   }
 
-  _getAttackedResultHtml() {
-    let { updatedAttacked, attackedDiscarded } = this._getAttackResult();
-    return this._getHealthResultHtml(this.attacked.card.health, updatedAttacked.card.health, attackedDiscarded);
+  _getAttackResultHtml() {
+    const result = this.playMinionAttackAction.execute(this.game);
+    return html`
+      <div minion-cover-top>${this._getAttackedResultHtml(result)}</div>
+      <div minion-cover-separator></div>
+      <div minion-cover-bottom>${this._getAttackerResultHtml(result)}</div>
+    `;
   }
 
-  _getAttackerResultHtml() {
-    let { updatedAttacker, attackerDiscarded } = this._getAttackResult();
-    return this._getHealthResultHtml(this.attacker.card.health, updatedAttacker.card.health, attackerDiscarded);
+  _getAttackedResultHtml(result) {
+    const oldCard = this._getTargetCard(this.game);
+    const newCard = result.game.getCard(oldCard.hash, oldCard.id);
+    const isDiscarded = !this._sameCard(oldCard, this._getTargetCard(result.game));
+    return this._getHealthResultHtml(oldCard.health, newCard.health, isDiscarded);
   }
 
-  _getAttackResult() {
-    let updatedAttacker = this._deepCopy(this.attacker);
-    let updatedAttacked = this._deepCopy(this.attacked);
-    const state = localStore.getState();
-    let cards = Selector.getCards(state);
-    let { updatedCards, attackedDiscarded, attackerDiscarded } = CardActions.attackMinion(cards, updatedAttacker, updatedAttacked);
-    updatedAttacker = Cards.getUpdatedCard(updatedAttacker, updatedCards);
-    updatedAttacked = Cards.getUpdatedCard(updatedAttacked, updatedCards);
-    return { updatedAttacker, updatedAttacked, attackedDiscarded, attackerDiscarded };
+  _getTargetCard(game) {
+    const fieldIndex = this.playMinionAttackAction.targets[this.actionTargetIndex].targetOpponentFieldIndex;
+    return game.dungeon.field[fieldIndex].card;
   }
 
-  _deepCopy(obj) {
-    return JSON.parse(JSON.stringify(obj));
+  _getAttackerResultHtml(result) {
+    const oldCard = this._getSourceCard(this.game);
+    const newCard = result.game.getCard(oldCard.hash, oldCard.id);
+    const isDiscarded = !this._sameCard(oldCard, this._getTargetCard(result.game));
+    return this._getHealthResultHtml(oldCard.health, newCard.health, isDiscarded);
   }
-  
+
+  _getSourceCard(game) {
+    const fieldIndex = this.playMinionAttackAction.playerSourceFieldIndex;
+    return game.player.field[fieldIndex].card;
+  }
+
+  _sameCard(cardA, cardB) {
+    if (!cardA || !cardB) {
+      return false;
+    }
+    return cardA.id === cardB.id;
+  }
+
   _getHealthResultHtml(oldHealth, newHealth, isDiscarded) {
     if (isDiscarded) {
       return DeadIcon();

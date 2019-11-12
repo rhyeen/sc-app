@@ -18,10 +18,17 @@ function* _beginTurn() {
   yield put(Actions.beginTurn.success());
 }
 
+function _buildGame(gameData) {
+  debugger;
+  return gameData;
+}
+
 function* _resetGame() {
-  yield call(GameInterface.beginGame);
-  yield put(CardsActions.setCards.request());
-  yield put(Actions.beginTurn.request());
+  const { gameData } = yield call(GameInterface.newGame);
+  const game = yield call(_buildGame, gameData);
+  yield put(Actions.setGame(game));
+  // yield put(CardsActions.setCards.request());
+  // yield put(Actions.beginTurn.request());
   yield put(Actions.resetGame.success());
 }
 

@@ -1,10 +1,10 @@
 import { INTERFACE_STATE, InterfaceState } from 'interface-handler/src/interface-state.js';
 import * as CallHttp from './firebase/game.js';
 
-export function beginGame() {
+export function newGame() {
   switch (InterfaceState.get()) {
     case INTERFACE_STATE.HTTP:
-      return CallHttp.beginGame();
+      return CallHttp.newGame();
     default:
       return InterfaceState.invalid();
   }

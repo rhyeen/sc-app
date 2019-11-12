@@ -58,3 +58,6 @@ export const fulfillTurnAction = {
   request: turnAction => ReduxAction.action(FULFILL_TURN_ACTION.REQUEST, { turnAction }),
   success: () => ReduxAction.action(FULFILL_TURN_ACTION.SUCCESS, {}),
 };
+
+export const SET_GAME = ra.createRequestRaw('SET_GAME');
+export const setGame = (game) => ReduxAction.action(SET_GAME, {game});

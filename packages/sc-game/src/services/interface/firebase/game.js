@@ -1,7 +1,8 @@
 import { firebaseFunctions } from '../../../../../utils/firebase.js';
 
-export function beginGame() {
-  return firebaseFunctions.httpsCallable('beginGame')();
+export function newGame() {
+  debugger;
+  return firebaseFunctions.httpsCallable('newGame')();
 }
 
 export function endCrafting(turn) {
