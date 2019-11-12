@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
+import { classMap } from 'lit-html/directives/class-map.js';
 import { Log } from 'interface-handler/src/logger.js';
 import { SHADOW_ELEVATIONS } from '../../../sc-app-styles.js';
 
@@ -50,6 +51,7 @@ export const SC_BTN_COLORS = {
 
 export const ScBtnStyles = css`
   button {
+    cursor: pointer;
     border: none;
     line-height: 40px;
     font-size: 18px;
@@ -144,7 +146,7 @@ export class ScBtn extends LitElement {
   render() {
     return html`
       <div class="click-propagation-prevention" @click="${this._handleDisabledPropogation}">
-        <button class="${this._getBtnClass()}" ?disabled="${this.disabled}"><slot></slot></button>
+        <button class=${this._getBtnClasses()} ?disabled="${this.disabled}"><slot></slot></button>
       </div>
     `;
   }
@@ -163,27 +165,31 @@ export class ScBtn extends LitElement {
     e.stopPropagation();
   }
 
-  _getBtnClass() {
+  _getBtnClasses() {
     switch (this.btntype) {
       case SC_BTN_TYPES.GENERIC.PRIMARY:
-        return 'btn-primary';
+        return classMap({'btn-primary': true });
       case SC_BTN_TYPES.GENERIC.SECONDARY:
-        return 'btn-secondary';
+        return classMap({'btn-secondary': true });
       case SC_BTN_TYPES.GENERIC.WARNING:
-        return 'btn-warning';
+        return classMap({'btn-warning': true });
       case SC_BTN_TYPES.GENERIC.BACK:
-        return 'btn-back';
+        return classMap({'btn-back': true });
       case SC_BTN_TYPES.PRESET.BACK:
-        return 'btn-back';
+        return classMap({'btn-back': true });
       case SC_BTN_TYPES.PRESET.CANCEL:
-        return 'btn-warning btn-cancel';
+        return classMap({'btn-warning': true, 'btn-cancel': true });
       case SC_BTN_TYPES.PRESET.END_TURN:
-        return 'btn-secondary btn-endturn';
+        return classMap({'btn-secondary': true, 'btn-endturn': true });
       case SC_BTN_TYPES.PRESET.DONE:
-        return 'btn-primary btn-done';
+        return classMap({'btn-primary': true, 'btn-done': true });
       default:
         Log.error(`invalid btntype: ${this.btntype}`);
-        return 'btn-secondary';
+        return classMap({'btn-secondary': true });
     }
+  }
+
+  __getClasses(currentPage, thisPage) {
+    return classMap({ active: currentPage === thisPage });
   }
 }

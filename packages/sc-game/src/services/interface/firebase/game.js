@@ -1,7 +1,6 @@
 import { firebaseFunctions } from '../../../../../utils/firebase.js';
 
 export function newGame() {
-  debugger;
   return firebaseFunctions.httpsCallable('newGame')();
 }
 

@@ -46,7 +46,7 @@ To build the app, run `npm run build`. This will create a `build` folder that ha
 bundles and assets you need to deploy. If you want to test that the build output works, you can run
 
 ```
-npm run serve
+npm run start:build
 ```
 
 ## Notes
