@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
-import { localStore } from './state/store';
-import { resetGame, setPlayerId, setPlayerDeckId, setDungeonId } from './state/actions';
+import { localStore } from './state/store.js';
+import { resetGame, setPlayerId, setPlayerDeckId, setDungeonId } from './state/actions.js';
 
 export class ScGame extends LitElement {
   static get styles() {

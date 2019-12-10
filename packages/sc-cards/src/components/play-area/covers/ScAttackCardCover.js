@@ -2,7 +2,7 @@ import { LitElement, css, html } from 'lit-element';
 import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
 import { PlayMinionAttackAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action/play-minion-attack-action.js';
 import { CARDS } from '../../../../sc-cards-styles.js';
-import { ScIconsStyles, DeadIcon } from '../../../../../sc-app/src/components/shared/ScIcons.js';
+import { ScIconsStyles, DeadIcon, HealthIcon } from '../../../../../sc-app/src/components/shared/ScIcons.js';
 import { ScCoverFieldCardStyles } from './sc-cover-field-card-styles.js';
 
 export class ScAttackCardCover extends LitElement {
@@ -47,7 +47,7 @@ export class ScAttackCardCover extends LitElement {
   _getAttackedResultHtml(result) {
     const oldCard = this._getTargetCard(this.game);
     const newCard = result.game.getCard(oldCard.hash, oldCard.id);
-    const isDiscarded = !this._sameCard(oldCard, this._getTargetCard(result.game));
+    const isDiscarded = !ScAttackCardCover._sameCard(oldCard, this._getTargetCard(result.game));
     return this._getHealthResultHtml(oldCard.health, newCard.health, isDiscarded);
   }
 
@@ -59,7 +59,7 @@ export class ScAttackCardCover extends LitElement {
   _getAttackerResultHtml(result) {
     const oldCard = this._getSourceCard(this.game);
     const newCard = result.game.getCard(oldCard.hash, oldCard.id);
-    const isDiscarded = !this._sameCard(oldCard, this._getTargetCard(result.game));
+    const isDiscarded = !ScAttackCardCover._sameCard(oldCard, this._getTargetCard(result.game));
     return this._getHealthResultHtml(oldCard.health, newCard.health, isDiscarded);
   }
 
@@ -68,7 +68,7 @@ export class ScAttackCardCover extends LitElement {
     return game.player.field[fieldIndex].card;
   }
 
-  _sameCard(cardA, cardB) {
+  static _sameCard(cardA, cardB) {
     if (!cardA || !cardB) {
       return false;
     }
@@ -79,10 +79,10 @@ export class ScAttackCardCover extends LitElement {
     if (isDiscarded) {
       return DeadIcon();
     }
-    return html`${this._getModification(newHealth - oldHealth)} ${HealthIcon()}`;
+    return html`${ScAttackCardCover._getModification(newHealth - oldHealth)} ${HealthIcon()}`;
   }
 
-  _getModification(modifier) {
+  static _getModification(modifier) {
     if (modifier > 0) {
       return `+${modifier}`;
     }

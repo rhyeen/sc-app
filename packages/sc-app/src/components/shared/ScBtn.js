@@ -188,8 +188,4 @@ export class ScBtn extends LitElement {
         return classMap({'btn-secondary': true });
     }
   }
-
-  __getClasses(currentPage, thisPage) {
-    return classMap({ active: currentPage === thisPage });
-  }
 }

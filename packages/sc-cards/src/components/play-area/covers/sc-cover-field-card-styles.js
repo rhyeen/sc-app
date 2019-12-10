@@ -1,5 +1,5 @@
 import { css } from 'lit-element';
-import { CARDS } from '../../../../sc-cards-styles';
+import { CARDS } from '../../../../sc-cards-styles.js';
 
 export const ScCoverFieldCardStyles = css`
   :host {

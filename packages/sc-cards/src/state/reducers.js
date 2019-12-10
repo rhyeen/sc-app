@@ -96,10 +96,8 @@ const INITIAL_STATE = _resetState();
 
 const reducer = (state = INITIAL_STATE, action) => {
   let newState = state;
-  let handIndex;
   let cardId;
   let cardInstance;
-  let card;
   let playAreaIndex;
   switch (action.type) {
     case Actions.SELECT_CARD_FROM_HAND:

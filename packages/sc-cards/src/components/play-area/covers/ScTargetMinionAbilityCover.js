@@ -21,6 +21,7 @@ export class ScTargetMinionAbilityCover extends LitElement {
       ScCoverFieldCardStyles
     ]
   }
+  
   render() {
     return html`
       <div minion-cover-top>${this._getTargetResultHtml()}</div>

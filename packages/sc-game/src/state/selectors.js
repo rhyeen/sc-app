@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect';
-import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
 
 import { GAME_STATES } from '../entities/game-states.js';
 

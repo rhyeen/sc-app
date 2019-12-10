@@ -1,5 +1,6 @@
 import { put, all, call, takeLatest } from 'redux-saga/effects'; // eslint-disable-line import/extensions
 import { Log } from 'interface-handler/src/logger.js';
+import { GameBuilder } from '@shardedcards/sc-types/dist/game/services/builders/game-builder.js'; 
 import * as GameInterface from '../services/interface/game.js';
 import * as Selectors from './selectors.js';
 import { localStore } from './store.js';
@@ -19,8 +20,8 @@ function* _beginTurn() {
 }
 
 function _buildGame(gameData) {
-  debugger;
-  return gameData;
+  const game = GameBuilder.buildGame(gameData);
+  return game;
 }
 
 function* _resetGame({ playerId, playerDeckId, dungeonId }) {

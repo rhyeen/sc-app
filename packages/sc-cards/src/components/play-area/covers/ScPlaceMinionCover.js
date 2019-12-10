@@ -1,7 +1,7 @@
 import { LitElement, css, html } from 'lit-element';
-import { ScIconsStyles, DeadIcon, ShieldIcon } from '../../../../../sc-app/src/components/shared/ScIcons';
-import { ScCoverFieldCardStyles } from './sc-cover-field-card-styles';
-import { CARDS } from '../../../../sc-cards-styles';
+import { ScIconsStyles, DeadIcon, ShieldIcon } from '../../../../../sc-app/src/components/shared/ScIcons.js';
+import { ScCoverFieldCardStyles } from './sc-cover-field-card-styles.js';
+import { CARDS } from '../../../../sc-cards-styles.js';
 
 export class ScPlaceMinionCover extends LitElement {
   static get styles() {
@@ -18,6 +18,7 @@ export class ScPlaceMinionCover extends LitElement {
       ScCoverFieldCardStyles
     ]
   }
+
   render() {
     return html`
       <style>
@@ -56,7 +57,7 @@ export class ScPlaceMinionCover extends LitElement {
     }
     let _replacer = this._deepCopy(this.replacer);
     let _replaced = this._deepCopy(this.replaced);
-    let { updatedCards } = CardActions.placeMinion(_replacer, _replaced);
+    const { updatedCards } = CardActions.placeMinion(_replacer, _replaced);
     _replacer = Cards.getUpdatedCard(_replacer, updatedCards);
     _replaced = Cards.getUpdatedCard(_replaced, updatedCards);
     let currentShield = 0;

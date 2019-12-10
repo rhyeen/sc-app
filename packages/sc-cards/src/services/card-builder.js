@@ -1,4 +1,4 @@
-import { CardBuilder as TypedCardBuilder } from '@shardedcards/sc-types/dist/card/services/card-builder.js';
+import { CardBuilder as TypedCardBuilder } from '@shardedcards/sc-types/dist/card/services/builders/card-builder.js';
 
 export class CardBuilder {
   static buildCard(cardSetsData, cardId, cardInstance) {

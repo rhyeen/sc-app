@@ -85,8 +85,8 @@ export class ScCoverFieldCard extends LitElement {
 
   _showAttackCardCover() {
     return (
-      this.selectedCardWithAbility.source == CARD_SOURCES.SELECT_PLAYER_MINION
-      && this.owner == PLAY_FIELD_OWNER.OPPONENT
+      this.selectedCardWithAbility.source === CARD_SOURCES.SELECT_PLAYER_MINION
+      && this.owner === PLAY_FIELD_OWNER.OPPONENT
       && this._fieldSlotHasCard()
       && this._targetedCardInRange()
       && !this._selectedCardExhausted()
@@ -95,16 +95,16 @@ export class ScCoverFieldCard extends LitElement {
 
   _showSelectedPlayerMinion() {
     return (
-      this.selectedCardWithAbility.source == CARD_SOURCES.SELECT_PLAYER_MINION
-      && this.owner == PLAY_FIELD_OWNER.PLAYER
+      this.selectedCardWithAbility.source === CARD_SOURCES.SELECT_PLAYER_MINION
+      && this.owner === PLAY_FIELD_OWNER.PLAYER
       && this._selectedCardInThisFieldSlot()
     );
   }
 
   _showPlaceCardCover() {
     return (
-      this.selectedCardWithAbility.source == CARD_SOURCES.SUMMON_PLAYER_MINION
-      && this.owner == PLAY_FIELD_OWNER.PLAYER
+      this.selectedCardWithAbility.source === CARD_SOURCES.SUMMON_PLAYER_MINION
+      && this.owner === PLAY_FIELD_OWNER.PLAYER
     );
   }
 
@@ -112,7 +112,7 @@ export class ScCoverFieldCard extends LitElement {
     return (
       this._fieldSlotHasCard()
       && this._usingAbilityOnOpponentMinion()
-      && this.owner == PLAY_FIELD_OWNER.OPPONENT
+      && this.owner === PLAY_FIELD_OWNER.OPPONENT
     );
   }
 
@@ -120,7 +120,7 @@ export class ScCoverFieldCard extends LitElement {
     return (
       this._fieldSlotHasCard()
       && this._usingAbilityOnPlayerMinion()
-      && this.owner == PLAY_FIELD_OWNER.PLAYER
+      && this.owner === PLAY_FIELD_OWNER.PLAYER
     );
   }
 
@@ -143,11 +143,11 @@ export class ScCoverFieldCard extends LitElement {
       <sc-minion-card
           .game=${this.game}
           .card=${this.selectedCardWithAbility.card}
-          @click=${this._selectedPlayerMinionClicked}></sc-minion-card>
+          @click=${ScCoverFieldCard._selectedPlayerMinionClicked}></sc-minion-card>
     `;
   }
 
-  _selectedPlayerMinionClicked() {
+  static _selectedPlayerMinionClicked() {
     localStore.dispatch(playPlayerMinion());
   }
 
