@@ -1,7 +1,7 @@
 import { firebaseFunctions } from '../../../../../utils/firebase.js';
 
-export function newGame() {
-  return firebaseFunctions.httpsCallable('newGame')();
+export function newGame(playerId, playerDeckId, dungeonId) {
+  return firebaseFunctions.httpsCallable('newGame')({ playerId, playerDeckId, dungeonId });
 }
 
 export function endCrafting(turn) {

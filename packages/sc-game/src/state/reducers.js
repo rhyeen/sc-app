@@ -15,7 +15,10 @@ const INITIAL_STATE = {
   entities: {
     pendingTurn: [],
     turnHistory: [],
-    game: null
+    game: null,
+    playerId: null,
+    playerDeckId: null,
+    dungeonId: null
   },
 };
 
@@ -86,6 +89,36 @@ function _setGame(state, game) {
   }
 }
 
+function _setPlayerId(state, playerId) {
+  return {
+    ...state,
+    entities: {
+      ...state.entities,
+      playerId
+    }
+  }
+}
+
+function _setPlayerDeckId(state, playerDeckId) {
+  return {
+    ...state,
+    entities: {
+      ...state.entities,
+      playerDeckId
+    }
+  }
+}
+
+function _setDungeonId(state, dungeonId) {
+  return {
+    ...state,
+    entities: {
+      ...state.entities,
+      dungeonId
+    }
+  }
+}
+
 const reducer = (state = INITIAL_STATE, action) => {
   let newState = state;
   switch (action.type) {
@@ -112,6 +145,12 @@ const reducer = (state = INITIAL_STATE, action) => {
       return _endTurn(newState);
     case Actions.SET_GAME:
       return _setGame(newState, action.game);
+    case Actions.SET_PLAYER_ID:
+      return _setPlayerId(newState, action.playerId);
+    case Actions.SET_PLAYER_DECK_ID:
+      return _setPlayerDeckId(newState, action.playerDeckId);
+    case Actions.SET_DUNGEON_ID:
+      return _setDungeonId(newState, action.dungeonId);
     default:
       return newState;
   }

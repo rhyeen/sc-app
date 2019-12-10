@@ -35,6 +35,10 @@ export class ScApp extends connect(localStore)(LitElement) {
     Localize.useFallbackLocale('EN');
     InterfaceState.set(INTERFACE_STATE.HTTP);
     this._page = '';
+    // @TODO:
+    this._playerId = 'US_1';
+    this._playerDeckId = 'DD_1';
+    this._dungeonId = 'test';
   }
 
   firstUpdated() {
@@ -59,7 +63,7 @@ export class ScApp extends connect(localStore)(LitElement) {
     switch (this._page) {
       case ROUTES.PAGES.GAME:
         return html`
-          <sc-game></sc-game>
+          <sc-game playerId=${this._playerId} playerDeckId=${this._playerDeckId} dungeonId=${this._dungeonId}></sc-game>
         `;
       default:
         return html`
