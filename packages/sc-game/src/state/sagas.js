@@ -94,7 +94,7 @@ function* _endTurn() {
 function _executeTurnAction(turnAction) {
   const game = GameDefiner.getGame();
   const result = turnAction.execute(game);
-  // debugger;
+  debugger;
   Log.info('@TODO:');
   Log.info(result);
 }

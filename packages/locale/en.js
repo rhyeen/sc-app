@@ -1,6 +1,9 @@
 import { html } from 'lit-element';
 
 export const LOCALE_EN = {
+  SC_GAME: {
+    LOADING: 'Loading game',
+  },
   SC_ROOT: {
     PAGE_NOT_FOUND: {
       P1: 'Nothing behind these curtains.',

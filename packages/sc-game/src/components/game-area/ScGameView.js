@@ -31,7 +31,7 @@ export class ScGameView extends connect(localStore)(LitElement) {
   static get properties() {
     return {
       _isCrafting: { type: Boolean },
-      _game: { type: Game }
+      game: { type: Game }
     };
   }
 
@@ -43,13 +43,12 @@ export class ScGameView extends connect(localStore)(LitElement) {
       `;
     }
     return html`
-      <sc-play-area .game=${this._game}></sc-play-area>
-      <sc-player-hand .game=${this._game}></sc-player-hand>
+      <sc-play-area .game=${this.game}></sc-play-area>
+      <sc-player-hand .game=${this.game}></sc-player-hand>
     `;
   }
 
   stateChanged(state) {
     this._isCrafting = Selectors.isCrafting(state);
-    this._game = Selectors.getGame(state);
   }
 }

@@ -5,7 +5,7 @@ import { localStore } from '../state/store.js';
 export class GameDefiner {
   static getGame() {
     const state = localStore.getState();
-    // debugger;
+    debugger;
     Log.info('@TODO:');
     Log.info(state);
     const game = new Game();

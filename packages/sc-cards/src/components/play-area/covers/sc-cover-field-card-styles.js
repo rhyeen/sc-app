@@ -7,12 +7,10 @@ export const ScCoverFieldCardStyles = css`
     flex-direction: column;
     width: calc(${CARDS.MINION_COVER.WIDTH} - 2*${CARDS.MINION_COVER.PADDING});
     height: calc(${CARDS.MINION_COVER.HEIGHT} - 2*${CARDS.MINION_COVER.PADDING});
-    /* box-shadow: ${CARDS.MINION_COVER.ELEVATION}; */ /* @TODO: not sure if this was supposed to be here, but the key is undefined in old app. */
     border-radius: ${CARDS.MINION_COVER.BORDER_RADIUS};
     padding: ${CARDS.MINION_COVER.PADDING};
     background-color: ${CARDS.MINION_COVER.BACKGROUND_COLOR};
   }
-
 
   [minion-cover-separator] {
     flex: 0, 0, ${CARDS.MINION_COVER.BORDER_SIZE};
