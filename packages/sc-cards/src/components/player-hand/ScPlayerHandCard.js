@@ -9,7 +9,7 @@ export class ScPlayerHandCard extends LitElement {
         :host {
           display: flex;
           justify-content: space-between;
-          align-items: top;
+          align-items: flex-start;
           max-width: calc(${CARDS.HAND.WIDTH} - 2*${CARDS.HAND.PADDING});
           line-height: ${CARDS.HAND.HEIGHT};
           box-shadow: ${CARDS.HAND.ELEVATION};
@@ -33,7 +33,7 @@ export class ScPlayerHandCard extends LitElement {
           margin-left: 5px;
         }
 
-        [card-title] {
+        [card-name] {
           margin-left: 10px;
         }
       `,
@@ -48,23 +48,23 @@ export class ScPlayerHandCard extends LitElement {
         }
       </style>
       <header>
-        <sc-card-value valueType="${VALUE_TYPES.COST}" .card="${this.card}" reduced></sc-card-value>
-        <div card-title>${this.card.title}</div>
+        <sc-card-value valueType=${VALUE_TYPES.COST} .card=${this.card} reduced></sc-card-value>
+        <div card-name>${this.card.name}</div>
       </header>
       <footer>
         <sc-card-value
-          valueType="${VALUE_TYPES.RANGE}"
-          .card="${this.card}"
+          valueType=${VALUE_TYPES.RANGE}
+          .card=${this.card}
           reduced
         ></sc-card-value>
         <sc-card-value
-          valueType="${VALUE_TYPES.ATTACK}"
-          .card="${this.card}"
+          valueType=${VALUE_TYPES.ATTACK}
+          .card=${this.card}
           reduced
         ></sc-card-value>
         <sc-card-value
-          valueType="${VALUE_TYPES.HEALTH}"
-          .card="${this.card}"
+          valueType=${VALUE_TYPES.HEALTH}
+          .card=${this.card}
           reduced
         ></sc-card-value>
       </footer>

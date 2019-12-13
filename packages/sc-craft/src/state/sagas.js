@@ -79,7 +79,7 @@ function _getAddCraftedCardToDeckAction(numberOfInstances) {
 }
 
 function* _addCraftedCardToDeck({ numberOfInstances }) {
-  // @NOTE: I originally added the card to the actual discard pile, but since we don't have
+  // @NOTE: I originally added the card to the actual discard deck, but since we don't have
   // the instance ids yet, it's a futile effort.
   const action = yield _getAddCraftedCardToDeckAction(numberOfInstances);
   yield put(GameActions.recordAction(action));

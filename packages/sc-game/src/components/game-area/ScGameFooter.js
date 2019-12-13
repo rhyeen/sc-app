@@ -1,4 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
+import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
+
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { localStore } from '../../state/store.js';
 
@@ -21,8 +23,8 @@ export class ScGameFooter extends connect(localStore)(LitElement) {
           height: ${NAV.FOOTER.HEIGHT};
         }
 
-        sc-discard-pile-bar-item,
-        sc-lost-pile-bar-item {
+        sc-discard-deck-bar-item,
+        sc-lost-deck-bar-item {
           margin-left: 20px;
         }
       `,
@@ -40,6 +42,7 @@ export class ScGameFooter extends connect(localStore)(LitElement) {
 
   static get properties() {
     return {
+      game: { type: Game },
       _isPlayingCards: { type: Boolean },
       _isCrafting: { type: Boolean },
     };
@@ -47,21 +50,21 @@ export class ScGameFooter extends connect(localStore)(LitElement) {
 
   _getBarItemsHtml() {
     if (this._isPlayingCards) {
-      return ScGameFooter._getPlayingBarItemsHtml();
+      return this._getPlayingBarItemsHtml();
     }
     if (this._isCrafting) {
-      return ScGameFooter._getCraftingBarItemsHtml();
+      return this._getCraftingBarItemsHtml();
     }
     // @NOTE: if the game is in the win/lose state
     return this._getPlayingBarItemsHtml();
   }
 
-  static _getPlayingBarItemsHtml() {
+  _getPlayingBarItemsHtml() {
     return html`
       <div class="item-group left-items">
-        <sc-draw-pile-bar-item></sc-draw-pile-bar-item>
-        <sc-discard-pile-bar-item></sc-discard-pile-bar-item>
-        <sc-lost-pile-bar-item></cc-lost-pile-bar-item>
+        <sc-draw-deck-bar-item .game=${this.game}></sc-draw-deck-bar-item>
+        <sc-discard-deck-bar-item .game=${this.game}></sc-discard-deck-bar-item>
+        <sc-lost-deck-bar-item .game=${this.game}></cc-lost-deck-bar-item>
       </div>
       <div class="item-group right-items">
         <sc-btn

@@ -1,5 +1,5 @@
 export const CARD_SOURCES = {
-  SELECT_PLAYER_HAND: 'selectPlayerHand',
+  SELECT_PLAYER_HAND_CARD: 'selectPlayerHandCard',
   SUMMON_PLAYER_MINION: 'summonPlayerMinion',
   CAST_PLAYER_SPELL: 'castPlayerSpell',
   SELECT_PLAYER_MINION: 'selectPlayerSummon',

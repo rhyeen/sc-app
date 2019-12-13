@@ -1,4 +1,6 @@
 import { html, css, LitElement } from 'lit-element';
+import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
+
 import { localStore } from '../../state/store.js';
 import * as Actions from '../../state/actions.js';
 import { NAV } from '../../../sc-game-styles.js';
@@ -26,15 +28,21 @@ export class ScGameHeader extends LitElement {
     return html`
       <div bar-items>
         <div class="item-group left-items">
-          <sc-energy-bar-item></sc-energy-bar-item>
-          <sc-health-bar-item></sc-health-bar-item>
+          <sc-energy-bar-item .game=${this.game}></sc-energy-bar-item>
+          <sc-health-bar-item .game=${this.game}></sc-health-bar-item>
         </div>
 
         <div class="item-group right-items">
-          <sc-game-menu-bar-item @click="${() => ScGameHeader._openMenu()}"></sc-game-menu-bar-item>
+          <sc-game-menu-bar-item @click=${() => ScGameHeader._openMenu()}></sc-game-menu-bar-item>
         </div>
       </div>
     `;
+  }
+
+  static get properties() {
+    return {
+      game: { type: Game },
+    };
   }
 
   static _openMenu() {

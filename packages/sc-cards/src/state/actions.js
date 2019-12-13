@@ -2,12 +2,21 @@ import { ReduxAction } from '../../../utils/redux-action.js';
 
 const ra = new ReduxAction('SR_CARDS');
 
-export const SELECT_CARD_FROM_HAND = ra.createRequestRaw('SELECT_CARD_FROM_HAND');
-export const selectCardFromHand = handIndex =>
-  ReduxAction.action(SELECT_CARD_FROM_HAND, { handIndex });
+export const CANCEL_SELECTED_CARD = ra.createRequestRaw('CANCEL_SELECTED_CARD');
+export const cancelSelectedCard = () =>
+  ReduxAction.action(CANCEL_SELECTED_CARD, {});
 
-export const CANCEL_SELECT_CARD_FROM_HAND = ra.createRequestRaw('CANCEL_SELECT_CARD_FROM_HAND');
-export const cancelSelectCardFromHand = () => ReduxAction.action(CANCEL_SELECT_CARD_FROM_HAND, {});
+
+export const SELECT_HAND_CARD = ra.createRequestRaw('SELECT_HAND_CARD');
+export const selectHandCard = handCardIndex =>
+  ReduxAction.action(SELECT_HAND_CARD, { handCardIndex });
+
+export const PLAY_SELECTED_CARD = ra.createRequestRaw('PLAY_SELECTED_CARD');
+export const playSelectedCard = () => ReduxAction.action(PLAY_SELECTED_CARD, {});
+
+
+
+
 
 export const CANCEL_PLAY_SELECTED_SPELL = ra.createRequestRaw('CANCEL_PLAY_SELECTED_SPELL');
 export const cancelPlaySelectedSpell = () => ReduxAction.action(CANCEL_PLAY_SELECTED_SPELL, {});
@@ -24,9 +33,6 @@ export const cancelSelectPlayerMinion = () => ReduxAction.action(CANCEL_SELECT_P
 
 export const CANCEL_PLAY_SELECTED_MINION = ra.createRequestRaw('CANCEL_PLAY_SELECTED_MINION');
 export const cancelPlaySelectedMinion = () => ReduxAction.action(CANCEL_PLAY_SELECTED_MINION, {});
-
-export const PLAY_SELECTED_CARD = ra.createRequestRaw('PLAY_SELECTED_CARD');
-export const playSelectedCard = () => ReduxAction.action(PLAY_SELECTED_CARD, {});
 
 export const PLACE_MINION = ra.createRequestTypes('PLACE_MINION');
 export const placeMinion = {
@@ -49,10 +55,10 @@ export const playPlayerMinion = () => ReduxAction.action(PLAY_PLAYER_MINION, {})
 export const ATTACK_MINION = ra.createRequestTypes('ATTACK_MINION');
 export const attackMinion = {
   request: playAreaIndex => ReduxAction.action(ATTACK_MINION.REQUEST, { playAreaIndex }),
-  success: (updatedCards, addedToDiscardPile, playerFieldSlots, opponentFieldSlots) =>
+  success: (updatedCards, addedToDiscardDeck, playerFieldSlots, opponentFieldSlots) =>
     ReduxAction.action(ATTACK_MINION.SUCCESS, {
       updatedCards,
-      addedToDiscardPile,
+      addedToDiscardDeck,
       playerFieldSlots,
       opponentFieldSlots,
     }),
@@ -72,18 +78,18 @@ export const setPlayingField = {
 export const CLEAR_HAND = ra.createRequestTypes('CLEAR_HAND');
 export const clearHand = {
   request: () => ReduxAction.action(CLEAR_HAND.REQUEST, {}),
-  success: addedToDiscardPile => ReduxAction.action(CLEAR_HAND.SUCCESS, { addedToDiscardPile }),
+  success: addedToDiscardDeck => ReduxAction.action(CLEAR_HAND.SUCCESS, { addedToDiscardDeck }),
 };
 
 export const SET_PLAYER_DECKS = ra.createRequestTypes('SET_PLAYER_DECKS');
 export const setPlayerDecks = {
   request: () => ReduxAction.action(SET_PLAYER_DECKS.REQUEST, {}),
-  success: (handCards, handRefillSize, discardPileCards, lostPileCards, deckSize) =>
+  success: (handCards, handRefillSize, discardDeckCards, lostDeckCards, deckSize) =>
     ReduxAction.action(SET_PLAYER_DECKS.SUCCESS, {
       handCards,
       handRefillSize,
-      discardPileCards,
-      lostPileCards,
+      discardDeckCards,
+      lostDeckCards,
       deckSize,
     }),
 };
@@ -113,10 +119,10 @@ export const resetCards = () => ReduxAction.action(RESET_CARDS, {});
 export const USE_CARD_ABILITY = ra.createRequestTypes('USE_CARD_ABILITY');
 export const useCardAbility = {
   request: playAreaIndex => ReduxAction.action(USE_CARD_ABILITY.REQUEST, { playAreaIndex }),
-  success: (updatedCards, addedToDiscardPile, playerFieldSlots, opponentFieldSlots) =>
+  success: (updatedCards, addedToDiscardDeck, playerFieldSlots, opponentFieldSlots) =>
     ReduxAction.action(USE_CARD_ABILITY.SUCCESS, {
       updatedCards,
-      addedToDiscardPile,
+      addedToDiscardDeck,
       playerFieldSlots,
       opponentFieldSlots,
     }),

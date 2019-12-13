@@ -3,7 +3,7 @@ import { connect } from 'pwa-helpers/connect-mixin.js';
 import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
 import { localStore } from '../../state/store.js';
 import * as Selector from '../../state/selectors.js';
-import { selectCardFromHand } from '../../state/actions.js';
+import { selectHandCard } from '../../state/actions.js';
 import { AREAS, CARDS } from '../../../sc-cards-styles.js';
 
 export class ScPlayerHand extends connect(localStore)(LitElement) {
@@ -98,23 +98,23 @@ export class ScPlayerHand extends connect(localStore)(LitElement) {
 
   _playerHandCardsHtml() {
     return this.game.player.hand.cards.map(
-      (_, index) => html`
+      (card, handCardIndex) => html`
         <sc-player-hand-card
-          class="hand-card-${index}"
-          .handCardIndex="${index}"
-          @click="${() => ScPlayerHand._selectCard(index)}"
-          ?active="${this._isActiveCard(index)}"
+            class="hand-card-${handCardIndex}"
+            .card=${card}
+            @click=${() => ScPlayerHand._selectCard(handCardIndex)}
+            ?active=${this._isActiveCard(handCardIndex)}
         ></sc-player-hand-card>
       `,
     );
   }
 
-  static _selectCard(index) {
-    localStore.dispatch(selectCardFromHand(index));
+  static _selectCard(handCardIndex) {
+    localStore.dispatch(selectHandCard(handCardIndex));
   }
 
   _isActiveCard(handCardIndex) {
-    return this._selectedCard.handIndex === handCardIndex;
+    return this._selectedCard.handCardIndex === handCardIndex;
   }
 
   stateChanged(state) {

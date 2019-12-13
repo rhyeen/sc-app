@@ -44,7 +44,6 @@ export class ScGame extends connect(localStore)(LitElement) {
 
   updated(changedProps) {
     if (changedProps.has('playerId') || changedProps.has('playerDeckId') || changedProps.has('dungeonId')) {
-      this._game = null;
       this._newGame();
     }
   }
@@ -59,9 +58,9 @@ export class ScGame extends connect(localStore)(LitElement) {
     }
     return html`
       <sc-game-view .game=${this._game}></sc-game-view>
-      <sc-game-header></sc-game-header>
-      <sc-game-footer></sc-game-footer>
-      <sc-game-overlay></sc-game-overlay>
+      <sc-game-header .game=${this._game}></sc-game-header>
+      <sc-game-footer .game=${this._game}></sc-game-footer>
+      <sc-game-overlay .game=${this._game}></sc-game-overlay>
     `;
   }
 

@@ -1,14 +1,15 @@
 import { html, css, LitElement } from 'lit-element';
 import { roundToTwoDecimalsString } from 'rhyeen-utils/util.js';
 import {
-  ScIconsStyles,
   AttackIcon,
   EnergyIcon,
   HealthIcon,
   RangeIcon,
   ShieldIcon,
+  ScIconsStyles,
 } from '../../../../sc-app/src/components/shared/ScIcons.js';
 import { APP_COLORS } from '../../../../sc-app/sc-app-styles.js';
+import { classMap } from 'lit-html/directives/class-map';
 
 export const VALUE_TYPES = {
   HEALTH: 'health',
@@ -53,11 +54,11 @@ export class ScCardValue extends LitElement {
           color: ${APP_COLORS.PRIMARY_BLUE};
         }
 
-        [card-part] .icon .background-svg-icon {
+        [card-part] .icon svg {
           fill: ${APP_COLORS.SVG_DEFAULT};
         }
 
-        [card-part].reduced-card-part .icon .background-svg-icon {
+        [card-part].reduced-card-part .icon svg {
           width: 15px;
           height: 15px;
         }
@@ -85,7 +86,6 @@ export class ScCardValue extends LitElement {
     return {
       card: { type: Object },
       modifiedCard: { type: Object },
-      cardversion: { type: Number },
       valueType: { type: String },
       stack: { type: Boolean },
       reduced: { type: Boolean },
@@ -137,12 +137,12 @@ export class ScCardValue extends LitElement {
 
   _getDisplay() {
     if (this.valueType !== VALUE_TYPES.SHIELD) {
-      return 'block';
+      return css`block`;
     }
     if (!this.card.conditions || !this.card.conditions.shield) {
-      return 'none';
+      return css`none`;
     }
-    return 'block';
+    return css`block`;
   }
 
   _cardPartValue() {
@@ -170,23 +170,21 @@ export class ScCardValue extends LitElement {
       default:
         return html``;
     }
-    // @DEBUG: can't remember why we need to add this class...
-    return iconFunction('background-svg-icon');
+    return iconFunction();
   }
 
   _cardPartClasses() {
-    // @TODO: use classMap instead.
-    const classes = [];
+    const classes = {};
     if (this.stack) {
-      classes.push('stack-card-part');
+      classes['stack-card-part'] = true;
     }
     if (this.reduced) {
-      classes.push('reduced-card-part');
+      classes['reduced-card-part'] = true;
     }
     const cardValue = this._cardPartValue();
     if (!cardValue && cardValue !== 0) {
-      classes.push('no-value-card-part');
+      classes['no-value-card-part'] = true;
     }
-    return classes.join(' ');
+    return classMap(classes);
   }
 }

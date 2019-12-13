@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
-const _playerEnergySelector = state => state.scStatus.entities.player.energy;
-const _playerHealthSelector = state => state.scStatus.entities.player.health;
+const _playerEnergySelector = state => state.scGame.entities.game.player.energy;
+const _playerHealthSelector = state => state.scGame.entities.game.player.health;
 
 export const getCurrentEnergy = createSelector(
   _playerEnergySelector,

@@ -25,6 +25,7 @@ function _buildGame(gameData) {
 }
 
 function* _resetGame({ playerId, playerDeckId, dungeonId }) {
+  yield put(Actions.setGame(null));
   const { data } = yield call(GameInterface.newGame, playerId, playerDeckId, dungeonId);
   const game = yield call(_buildGame, data.game);
   yield put(Actions.setGame(game));

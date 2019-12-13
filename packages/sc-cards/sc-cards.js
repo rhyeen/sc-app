@@ -1,9 +1,9 @@
 import './src/state/reducers.js';
 import './src/state/sagas.js';
 
-import { ScLostPileBarItem } from './src/components/bar-items/ScLostPileBarItem.js';
-import { ScDiscardPileBarItem } from './src/components/bar-items/ScDiscardPileBarItem.js';
-import { ScDrawPileBarItem } from './src/components/bar-items/ScDrawPileBarItem.js';
+import { ScLostDeckBarItem } from './src/components/bar-items/ScLostDeckBarItem.js';
+import { ScDiscardDeckBarItem } from './src/components/bar-items/ScDiscardDeckBarItem.js';
+import { ScDrawDeckBarItem } from './src/components/bar-items/ScDrawDeckBarItem.js';
 
 import { ScCardValue } from './src/components/card-parts/ScCardValue.js';
 import { ScPlayerHandCard } from './src/components/player-hand/ScPlayerHandCard.js';
@@ -15,16 +15,16 @@ import { ScAttackCardCover } from './src/components/play-area/covers/ScAttackCar
 import { ScCoverFieldCard } from './src/components/play-area/covers/ScCoverFieldCard.js';
 
 import { ScMinionCard } from './src/components/play-area/cards/ScMinionCard.js';
-import { ScMinionFieldCard } from './src/components/play-area/cards/ScMinionFieldCard.js';
+import { ScMinionFieldSlot } from './src/components/play-area/cards/ScMinionFieldSlot.js';
 
-import { ScOpponentSlotBacklog } from './src/components/play-area/ScOpponentSlotBacklog.js';
-import { ScOpponentFieldBacklog } from './src/components/play-area/ScOpponentFieldBacklog.js';
+import { ScDungeonSlotBacklog } from './src/components/play-area/ScDungeonSlotBacklog.js';
+import { ScDungeonFieldBacklog } from './src/components/play-area/ScDungeonFieldBacklog.js';
 import { ScPlayField } from './src/components/play-area/ScPlayField.js';
 import { ScPlayArea } from './src/components/play-area/ScPlayArea.js';
 
-window.customElements.define('sc-lost-pile-bar-item', ScLostPileBarItem);
-window.customElements.define('sc-discard-pile-bar-item', ScDiscardPileBarItem);
-window.customElements.define('sc-draw-pile-bar-item', ScDrawPileBarItem);
+window.customElements.define('sc-lost-deck-bar-item', ScLostDeckBarItem);
+window.customElements.define('sc-discard-deck-bar-item', ScDiscardDeckBarItem);
+window.customElements.define('sc-draw-deck-bar-item', ScDrawDeckBarItem);
 
 window.customElements.define('sc-card-value', ScCardValue);
 window.customElements.define('sc-player-hand-card', ScPlayerHandCard);
@@ -36,9 +36,9 @@ window.customElements.define('sc-attack-card-cover', ScAttackCardCover);
 window.customElements.define('sc-cover-field-card', ScCoverFieldCard);
 
 window.customElements.define('sc-minion-card', ScMinionCard);
-window.customElements.define('sc-minion-field-card', ScMinionFieldCard);
+window.customElements.define('sc-minion-field-slot', ScMinionFieldSlot);
 
-window.customElements.define('sc-opponent-slot-backlog', ScOpponentSlotBacklog);
-window.customElements.define('sc-opponent-field-backlog', ScOpponentFieldBacklog);
+window.customElements.define('sc-dungeon-slot-backlog', ScDungeonSlotBacklog);
+window.customElements.define('sc-dungeon-field-backlog', ScDungeonFieldBacklog);
 window.customElements.define('sc-play-field', ScPlayField);
 window.customElements.define('sc-play-area', ScPlayArea);

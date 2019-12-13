@@ -8,10 +8,8 @@ function _resetState() {
     ui: {
       selectedCard: {
         source: null,
-        id: null,
-        instance: null,
-        handIndex: null,
-        playAreaIndex: null,
+        handCardIndex: null,
+        fieldSlotIndex: null,
       },
       selectedAbility: {
         targets: null,
@@ -21,17 +19,29 @@ function _resetState() {
   };
 }
 
-function _setSelectedCard(state, source, cardId, cardInstance, handIndex, playAreaIndex) {
+function _setSelectedCard(state, source, handCardIndex, fieldSlotIndex) {
   return {
     ...state,
     ui: {
       ...state.ui,
       selectedCard: {
         source,
-        id: cardId,
-        instance: cardInstance,
-        handIndex,
-        playAreaIndex,
+        handCardIndex,
+        fieldSlotIndex,
+      },
+    },
+  };
+}
+
+function _removeSelectedCard(state) {
+  return {
+    ...state,
+    ui: {
+      ...state.ui,
+      selectedCard: {
+        source: null,
+        handCardIndex: null,
+        fieldSlotIndex: null,
       },
     },
   };
@@ -63,21 +73,6 @@ function _setSelectedCardSource(state, source) {
   };
 }
 
-function _removeSelectedCard(state) {
-  return {
-    ...state,
-    ui: {
-      ...state.ui,
-      selectedCard: {
-        source: null,
-        id: null,
-        instance: null,
-        handIndex: null,
-        playAreaIndex: null,
-      },
-    },
-  };
-}
 
 function _removeSelectedAbility(state) {
   return {
@@ -98,41 +93,31 @@ const reducer = (state = INITIAL_STATE, action) => {
   let newState = state;
   let cardId;
   let cardInstance;
-  let playAreaIndex;
+  let fieldSlotIndex;
   switch (action.type) {
-    case Actions.SELECT_CARD_FROM_HAND:
-      cardId = newState.entities.player.hand.cards[action.handIndex].id;
-      cardInstance = newState.entities.player.hand.cards[action.handIndex].instance;
-      newState = _removeHandCard(newState, action.handIndex);
+    case Actions.SELECT_HAND_CARD:
       return _setSelectedCard(
         newState,
-        CARD_SOURCES.SELECT_PLAYER_HAND,
-        cardId,
-        cardInstance,
-        action.handIndex,
+        CARD_SOURCES.SELECT_PLAYER_HAND_CARD,
+        action.handCardIndex,
         null,
       );
-    case Actions.CANCEL_SELECT_CARD_FROM_HAND:
-    case Actions.CANCEL_PLAY_SELECTED_SPELL:
-    case Actions.CANCEL_CAST_SPELL:
-    case Actions.CANCEL_SELECT_OPPONENT_MINION:
-    case Actions.CANCEL_SELECT_PLAYER_MINION:
-    case Actions.PLACE_MINION.SUCCESS:
-    case Actions.ATTACK_MINION.SUCCESS:
-    case Actions.USE_CARD_ABILITY.SUCCESS:
-    case Actions.FINISH_SPELL_CARD:
+    case Actions.CANCEL_SELECTED_CARD:
       return _removeSelectedCard(newState);
+
+
+
     case Actions.CANCEL_PLAY_SELECTED_MINION:
       cardId = newState.ui.selectedCard.id;
       cardInstance = newState.ui.selectedCard.instance;
-      playAreaIndex = newState.ui.selectedCard.playAreaIndex;
+      fieldSlotIndex = newState.ui.selectedCard.fieldSlotIndex;
       return _setSelectedCard(
         newState,
         CARD_SOURCES.SELECT_PLAYER_MINION,
         cardId,
         cardInstance,
         null,
-        playAreaIndex,
+        fieldSlotIndex,
       );
     case Actions.SELECT_PLAYER_MINION:
       return _setSelectedCard(
@@ -141,7 +126,7 @@ const reducer = (state = INITIAL_STATE, action) => {
         action.cardId,
         action.cardInstance,
         null,
-        action.playAreaIndex,
+        action.fieldSlotIndex,
       );
     case Actions.SELECT_OPPONENT_MINION:
       return _setSelectedCard(
@@ -150,7 +135,7 @@ const reducer = (state = INITIAL_STATE, action) => {
         action.cardId,
         action.cardInstance,
         null,
-        action.playAreaIndex,
+        action.fieldSlotIndex,
       );
     case Actions.PLAY_PLAYER_MINION:
       return _setSelectedCardSource(newState, CARD_SOURCES.PLAY_PLAYER_MINION);

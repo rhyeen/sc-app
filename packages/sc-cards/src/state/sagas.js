@@ -29,12 +29,12 @@ function* _setCards() {
 
 function* _setPlayerDecks() {
   try {
-    const { hand, deck, discardPile, lostCards } = yield call(CardsInterface.getPlayerDecks);
+    const { hand, deck, discardDeck, lostCards } = yield call(CardsInterface.getPlayerDecks);
     yield put(
       Actions.setPlayerDecks.success(
         hand.cards,
         hand.refillSize,
-        discardPile.cards,
+        discardDeck.cards,
         lostCards.cards,
         deck.size,
       ),
@@ -47,7 +47,7 @@ function* _setPlayerDecks() {
 function _getSummonMinionAction(playAreaIndex) {
   const state = localStore.getState();
   const selectedCard = Selectors.getSelectedCard(state);
-  return new PlaceMinionAction(selectedCard.handIndex, playAreaIndex);
+  return new PlaceMinionAction(selectedCard.handCardIndex, playAreaIndex);
 }
 
 function* _summonMinion({ playAreaIndex }) {
@@ -84,8 +84,8 @@ function _prepareClearHand() {
 }
 
 function* _clearHand() {
-  const addedToDiscardPile = yield _prepareClearHand();
-  yield put(Actions.clearHand.success(addedToDiscardPile));
+  const addedToDiscardDeck = yield _prepareClearHand();
+  yield put(Actions.clearHand.success(addedToDiscardDeck));
 }
 
 function _getActionFromSelectedAbility(selectedAbility, actionTargets) {
@@ -95,7 +95,7 @@ function _getActionFromSelectedAbility(selectedAbility, actionTargets) {
     case CardType.Minion:
       return new PlayMinionAbilityAction(selectedCard.playAreaIndex, actionTargets);
     case CardType.Spell:
-      return new PlaySpellAbilityAction(selectedCard.handIndex, actionTargets);
+      return new PlaySpellAbilityAction(selectedCard.handCardIndex, actionTargets);
     default:
       Log.error(`Unexpected card type: ${selectedAbility.card.type}`);
       return null;

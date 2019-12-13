@@ -50,31 +50,32 @@ export class ScMinionCard extends LitElement {
           background-color: ${CardRarityColor(this.card.rarity)};
         }
       </style>
+      
       <header>
-        <div card-title>${this.card.title}</div>
+        <div card-title>${this.card.name}</div>
       </header>
       <footer>
         <sc-card-value
-          valueType="${VALUE_TYPES.RANGE}"
-          .card="${this.card}"
+          valueType=${VALUE_TYPES.RANGE}
+          .card=${this.card}
           stack
           reduced
         ></sc-card-value>
         <sc-card-value
-          valueType="${VALUE_TYPES.ATTACK}"
-          .card="${this.card}"
+          valueType=${VALUE_TYPES.ATTACK}
+          .card=${this.card}
           stack
           reduced
         ></sc-card-value>
         <sc-card-value
-          valueType="${VALUE_TYPES.HEALTH}"
-          .card="${this.card}"
+          valueType=${VALUE_TYPES.HEALTH}
+          .card=${this.card}
           stack
           reduced
         ></sc-card-value>
         <sc-card-value
-          valueType="${VALUE_TYPES.SHIELD}"
-          .card="${this.card}"
+          valueType=${VALUE_TYPES.SHIELD}
+          .card=${this.card}
           stack
           reduced
         ></sc-card-value>
@@ -89,10 +90,6 @@ export class ScMinionCard extends LitElement {
   }
 
   _getCardOpacity() {
-    const fullOpacity = css`1`;
-    if (!this.card.conditions) {
-      return fullOpacity;
-    }
-    return this.card.conditions.exhausted ? CARDS.MINION.EXHAUSTED_OPACITY_VALUE : fullOpacity;
+    return this.card.isExhausted() ? CARDS.MINION.EXHAUSTED_OPACITY_VALUE : css`1`;
   }
 }

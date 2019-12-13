@@ -1,11 +1,12 @@
 import { html, LitElement } from 'lit-element';
+import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
 
 import { Log } from 'interface-handler/src/logger.js';
 import { selectOpponentMinion, selectPlayerMinion } from '../../../state/actions.js';
 import { PLAY_FIELD_OWNER } from '../ScPlayField.js';
 import { localStore } from '../../../state/store.js';
 
-export class ScMinionFieldCard extends LitElement {
+export class ScMinionFieldSlot extends LitElement {
   render() {
     return html`
       ${this._getCardHtml()}
@@ -14,17 +15,18 @@ export class ScMinionFieldCard extends LitElement {
 
   static get properties() {
     return {
-      fieldSlot: { type: Object },
+      game: { type: Game },
+      fieldSlotIndex: { type: Number },
       owner: { type: String },
     };
   }
 
   _getCardHtml() {
-    if (!this.fieldSlot.card) {
+    if (!this._getFieldSlotCard()) {
       return html``;
     }
     switch (this.owner) {
-      case PLAY_FIELD_OWNER.OPPONENT:
+      case PLAY_FIELD_OWNER.DUNGEON:
         return this._opponentMinion();
       case PLAY_FIELD_OWNER.PLAYER:
         return this._playerMinion();
@@ -34,21 +36,34 @@ export class ScMinionFieldCard extends LitElement {
     }
   }
 
+  _getFieldSlotCard() {
+    switch (this.owner) {
+      case PLAY_FIELD_OWNER.DUNGEON:
+        return this.game.dungeon.field[this.fieldSlotIndex].card;
+      case PLAY_FIELD_OWNER.PLAYER:
+        return this.game.player.field[this.fieldSlotIndex].card;
+      default:
+        Log.error(`unexpected owner: ${this.owner}`);
+        return html``;
+    }
+  }
+
   _opponentMinion() {
     return html`
       <sc-minion-card
-        .card="${this.fieldSlot.card}"
+        .card="${this._getFieldSlotCard()}"
         @click="${this._opponentMinionClicked}"
       ></sc-minion-card>
     `;
   }
 
   _opponentMinionClicked() {
+    const card = this._getFieldSlotCard();
     localStore.dispatch(
       selectOpponentMinion(
-        this.fieldSlot.id,
-        this.fieldSlot.instance,
-        this.fieldSlot.playAreaIndex,
+        card.id,
+        card.instance,
+        this.fieldSlotIndex,
       ),
     );
   }
@@ -56,15 +71,20 @@ export class ScMinionFieldCard extends LitElement {
   _playerMinion() {
     return html`
       <sc-minion-card
-        .card="${this.fieldSlot.card}"
+        .card="${this._getFieldSlotCard()}"
         @click="${this._playerMinionClicked}"
       ></sc-minion-card>
     `;
   }
 
   _playerMinionClicked() {
+    const card = this._getFieldSlotCard();
     localStore.dispatch(
-      selectPlayerMinion(this.fieldSlot.id, this.fieldSlot.instance, this.fieldSlot.playAreaIndex),
+      selectPlayerMinion(
+        card.id,
+        card.instance,
+        this.fieldSlotIndex,
+      ),
     );
   }
 }

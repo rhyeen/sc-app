@@ -13,11 +13,13 @@ import { ScGameView } from './src/components/game-area/ScGameView.js';
 import { ScGameMenuBarItem } from './src/components/bar-items/ScGameMenuBarItem.js';
 import { ScGameOverlay } from './src/components/game-area/ScGameOverlay.js';
 import { ScGameMenuOverlay } from './src/components/overlay/ScGameMenuOverlay.js';
+import { ScSelectHandCardOverlay } from './src/components/overlay/ScSelectHandCardOverlay.js';
 
 window.customElements.define('sc-game-menu-bar-item', ScGameMenuBarItem);
 window.customElements.define('sc-game-footer', ScGameFooter);
 window.customElements.define('sc-game-header', ScGameHeader);
 window.customElements.define('sc-game-menu-overlay', ScGameMenuOverlay);
+window.customElements.define('sc-select-hand-card-overlay', ScSelectHandCardOverlay);
 window.customElements.define('sc-game-overlay', ScGameOverlay);
 window.customElements.define('sc-game-view', ScGameView);
 window.customElements.define('sc-game', ScGame);
