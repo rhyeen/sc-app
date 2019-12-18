@@ -10,7 +10,6 @@ import * as CardsActions from '../../../sc-cards/src/state/actions.js';
 import * as StatusActions from '../../../sc-status/src/state/actions.js';
 import * as CraftActions from '../../../sc-craft/src/state/actions.js';
 import { GAME_STATES } from '../entities/game-states.js';
-import { GameDefiner } from '../services/game-definer.js';
 
 function* _beginTurn() {
   yield put(CardsActions.setPlayerDecks.request());
@@ -93,7 +92,8 @@ function* _endTurn() {
 }
 
 function _executeTurnAction(turnAction) {
-  const game = GameDefiner.getGame();
+  const state = localStore.getState();
+  const game = Selectors.getGame(state);
   const result = turnAction.execute(game);
   debugger;
   Log.info('@TODO:');

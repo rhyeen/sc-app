@@ -42,7 +42,7 @@ export class ScPlayArea extends LitElement {
     return html`
       <sc-dungeon-field-backlog
         .game=${this.game}
-        .selectedCard=${this.selectedCard}
+        ?overlay=${!!this.selectedCard}
       ></sc-dungeon-field-backlog>
       <sc-play-field
         .game=${this.game}

@@ -16,7 +16,7 @@ export class ScPlaceMinionOverlay extends LitElement {
   render() {
     return html`
       <sc-play-area .game=${this.game} .selectedCard=${this.selectedCard}></sc-play-area>
-      <div btn-group>
+      <div class="btn-group-hand-area" btn-group>
         <sc-btn
             .btntype=${SC_BTN_TYPES.PRESET.CANCEL}
             @click=${() => ScPlaceMinionOverlay._cancel()}>

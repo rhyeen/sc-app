@@ -1,7 +1,7 @@
 import { html, LitElement } from 'lit-element';
+import { classMap } from 'lit-html/directives/class-map';
 import { ScIconsStyles } from '../../../../sc-app/src/components/shared/ScIcons.js';
 
-import { classMap } from 'lit-html/directives/class-map';
 import { Ability } from '../../entities/card-aspects.js';
 import { ScCardAbilityConditionStyles } from './card-parts-styles.js';
 

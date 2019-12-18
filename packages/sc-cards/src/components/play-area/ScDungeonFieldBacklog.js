@@ -6,6 +6,7 @@ import { BANNER_DIAGNAL_LENGTH } from './ScDungeonSlotBacklog.js';
 export class ScDungeonFieldBacklog extends LitElement {
   static get styles() {
     return [
+      FieldSlotStyles,
       css`
         :host {
           display: flex;
@@ -17,8 +18,7 @@ export class ScDungeonFieldBacklog extends LitElement {
         [overlay] {
           display: none;
         }
-      `,
-      FieldSlotStyles,
+      `
     ];
   }
 

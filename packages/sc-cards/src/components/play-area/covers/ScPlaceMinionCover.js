@@ -1,10 +1,8 @@
 import { LitElement, css, html } from 'lit-element';
-import { Log } from 'interface-handler/src/logger.js';
+import { Game } from '@shardedcards/sc-types/dist/game/entities/game';
 import { ScIconsStyles, DeadIcon, ShieldIcon } from '../../../../../sc-app/src/components/shared/ScIcons.js';
 import { ScCoverFieldCardStyles } from './sc-cover-field-card-styles.js';
 import { CARDS } from '../../../../sc-cards-styles.js';
-import { Game } from '@shardedcards/sc-types/dist/game/entities/game';
-import { PLAY_FIELD_OWNER } from '../ScPlayField.js';
 
 export class ScPlaceMinionCover extends LitElement {
   static get styles() {
@@ -15,6 +13,7 @@ export class ScPlaceMinionCover extends LitElement {
         :host {
           border: ${CARDS.MINION_COVER.PLACE_MINION_BORDER};
         }
+        
         [minion-cover-separator] {
           border-bottom: ${CARDS.MINION_COVER.PLACE_MINION_BORDER};
         }

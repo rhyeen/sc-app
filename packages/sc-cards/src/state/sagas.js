@@ -44,28 +44,28 @@ function* _setPlayerDecks() {
   }
 }
 
-function _getSummonMinionAction(playAreaIndex) {
+function _getSummonMinionAction(fieldSlotIndex) {
   const state = localStore.getState();
   const selectedCard = Selectors.getSelectedCard(state);
-  return new PlaceMinionAction(selectedCard.handCardIndex, playAreaIndex);
+  return new PlaceMinionAction(selectedCard.handCardIndex, fieldSlotIndex);
 }
 
-function* _summonMinion({ playAreaIndex }) {
-  const action = yield _getSummonMinionAction(playAreaIndex);
-  yield put(GameActions.fulfillTurnAction(action));
+function* _placeMinion({ fieldSlotIndex }) {
+  const action = yield _getSummonMinionAction(fieldSlotIndex);
+  yield put(GameActions.fulfillTurnAction.request(action));
   yield put(Actions.placeMinion.success());
 }
 
-function _getAttackMinionAction(playAreaIndex) {
+function _getAttackMinionAction(fieldSlotIndex) {
   const state = localStore.getState();
   const selectedCard = Selectors.getSelectedCard(state);
-  const target = new OpponentMinionActionTarget(playAreaIndex);
-  return new PlayMinionAttackAction(selectedCard.playAreaIndex, [target]);
+  const target = new OpponentMinionActionTarget(fieldSlotIndex);
+  return new PlayMinionAttackAction(selectedCard.fieldSlotIndex, [target]);
 }
 
-function* _attackMinion({ playAreaIndex }) {
-  const action = yield _getAttackMinionAction(playAreaIndex);
-  yield put(GameActions.fulfillTurnAction(action));
+function* _attackMinion({ fieldSlotIndex }) {
+  const action = yield _getAttackMinionAction(fieldSlotIndex);
+  yield put(GameActions.fulfillTurnAction.request(action));
   yield put(Actions.attackMinion.success());
 }
 
@@ -93,7 +93,7 @@ function _getActionFromSelectedAbility(selectedAbility, actionTargets) {
   const selectedCard = Selectors.getSelectedCard(state);
   switch (selectedAbility.card.type) {
     case CardType.Minion:
-      return new PlayMinionAbilityAction(selectedCard.playAreaIndex, actionTargets);
+      return new PlayMinionAbilityAction(selectedCard.fieldSlotIndex, actionTargets);
     case CardType.Spell:
       return new PlaySpellAbilityAction(selectedCard.handCardIndex, actionTargets);
     default:
@@ -102,12 +102,12 @@ function _getActionFromSelectedAbility(selectedAbility, actionTargets) {
   }
 }
 
-function _getActionTargetFromSelectedAbility(selectedAbility, playAreaIndex) {
+function _getActionTargetFromSelectedAbility(selectedAbility, fieldSlotIndex) {
   switch (selectedAbility.targets) {
     case ActionTargetType.TargetOpponentMinion:
-      return new OpponentMinionActionTarget(playAreaIndex);
+      return new OpponentMinionActionTarget(fieldSlotIndex);
     case ActionTargetType.TargetPlayerMinion:
-      return new PlayerMinionActionTarget(playAreaIndex);
+      return new PlayerMinionActionTarget(fieldSlotIndex);
     case ActionTargetType.TargetPlayer:
       return new PlayerActionTarget();
     default:
@@ -116,16 +116,16 @@ function _getActionTargetFromSelectedAbility(selectedAbility, playAreaIndex) {
   }
 }
 
-function _getUseCardAbilityAction(playAreaIndex) {
+function _getUseCardAbilityAction(fieldSlotIndex) {
   const state = localStore.getState();
   const selectedAbility = Selectors.getSelectedAbility(state);
-  const target = _getActionTargetFromSelectedAbility(selectedAbility, playAreaIndex);
+  const target = _getActionTargetFromSelectedAbility(selectedAbility, fieldSlotIndex);
   return _getActionFromSelectedAbility(selectedAbility, [target]);
 }
 
-function* _useCardAbility({ playAreaIndex }) {
-  const action = yield _getUseCardAbilityAction(playAreaIndex);
-  yield put(GameActions.fulfillTurnAction(action));
+function* _useCardAbility({ fieldSlotIndex }) {
+  const action = yield _getUseCardAbilityAction(fieldSlotIndex);
+  yield put(GameActions.fulfillTurnAction.request(action));
   yield put(Actions.useCardAbility.success());
 }
 
@@ -159,7 +159,7 @@ function* _cancelSelectMinionTargetedAbility() {
 
 function* saga() {
   yield all([
-    takeEvery(Actions.PLACE_MINION.REQUEST, _summonMinion),
+    takeEvery(Actions.PLACE_MINION.REQUEST, _placeMinion),
     takeEvery(Actions.ATTACK_MINION.REQUEST, _attackMinion),
     takeLatest(Actions.SET_PLAYING_FIELD.REQUEST, _setPlayingField),
     takeLatest(Actions.CLEAR_HAND.REQUEST, _clearHand),

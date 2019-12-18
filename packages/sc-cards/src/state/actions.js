@@ -24,7 +24,11 @@ export const playSelectedCard = () => ReduxAction.action(PLAY_SELECTED_CARD, {})
 export const FINISH_USING_ABILITIES = ra.createRequestRaw('FINISH_USING_ABILITIES');
 export const finishUsingAbilities = () => ReduxAction.action(FINISH_USING_ABILITIES, {});
 
-
+export const PLACE_MINION = ra.createRequestTypes('PLACE_MINION');
+export const placeMinion = {
+  request: fieldSlotIndex => ReduxAction.action(PLACE_MINION.REQUEST, { fieldSlotIndex }),
+  success: () => ReduxAction.action(PLACE_MINION.SUCCESS, {}),
+};
 
 
 
@@ -44,23 +48,18 @@ export const cancelSelectPlayerMinion = () => ReduxAction.action(CANCEL_SELECT_P
 export const CANCEL_PLAY_SELECTED_MINION = ra.createRequestRaw('CANCEL_PLAY_SELECTED_MINION');
 export const cancelPlaySelectedMinion = () => ReduxAction.action(CANCEL_PLAY_SELECTED_MINION, {});
 
-export const PLACE_MINION = ra.createRequestTypes('PLACE_MINION');
-export const placeMinion = {
-  request: playAreaIndex => ReduxAction.action(PLACE_MINION.REQUEST, { playAreaIndex }),
-  success: (playAreaIndex, updatedCards, discardedCard) =>
-    ReduxAction.action(PLACE_MINION.SUCCESS, { playAreaIndex, updatedCards, discardedCard }),
-};
+
 
 export const SELECT_PLAYER_MINION = ra.createRequestRaw('SELECT_PLAYER_MINION');
-export const selectPlayerMinion = (cardId, cardInstance, playAreaIndex) =>
-  ReduxAction.action(SELECT_PLAYER_MINION, { cardId, cardInstance, playAreaIndex });
+export const selectPlayerMinion = (cardId, cardInstance, fieldSlotIndex) =>
+  ReduxAction.action(SELECT_PLAYER_MINION, { cardId, cardInstance, fieldSlotIndex });
 
 export const PLAY_PLAYER_MINION = ra.createRequestRaw('PLAY_PLAYER_MINION');
 export const playPlayerMinion = () => ReduxAction.action(PLAY_PLAYER_MINION, {});
 
 export const ATTACK_MINION = ra.createRequestTypes('ATTACK_MINION');
 export const attackMinion = {
-  request: playAreaIndex => ReduxAction.action(ATTACK_MINION.REQUEST, { playAreaIndex }),
+  request: fieldSlotIndex => ReduxAction.action(ATTACK_MINION.REQUEST, { fieldSlotIndex }),
   success: (updatedCards, addedToDiscardDeck, playerFieldSlots, opponentFieldSlots) =>
     ReduxAction.action(ATTACK_MINION.SUCCESS, {
       updatedCards,
@@ -124,7 +123,7 @@ export const resetCards = () => ReduxAction.action(RESET_CARDS, {});
 
 export const USE_CARD_ABILITY = ra.createRequestTypes('USE_CARD_ABILITY');
 export const useCardAbility = {
-  request: playAreaIndex => ReduxAction.action(USE_CARD_ABILITY.REQUEST, { playAreaIndex }),
+  request: fieldSlotIndex => ReduxAction.action(USE_CARD_ABILITY.REQUEST, { fieldSlotIndex }),
   success: (updatedCards, addedToDiscardDeck, playerFieldSlots, opponentFieldSlots) =>
     ReduxAction.action(USE_CARD_ABILITY.SUCCESS, {
       updatedCards,

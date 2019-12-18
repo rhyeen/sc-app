@@ -119,6 +119,7 @@ const reducer = (state = INITIAL_STATE, action) => {
         null,
       );
     case Actions.CANCEL_SELECTED_CARD:
+    case Actions.PLACE_MINION.SUCCESS:
       return _removeSelectedCard(newState);
     case Actions.SELECT_DUNGEON_FIELD_SLOT_CARD:
       return _setSelectedCard(
