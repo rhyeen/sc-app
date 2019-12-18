@@ -22,6 +22,13 @@ import { ScDungeonFieldBacklog } from './src/components/play-area/ScDungeonField
 import { ScPlayField } from './src/components/play-area/ScPlayField.js';
 import { ScPlayArea } from './src/components/play-area/ScPlayArea.js';
 
+import { ScCardAbilityValue } from './src/components/card-parts/ScCardAbilityValue.js';
+import { ScCardAbilities } from './src/components/card-parts/ScCardAbilities.js';
+import { ScCardConditionValue } from './src/components/card-parts/ScCardConditionValue.js';
+import { ScCardConditions } from './src/components/card-parts/ScCardConditions.js';
+import { ScUseAbilityBtn } from './src/components/selected-card/ScUseAbilityBtn.js';
+import { ScFullCard } from './src/components/selected-card/ScFullCard.js';
+
 window.customElements.define('sc-lost-deck-bar-item', ScLostDeckBarItem);
 window.customElements.define('sc-discard-deck-bar-item', ScDiscardDeckBarItem);
 window.customElements.define('sc-draw-deck-bar-item', ScDrawDeckBarItem);
@@ -42,3 +49,10 @@ window.customElements.define('sc-dungeon-slot-backlog', ScDungeonSlotBacklog);
 window.customElements.define('sc-dungeon-field-backlog', ScDungeonFieldBacklog);
 window.customElements.define('sc-play-field', ScPlayField);
 window.customElements.define('sc-play-area', ScPlayArea);
+
+window.customElements.define('sc-card-ability-value', ScCardAbilityValue);
+window.customElements.define('sc-card-abilities', ScCardAbilities);
+window.customElements.define('sc-card-condition-value', ScCardConditionValue);
+window.customElements.define('sc-card-conditions', ScCardConditions);
+window.customElements.define('sc-use-ability-btn', ScUseAbilityBtn);
+window.customElements.define('sc-full-card', ScFullCard);

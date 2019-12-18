@@ -1,21 +1,24 @@
 import { LitElement, css, html } from 'lit-element';
+import { Log } from 'interface-handler/src/logger.js';
 import { ScIconsStyles, DeadIcon, ShieldIcon } from '../../../../../sc-app/src/components/shared/ScIcons.js';
 import { ScCoverFieldCardStyles } from './sc-cover-field-card-styles.js';
 import { CARDS } from '../../../../sc-cards-styles.js';
+import { Game } from '@shardedcards/sc-types/dist/game/entities/game';
+import { PLAY_FIELD_OWNER } from '../ScPlayField.js';
 
 export class ScPlaceMinionCover extends LitElement {
   static get styles() {
     return [
+      ScIconsStyles,
+      ScCoverFieldCardStyles,
       css`
         :host {
-          border: var(${CARDS.MINION_COVER.PLACE_MINION_BORDER});
+          border: ${CARDS.MINION_COVER.PLACE_MINION_BORDER};
         }
         [minion-cover-separator] {
-          border-bottom: var(${CARDS.MINION_COVER.PLACE_MINION_BORDER});
+          border-bottom: ${CARDS.MINION_COVER.PLACE_MINION_BORDER};
         }
-      `,
-      ScIconsStyles,
-      ScCoverFieldCardStyles
+      `
     ]
   }
 
@@ -32,11 +35,16 @@ export class ScPlaceMinionCover extends LitElement {
     `;
   }
 
-  static get properties() { 
+  static get properties() {
     return {
-      replacer: { type: Object },
-      replaced: { type: Object }
+      game: { type: Game },
+      selectedCard: { type: Object },
+      fieldSlotIndex: { type: Number },
     }
+  }
+
+  _getFieldSlotCard() {
+    return this.game.player.field[this.fieldSlotIndex].card;
   }
 
   _getCardSeparatorOpacity() {
@@ -44,35 +52,19 @@ export class ScPlaceMinionCover extends LitElement {
   }
 
   _noCardToReplace() {
-    return !this.replaced || !this.replaced.card;
+    return !this._getFieldSlotCard();
   }
 
   _getReplacedResultHtml() {
-    return this._noCardToReplace() ? html`` : DeadIcon(); 
+    return this._noCardToReplace() ? html`` : DeadIcon();
   }
 
   _getReplacerResultHtml() {
     if (this._noCardToReplace()) {
       return this._getShieldResultHtml(0);
     }
-    let _replacer = this._deepCopy(this.replacer);
-    let _replaced = this._deepCopy(this.replaced);
-    const { updatedCards } = CardActions.placeMinion(_replacer, _replaced);
-    _replacer = Cards.getUpdatedCard(_replacer, updatedCards);
-    _replaced = Cards.getUpdatedCard(_replaced, updatedCards);
-    let currentShield = 0;
-    if (this.replacer.card.conditions.shield) {
-      currentShield = this.replacer.card.conditions.shield;
-    }
-    let newShield = 0;
-    if (_replacer.card.conditions.shield) {
-      newShield = _replacer.card.conditions.shield;
-    }
-    return this._getShieldResultHtml(newShield - currentShield);
-  }
-
-  _deepCopy(obj) {
-    return JSON.parse(JSON.stringify(obj));
+    // @TODO: handle processing of sheild gain.
+    return this._getShieldResultHtml(42);
   }
 
   _getShieldResultHtml(gainedShield) {

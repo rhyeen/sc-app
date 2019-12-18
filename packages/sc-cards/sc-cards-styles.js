@@ -46,7 +46,8 @@ export function CardRarityColor(rarity) {
 const CARDS_MINION_HEIGHT = css`130px`;
 const CARDS_MINION_WIDTH = css`90px`;
 const CARDS_MINION_BORDER_RADIUS = css`8px`;
-const CARDS_MINION_BORDER_SIZE = css`8px`;
+const CARDS_MINION_BORDER_SIZE = css`2px`;
+const CARDS_FULL_BORDER_SIZE = css`8px`;
 
 export const CARDS = {
   HAND: {
@@ -75,6 +76,15 @@ export const CARDS = {
     ATTACK_MINION_BORDER: css`${CARDS_MINION_BORDER_SIZE} dashed #E53935`,
     BACKGROUND_COLOR: css`rgba(255, 255, 255, 0.5)`,
     BORDER_SIZE: CARDS_MINION_BORDER_SIZE
+  },
+  FULL: {
+    HEIGHT: css`300px`,
+    WIDTH: css`200px`,
+    BACKGROUND_COLOR: css`#FFF`,
+    PADDING: css`16px`,
+    BORDER_RADIUS: CARDS_FULL_BORDER_SIZE,
+    BORDER: css`${CARDS_FULL_BORDER_SIZE} solid #000`,
+    ELEVATION: css`2px 2px 10px rgba(0, 0, 0, 0.2)`
   }
 };
 

@@ -10,6 +10,7 @@ function _resetState() {
         source: null,
         handCardIndex: null,
         fieldSlotIndex: null,
+        inPlay: false,
       },
       selectedAbility: {
         targets: null,
@@ -28,6 +29,20 @@ function _setSelectedCard(state, source, handCardIndex, fieldSlotIndex) {
         source,
         handCardIndex,
         fieldSlotIndex,
+        inPlay: false,
+      },
+    },
+  };
+}
+
+function _setPlayOfSelectedCard(state, inPlay) {
+  return {
+    ...state,
+    ui: {
+      ...state.ui,
+      selectedCard: {
+        ...state.ui.selectedCard,
+        inPlay,
       },
     },
   };
@@ -42,6 +57,7 @@ function _removeSelectedCard(state) {
         source: null,
         handCardIndex: null,
         fieldSlotIndex: null,
+        inPlay: false,
       },
     },
   };
@@ -90,7 +106,7 @@ function _removeSelectedAbility(state) {
 const INITIAL_STATE = _resetState();
 
 const reducer = (state = INITIAL_STATE, action) => {
-  let newState = state;
+  const newState = state;
   let cardId;
   let cardInstance;
   let fieldSlotIndex;
@@ -104,6 +120,24 @@ const reducer = (state = INITIAL_STATE, action) => {
       );
     case Actions.CANCEL_SELECTED_CARD:
       return _removeSelectedCard(newState);
+    case Actions.SELECT_DUNGEON_FIELD_SLOT_CARD:
+      return _setSelectedCard(
+        newState,
+        CARD_SOURCES.SELECT_DUNGEON_FIELD_SLOT_CARD,
+        null,
+        action.fieldSlotIndex,
+      );
+    case Actions.SELECT_PLAYER_FIELD_SLOT_CARD:
+      return _setSelectedCard(
+        newState,
+        CARD_SOURCES.SELECT_DUNGEON_FIELD_SLOT_CARD,
+        null,
+        action.fieldSlotIndex,
+      );
+    case Actions.PLAY_SELECTED_CARD:
+      return _setPlayOfSelectedCard(newState, true);
+
+
 
 
 

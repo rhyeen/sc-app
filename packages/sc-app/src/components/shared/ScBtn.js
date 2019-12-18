@@ -49,15 +49,20 @@ export const SC_BTN_COLORS = {
   LIGHT_BTN_TEXT_COLOR: SC_BTN_COLORS_TMP.LIGHT_BTN_TEXT_COLOR,
 };
 
+export const SC_BTN_STYLES = {
+  BUTTON: {
+    PADDING: css`10px 16px`
+  }
+};
+
 export const ScBtnStyles = css`
   button {
     cursor: pointer;
     border: none;
-    line-height: 40px;
     font-size: 18px;
     text-transform: uppercase;
     border-radius: 4px;
-    padding: 0 16px;
+    padding: ${SC_BTN_STYLES.BUTTON.PADDING};
     font-weight: 500;
     box-shadow: ${SHADOW_ELEVATIONS.LEVEL_1.BASE};
   }

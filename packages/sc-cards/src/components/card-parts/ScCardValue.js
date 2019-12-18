@@ -1,5 +1,6 @@
 import { html, css, LitElement } from 'lit-element';
 import { roundToTwoDecimalsString } from 'rhyeen-utils/util.js';
+import { classMap } from 'lit-html/directives/class-map';
 import {
   AttackIcon,
   EnergyIcon,
@@ -9,7 +10,6 @@ import {
   ScIconsStyles,
 } from '../../../../sc-app/src/components/shared/ScIcons.js';
 import { APP_COLORS } from '../../../../sc-app/sc-app-styles.js';
-import { classMap } from 'lit-html/directives/class-map';
 
 export const VALUE_TYPES = {
   HEALTH: 'health',
@@ -136,13 +136,17 @@ export class ScCardValue extends LitElement {
   }
 
   _getDisplay() {
-    if (this.valueType !== VALUE_TYPES.SHIELD) {
-      return css`block`;
+    if (this.valueType === VALUE_TYPES.COST && this._isDungeonCard) {
+      return css`none`;
     }
-    if (!this.card.conditions || !this.card.conditions.shield) {
+    if (this.valueType === VALUE_TYPES.SHIELD && (!this.card.conditions || !this.card.conditions.shield)) {
       return css`none`;
     }
     return css`block`;
+  }
+
+  get _isDungeonCard() {
+    return !!this.card.level;
   }
 
   _cardPartValue() {

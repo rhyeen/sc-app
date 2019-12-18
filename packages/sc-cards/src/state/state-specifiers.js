@@ -1,9 +1,11 @@
 export const CARD_SOURCES = {
   SELECT_PLAYER_HAND_CARD: 'selectPlayerHandCard',
+  SELECT_PLAYER_FIELD_SLOT_CARD: 'selectPlayerFieldSlotCard',
+  SELECT_DUNGEON_FIELD_SLOT_CARD: 'selectDungeonFieldSlotCard',
+
+
   SUMMON_PLAYER_MINION: 'summonPlayerMinion',
   CAST_PLAYER_SPELL: 'castPlayerSpell',
-  SELECT_PLAYER_MINION: 'selectPlayerSummon',
-  SELECT_OPPONENT_MINION: 'selectOpponentSummon',
   PLAY_PLAYER_MINION: 'playPlayerMinion',
 };
 

@@ -1,8 +1,8 @@
 import { LitElement, html, css } from 'lit-element';
 import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
 
-import { resetGame, setPlayerId, setPlayerDeckId, setDungeonId } from './state/actions.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
+import { resetGame, setPlayerId, setPlayerDeckId, setDungeonId } from './state/actions.js';
 import { localStore } from './state/store.js';
 import * as Selectors from './state/selectors.js';
 import { Localize } from '../../utils/localizer.js';

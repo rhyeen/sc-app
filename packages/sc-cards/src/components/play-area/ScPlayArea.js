@@ -42,18 +42,18 @@ export class ScPlayArea extends LitElement {
     return html`
       <sc-dungeon-field-backlog
         .game=${this.game}
-        ?overlay=${this.overlay}
+        .selectedCard=${this.selectedCard}
       ></sc-dungeon-field-backlog>
       <sc-play-field
         .game=${this.game}
         .owner=${PLAY_FIELD_OWNER.DUNGEON}
-        ?overlay=${this.overlay}
+        .selectedCard=${this.selectedCard}
       ></sc-play-field>
-      <div ?overlay=${this.overlay} play-field-separator></div>
+      <div ?overlay=${!!this.selectedCard} play-field-separator></div>
       <sc-play-field
         .game=${this.game}
         .owner=${PLAY_FIELD_OWNER.PLAYER}
-        ?overlay=${this.overlay}
+        .selectedCard=${this.selectedCard}
       ></sc-play-field>
     `;
   }
@@ -62,6 +62,7 @@ export class ScPlayArea extends LitElement {
     return {
       game: { type: Game },
       overlay: { type: Boolean },
+      selectedCard: { type: Object }
     };
   }
 }
