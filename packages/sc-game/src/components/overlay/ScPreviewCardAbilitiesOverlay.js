@@ -5,9 +5,13 @@ import { localStore } from '../../state/store.js';
 import { ScOverlayStyles, ScBtnGroupStyles } from './sc-overlay-styles.js';
 import { SC_BTN_TYPES } from '../../../../sc-app/src/components/shared/ScBtn.js';
 import { Localize } from '../../../../utils/localizer.js';
-import { cancelSelectedCard, finishUsingAbilities, useCardAbility } from '../../../../sc-cards/src/state/actions.js';
+import {
+  cancelSelectedCard,
+  finishUsingAbilities,
+  useCardAbility,
+} from '../../../../sc-cards/src/state/actions.js';
 
-export class ScUseCardAbilityOverlay extends LitElement {
+export class ScPreviewCardAbilitiesOverlay extends LitElement {
   static get styles() {
     return [ScOverlayStyles, ScBtnGroupStyles];
   }
@@ -20,24 +24,29 @@ export class ScUseCardAbilityOverlay extends LitElement {
       <div btn-group>
         ${this._getFinalActionBtnHtml()}
       </div>
-    `
+    `;
   }
 
-  static get properties() { 
+  static get properties() {
     return {
-      selectedCard: { type: Object }
+      selectedCard: { type: Object },
     };
   }
 
   _getAbilityBtnsHtml() {
-    return html `${this.selectedCard.card.abilities.map(ability => this._getAbilityBtnHtml(ability))}`;
+    return html`
+      ${this.selectedCard.card.abilities.map(ability =>
+        ScPreviewCardAbilitiesOverlay._getAbilityBtnHtml(ability),
+      )}
+    `;
   }
 
-  _getAbilityBtnHtml(ability) {
+  static _getAbilityBtnHtml(ability) {
     return html`
       <sc-use-ability-btn
-          .ability=${ability}
-          @click=${() => ScUseCardAbilityOverlay._useAbility(ability.id)}></sc-use-ability-btn>
+        .ability=${ability}
+        @click=${() => ScPreviewCardAbilitiesOverlay._useAbility(ability.id)}
+      ></sc-use-ability-btn>
     `;
   }
 
@@ -45,20 +54,25 @@ export class ScUseCardAbilityOverlay extends LitElement {
     if (this._noAbilitiesUsed()) {
       return html`
         <sc-btn
-            .btntype=${SC_BTN_TYPES.PRESET.CANCEL}
-            @click=${() => ScUseCardAbilityOverlay._cancel()}>
-          ${Localize.localeMap.SC_BTN.PRESET.CANCEL}</sc-btn>
+          .btntype=${SC_BTN_TYPES.PRESET.CANCEL}
+          @click=${() => ScPreviewCardAbilitiesOverlay._cancel()}
+        >
+          ${Localize.localeMap.SC_BTN.PRESET.CANCEL}</sc-btn
+        >
       `;
     }
     return html`
       <sc-btn
-          .btntype=${SC_BTN_TYPES.PRESET.DONE}
-          @click=${() => ScUseCardAbilityOverlay._finish()}>
-        ${Localize.localeMap.SC_BTN.PRESET.DONE}</sc-btn>
+        .btntype=${SC_BTN_TYPES.PRESET.DONE}
+        @click=${() => ScPreviewCardAbilitiesOverlay._finish()}
+      >
+        ${Localize.localeMap.SC_BTN.PRESET.DONE}</sc-btn
+      >
     `;
   }
 
   _noAbilitiesUsed() {
+    // eslint-disable-next-line no-restricted-syntax
     for (const ability of this.selectedCard.card.abilities) {
       if (ability.used) {
         return false;

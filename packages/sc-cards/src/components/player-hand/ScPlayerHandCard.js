@@ -52,21 +52,9 @@ export class ScPlayerHandCard extends LitElement {
         <div card-name>${this.card.name}</div>
       </header>
       <footer>
-        <sc-card-value
-          valueType=${VALUE_TYPES.RANGE}
-          .card=${this.card}
-          reduced
-        ></sc-card-value>
-        <sc-card-value
-          valueType=${VALUE_TYPES.ATTACK}
-          .card=${this.card}
-          reduced
-        ></sc-card-value>
-        <sc-card-value
-          valueType=${VALUE_TYPES.HEALTH}
-          .card=${this.card}
-          reduced
-        ></sc-card-value>
+        <sc-card-value valueType=${VALUE_TYPES.RANGE} .card=${this.card} reduced></sc-card-value>
+        <sc-card-value valueType=${VALUE_TYPES.ATTACK} .card=${this.card} reduced></sc-card-value>
+        <sc-card-value valueType=${VALUE_TYPES.HEALTH} .card=${this.card} reduced></sc-card-value>
       </footer>
     `;
   }

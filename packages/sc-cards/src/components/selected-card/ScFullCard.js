@@ -1,6 +1,6 @@
 import { html, css, LitElement } from 'lit-element';
-import { CARDS, CardRarityColor } from '../../../sc-cards-styles';
-import { VALUE_TYPES } from '../card-parts/ScCardValue';
+import { CARDS, CardRarityColor } from '../../../sc-cards-styles.js';
+import { VALUE_TYPES } from '../card-parts/ScCardValue.js';
 
 export class ScFullCard extends LitElement {
   static get styles() {
@@ -52,7 +52,7 @@ export class ScFullCard extends LitElement {
           margin-top: 20px;
           display: block;
         }
-      `
+      `,
     ];
   }
 
@@ -84,9 +84,9 @@ export class ScFullCard extends LitElement {
     `;
   }
 
-  static get properties() { 
+  static get properties() {
     return {
-      card: { type: Object }
-    }
+      card: { type: Object },
+    };
   }
 }

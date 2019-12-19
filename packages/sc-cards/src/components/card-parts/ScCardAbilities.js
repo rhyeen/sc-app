@@ -2,24 +2,29 @@ import { html, LitElement } from 'lit-element';
 
 export class ScCardAbilities extends LitElement {
   render() {
-    return html`${this._getAbilitiesHtml()}`;
+    return html`
+      ${this._getAbilitiesHtml()}
+    `;
   }
 
-  static get properties() { 
+  static get properties() {
     return {
-      card: { type: Object }
-    }
+      card: { type: Object },
+    };
   }
 
   _getAbilitiesHtml() {
     if (!this.card.abilities) {
       return html``;
     }
-    return html`${this.card.abilities.map(ability => this._getAbilityHtml(ability))}`;
+    return html`
+      ${this.card.abilities.map(ability => ScCardAbilities._getAbilityHtml(ability))}
+    `;
   }
 
-  _getAbilityHtml(ability) {
-    return html`<sc-card-ability-value .ability=${ability}></sc-card-ability-value>`;
+  static _getAbilityHtml(ability) {
+    return html`
+      <sc-card-ability-value .ability=${ability}></sc-card-ability-value>
+    `;
   }
 }
-

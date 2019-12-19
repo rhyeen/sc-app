@@ -11,7 +11,7 @@ import { ScPlayerHand } from './src/components/player-hand/ScPlayerHand.js';
 
 import { ScTargetMinionAbilityCover } from './src/components/play-area/covers/ScTargetMinionAbilityCover.js';
 import { ScPlaceMinionCover } from './src/components/play-area/covers/ScPlaceMinionCover.js';
-import { ScAttackCardCover } from './src/components/play-area/covers/ScAttackCardCover.js';
+import { ScAttackedMinionCover } from './src/components/play-area/covers/ScAttackedMinionCover.js';
 import { ScCoverFieldCard } from './src/components/play-area/covers/ScCoverFieldCard.js';
 
 import { ScMinionCard } from './src/components/play-area/cards/ScMinionCard.js';
@@ -39,7 +39,7 @@ window.customElements.define('sc-player-hand', ScPlayerHand);
 
 window.customElements.define('sc-target-minion-ability-cover', ScTargetMinionAbilityCover);
 window.customElements.define('sc-place-minion-cover', ScPlaceMinionCover);
-window.customElements.define('sc-attack-card-cover', ScAttackCardCover);
+window.customElements.define('sc-attacked-minion-cover', ScAttackedMinionCover);
 window.customElements.define('sc-cover-field-card', ScCoverFieldCard);
 
 window.customElements.define('sc-minion-card', ScMinionCard);

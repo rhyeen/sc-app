@@ -2,8 +2,12 @@ import { html, css, LitElement } from 'lit-element';
 import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
 
 const BANNER_PIXEL_SIZE = 50;
-export const BANNER_SIZE = css`${BANNER_PIXEL_SIZE}px`;
-export const BANNER_DIAGNAL_LENGTH = css`${1.41 * BANNER_PIXEL_SIZE}px`; // x * sqrt(2)
+export const BANNER_SIZE = css`
+  ${BANNER_PIXEL_SIZE}px
+`;
+export const BANNER_DIAGNAL_LENGTH = css`
+  ${1.41 * BANNER_PIXEL_SIZE}px
+`; // x * sqrt(2)
 
 export class ScDungeonSlotBacklog extends LitElement {
   static get styles() {
@@ -46,6 +50,7 @@ export class ScDungeonSlotBacklog extends LitElement {
     return {
       fieldSlotIndex: { type: Number },
       game: { type: Game },
+      gameVersion: { type: Number },
     };
   }
 

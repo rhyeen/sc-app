@@ -1,6 +1,6 @@
 import { html, css, LitElement } from 'lit-element';
 import { roundToTwoDecimalsString } from 'rhyeen-utils/util.js';
-import { classMap } from 'lit-html/directives/class-map';
+import { classMap } from 'lit-html/directives/class-map.js';
 import {
   AttackIcon,
   EnergyIcon,
@@ -139,7 +139,10 @@ export class ScCardValue extends LitElement {
     if (this.valueType === VALUE_TYPES.COST && this._isDungeonCard) {
       return css`none`;
     }
-    if (this.valueType === VALUE_TYPES.SHIELD && (!this.card.conditions || !this.card.conditions.shield)) {
+    if (
+      this.valueType === VALUE_TYPES.SHIELD &&
+      (!this.card.conditions || !this.card.conditions.shield)
+    ) {
       return css`none`;
     }
     return css`block`;

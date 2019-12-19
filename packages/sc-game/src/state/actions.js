@@ -13,7 +13,8 @@ export const hideInGameMenu = () => ReduxAction.action(HIDE_IN_GAME_MENU, {});
 
 export const RESET_GAME = ra.createRequestTypes('RESET_GAME');
 export const resetGame = {
-  request: (playerId, playerDeckId, dungeonId) => ReduxAction.action(RESET_GAME.REQUEST, { playerId, playerDeckId, dungeonId }),
+  request: (playerId, playerDeckId, dungeonId) =>
+    ReduxAction.action(RESET_GAME.REQUEST, { playerId, playerDeckId, dungeonId }),
   success: () => ReduxAction.action(RESET_GAME.SUCCESS, {}),
 };
 
@@ -60,13 +61,14 @@ export const fulfillTurnAction = {
 };
 
 export const SET_GAME = ra.createRequestRaw('SET_GAME');
-export const setGame = (game) => ReduxAction.action(SET_GAME, {game});
+export const setGame = game => ReduxAction.action(SET_GAME, { game });
 
 export const SET_PLAYER_ID = ra.createRequestRaw('SET_PLAYER_ID');
-export const setPlayerId = (playerId) => ReduxAction.action(SET_PLAYER_ID, {playerId});
+export const setPlayerId = playerId => ReduxAction.action(SET_PLAYER_ID, { playerId });
 
 export const SET_PLAYER_DECK_ID = ra.createRequestRaw('SET_PLAYER_DECK_ID');
-export const setPlayerDeckId = (playerDeckId) => ReduxAction.action(SET_PLAYER_DECK_ID, {playerDeckId});
+export const setPlayerDeckId = playerDeckId =>
+  ReduxAction.action(SET_PLAYER_DECK_ID, { playerDeckId });
 
 export const SET_DUNGEON_ID = ra.createRequestRaw('SET_DUNGEON_ID');
-export const setDungeonId = (dungeonId) => ReduxAction.action(SET_DUNGEON_ID, {dungeonId});
+export const setDungeonId = dungeonId => ReduxAction.action(SET_DUNGEON_ID, { dungeonId });

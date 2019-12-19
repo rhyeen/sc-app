@@ -18,7 +18,7 @@ export class ScGameMenuOverlay extends LitElement {
     return html`
       <sc-btn
         .btntype=${SC_BTN_TYPES.GENERIC.WARNING}
-        @click=${() => this._resetGame()}
+        @click=${() => ScGameMenuOverlay._resetGame()}
       >
         ${Localize.localeMap.SC_BTN.OTHER.RESET_GAME}</sc-btn
       >
@@ -32,7 +32,7 @@ export class ScGameMenuOverlay extends LitElement {
     localStore.dispatch(hideInGameMenu());
   }
 
-  _resetGame() {
+  static _resetGame() {
     const state = localStore.getState();
     const playerId = Selectors.getPlayerId(state);
     const playerDeckId = Selectors.getPlayerDeckId(state);

@@ -7,9 +7,12 @@ import { NAV } from '../../../sc-game-styles.js';
 import { localStore } from '../../state/store.js';
 
 import * as Selectors from '../../state/selectors.js';
-import * as CardSelectors from '../../../../sc-cards/src/state/selectors';
+import * as CardSelectors from '../../../../sc-cards/src/state/selectors.js';
 import { APP_COLORS } from '../../../../sc-app/sc-app-styles.js';
-import { CARD_SOURCES } from '../../../../sc-cards/src/state/state-specifiers.js';
+import {
+  CARD_SOURCES,
+  SELECTED_CARD_STATES,
+} from '../../../../sc-cards/src/state/state-specifiers.js';
 
 export class ScGameOverlay extends connect(localStore)(LitElement) {
   static get styles() {
@@ -38,6 +41,7 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
 
   static get properties() {
     return {
+      gameVersion: { type: Number },
       game: { type: Game },
       _showGameMenu: { type: Boolean },
       _selectedCard: { type: Object },
@@ -58,58 +62,55 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
     return index || index === 0;
   }
 
-  get _showSelectHandCard() {
+  get _previewHandCard() {
     return (
-      ScGameOverlay._validIndex(this._selectedCard.handCardIndex) && 
+      ScGameOverlay._validIndex(this._selectedCard.handCardIndex) &&
       this._selectedCard.source === CARD_SOURCES.SELECT_PLAYER_HAND_CARD &&
-      !this._selectedCard.inPlay
+      this._selectedCard.state === SELECTED_CARD_STATES.PREVIEW
     );
   }
 
-  get _showSelectPlayerFieldSlotCard() {
+  get _previewPlayerMinion() {
     return (
-      ScGameOverlay._validIndex(this._selectedCard.fieldSlotIndex) && 
+      ScGameOverlay._validIndex(this._selectedCard.fieldSlotIndex) &&
       this._selectedCard.source === CARD_SOURCES.SELECT_PLAYER_FIELD_SLOT_CARD &&
-      !this._selectedCard.inPlay
+      this._selectedCard.state === SELECTED_CARD_STATES.PREVIEW
     );
   }
 
-  get _showSelectDungeonFieldSlotCard() {
+  get _previewDungeonMinion() {
     return (
-      ScGameOverlay._validIndex(this._selectedCard.fieldSlotIndex) && 
+      ScGameOverlay._validIndex(this._selectedCard.fieldSlotIndex) &&
       this._selectedCard.source === CARD_SOURCES.SELECT_DUNGEON_FIELD_SLOT_CARD &&
-      !this._selectedCard.inPlay
+      this._selectedCard.state === SELECTED_CARD_STATES.PREVIEW
     );
   }
 
-  get _showUseCardAbility() {
+  get _previewCardAbilities() {
     return (
-      (
-        ScGameOverlay._validIndex(this._selectedCard.handCardIndex) || 
-        ScGameOverlay._validIndex(this._selectedCard.fieldSlotIndex)
-      ) && 
-      (
-        this._selectedCard.source === CARD_SOURCES.SELECT_PLAYER_FIELD_SLOT_CARD || 
-        (
-          this._selectedCard.source === CARD_SOURCES.SELECT_PLAYER_HAND_CARD &&
-          this._selectedCard.card.type === CardType.Spell
-        )
-      ) &&
-      this._selectedCard.inPlay
+      (ScGameOverlay._validIndex(this._selectedCard.handCardIndex) ||
+        ScGameOverlay._validIndex(this._selectedCard.fieldSlotIndex)) &&
+      (this._selectedCard.source === CARD_SOURCES.SELECT_PLAYER_FIELD_SLOT_CARD ||
+        this._selectedCard.source === CARD_SOURCES.SELECT_PLAYER_HAND_CARD) &&
+      this._selectedCard.state === SELECTED_CARD_STATES.USE_ABILITIES
     );
   }
 
-  get _showPlaceMinion() {
+  get _placeMinion() {
     return (
-      ScGameOverlay._validIndex(this._selectedCard.handCardIndex) && 
+      ScGameOverlay._validIndex(this._selectedCard.handCardIndex) &&
       this._selectedCard.card.type === CardType.Minion &&
       this._selectedCard.source === CARD_SOURCES.SELECT_PLAYER_HAND_CARD &&
-      this._selectedCard.inPlay
+      this._selectedCard.state === SELECTED_CARD_STATES.TARGET_FIELD
     );
   }
 
-  _shouldShowOverlay() {
-    return this._showSelectHandCard || this._showSelectPlayerFieldSlotCard || this._showSelectDungeonFieldSlotCard || this._showUseCardAbility || this._showPlaceMinion;
+  get _attackMinion() {
+    return (
+      ScGameOverlay._validIndex(this._selectedCard.fieldSlotIndex) &&
+      this._selectedCard.source === CARD_SOURCES.SELECT_PLAYER_FIELD_SLOT_CARD &&
+      this._selectedCard.state === SELECTED_CARD_STATES.TARGET_FIELD
+    );
   }
 
   _getOverlayInnerHtml() {
@@ -118,36 +119,52 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
         <sc-game-menu-overlay></sc-game-menu-overlay>
       `;
     }
-    if (this._showSelectHandCard) {
+    if (this._previewHandCard) {
       return html`
-        <sc-select-hand-card-overlay
-          .selectedCard=${this._selectedCard}></sc-select-hand-card-overlay>
+        <sc-preview-hand-card-overlay
+          .selectedCard=${this._selectedCard}
+        ></sc-preview-hand-card-overlay>
       `;
     }
-    if (this._showSelectPlayerFieldSlotCard) {
+    if (this._previewPlayerMinion) {
       return html`
-        <sc-select-player-field-slot-card-overlay
+        <sc-preview-player-minion-overlay
           .game=${this.game}
-          .selectedCard=${this._selectedCard}></sc-select-player-field-slot-card-overlay>
+          .gameVersion=${this.gameVersion}
+          .selectedCard=${this._selectedCard}
+        ></sc-preview-player-minion-overlay>
       `;
     }
-    if (this._showSelectDungeonFieldSlotCard) {
+    if (this._previewDungeonMinion) {
       return html`
-        <sc-select-dungeon-field-slot-card-overlay
-          .selectedCard=${this._selectedCard}></sc-select-dungeon-field-slot-card-overlay>
+        <sc-preview-dungeon-minion-overlay
+          .selectedCard=${this._selectedCard}
+        ></sc-preview-dungeon-minion-overlay>
       `;
     }
-    if (this._showUseCardAbility) {
+    if (this._previewCardAbilities) {
       return html`
-        <sc-use-card-ability-overlay
-          .selectedCard="${this._selectedCard}"></sc-use-card-ability-overlay>
+        <sc-preview-card-abilities-overlay
+          .selectedCard="${this._selectedCard}"
+        ></sc-preview-card-abilities-overlay>
       `;
     }
-    if (this._showPlaceMinion) {
+    if (this._placeMinion) {
       return html`
         <sc-place-minion-overlay
           .game=${this.game}
-          .selectedCard=${this._selectedCard}></sc-place-minion-overlay>
+          .gameVersion=${this.gameVersion}
+          .selectedCard=${this._selectedCard}
+        ></sc-place-minion-overlay>
+      `;
+    }
+    if (this._attackMinion) {
+      return html`
+        <sc-attack-minion-overlay
+          .game=${this.game}
+          .gameVersion=${this.gameVersion}
+          .selectedCard=${this._selectedCard}
+        ></sc-attack-minion-overlay>
       `;
     }
     return null;
@@ -156,7 +173,9 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
   stateChanged(state) {
     this._showGameMenu = Selectors.isGameMenuOpen(state);
     this._selectedCard = CardSelectors.getSelectedCard(state);
-    if (this._shouldShowOverlay()) {
+    // @NOTE: since update is not down on object property changes, we need to force the update.
+    // If there is any state change, likely it is due to selectedCard being updated.
+    if (this._selectedCard.source) {
       this.requestUpdate();
     }
   }

@@ -9,6 +9,7 @@ const INITIAL_STATE = {
       show: false,
     },
     game: {
+      version: 0,
       state: GAME_STATES.PLAYING,
     },
   },
@@ -18,7 +19,7 @@ const INITIAL_STATE = {
     game: null,
     playerId: null,
     playerDeckId: null,
-    dungeonId: null
+    dungeonId: null,
   },
 };
 
@@ -82,11 +83,18 @@ function _addOpponentTurn(state, opponentTurn) {
 function _setGame(state, game) {
   return {
     ...state,
+    ui: {
+      ...state.ui,
+      game: {
+        ...state.ui.game,
+        version: state.ui.game.version + 1,
+      },
+    },
     entities: {
       ...state.entities,
-      game
-    }
-  }
+      game,
+    },
+  };
 }
 
 function _setPlayerId(state, playerId) {
@@ -94,9 +102,9 @@ function _setPlayerId(state, playerId) {
     ...state,
     entities: {
       ...state.entities,
-      playerId
-    }
-  }
+      playerId,
+    },
+  };
 }
 
 function _setPlayerDeckId(state, playerDeckId) {
@@ -104,9 +112,9 @@ function _setPlayerDeckId(state, playerDeckId) {
     ...state,
     entities: {
       ...state.entities,
-      playerDeckId
-    }
-  }
+      playerDeckId,
+    },
+  };
 }
 
 function _setDungeonId(state, dungeonId) {
@@ -114,9 +122,9 @@ function _setDungeonId(state, dungeonId) {
     ...state,
     entities: {
       ...state.entities,
-      dungeonId
-    }
-  }
+      dungeonId,
+    },
+  };
 }
 
 const reducer = (state = INITIAL_STATE, action) => {

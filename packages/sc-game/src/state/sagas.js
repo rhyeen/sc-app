@@ -1,6 +1,6 @@
 import { put, all, call, takeLatest } from 'redux-saga/effects'; // eslint-disable-line import/extensions
 import { Log } from 'interface-handler/src/logger.js';
-import { GameBuilder } from '@shardedcards/sc-types/dist/game/services/builders/game-builder.js'; 
+import { GameBuilder } from '@shardedcards/sc-types/dist/game/services/builders/game-builder.js';
 import * as GameInterface from '../services/interface/game.js';
 import * as Selectors from './selectors.js';
 import { localStore } from './store.js';
@@ -94,15 +94,13 @@ function* _endTurn() {
 function _executeTurnAction(turnAction) {
   const state = localStore.getState();
   const game = Selectors.getGame(state);
-  const result = turnAction.execute(game);
-  debugger;
-  Log.info('@TODO:');
-  Log.info(result);
+  return turnAction.execute(game);
 }
 
 function* _fulfillTurnAction({ turnAction }) {
-  yield call(_executeTurnAction, turnAction);
+  const result = yield call(_executeTurnAction, turnAction);
   yield put(Actions.recordAction(turnAction.json()));
+  yield put(Actions.setGame(result.game));
   yield put(Actions.fulfillTurnAction.success());
 }
 

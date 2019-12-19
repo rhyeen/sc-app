@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
-import { APP_COLORS } from '../../../sc-app-styles';
+import { APP_COLORS } from '../../../sc-app-styles.js';
 
 // @SOURCE: https://tobiasahlin.com/spinkit
 const foldingCubeStyles = css`
@@ -16,7 +16,7 @@ const foldingCubeStyles = css`
     width: 50%;
     height: 50%;
     position: relative;
-    transform: scale(1.1); 
+    transform: scale(1.1);
   }
 
   .sk-folding-cube .sk-cube:before {
@@ -48,7 +48,7 @@ const foldingCubeStyles = css`
   }
 
   .sk-folding-cube .sk-cube3:before {
-    animation-delay: 0.6s; 
+    animation-delay: 0.6s;
   }
 
   .sk-folding-cube .sk-cube4:before {
@@ -56,28 +56,38 @@ const foldingCubeStyles = css`
   }
 
   @-webkit-keyframes sk-foldCubeAngle {
-    0%, 10% {
-    transform: perspective(140px) rotateX(-180deg);
-    opacity: 0; 
-    } 25%, 75% {
-    transform: perspective(140px) rotateX(0deg);
-    opacity: 1; 
-    } 90%, 100% {
-    transform: perspective(140px) rotateY(180deg);
-    opacity: 0; 
-    } 
+    0%,
+    10% {
+      transform: perspective(140px) rotateX(-180deg);
+      opacity: 0;
+    }
+    25%,
+    75% {
+      transform: perspective(140px) rotateX(0deg);
+      opacity: 1;
+    }
+    90%,
+    100% {
+      transform: perspective(140px) rotateY(180deg);
+      opacity: 0;
+    }
   }
 
   @keyframes sk-foldCubeAngle {
-    0%, 10% {
-    transform: perspective(140px) rotateX(-180deg);
-    opacity: 0; 
-    } 25%, 75% {
-    transform: perspective(140px) rotateX(0deg);
-    opacity: 1; 
-    } 90%, 100% {
-    transform: perspective(140px) rotateY(180deg);
-    opacity: 0; 
+    0%,
+    10% {
+      transform: perspective(140px) rotateX(-180deg);
+      opacity: 0;
+    }
+    25%,
+    75% {
+      transform: perspective(140px) rotateX(0deg);
+      opacity: 1;
+    }
+    90%,
+    100% {
+      transform: perspective(140px) rotateY(180deg);
+      opacity: 0;
     }
   }
 `;
@@ -92,7 +102,7 @@ const ellipsisStyles = css`
   }
 
   .ellipsis-anim span:nth-child(1) {
-    animation-delay: 0.0s;
+    animation-delay: 0s;
   }
   .ellipsis-anim span:nth-child(2) {
     animation-delay: ${ELLIPSIS_STEP_ANIMATION_DELAY}s;
@@ -102,9 +112,15 @@ const ellipsisStyles = css`
   }
 
   @-webkit-keyframes ellipsis-dot {
-    0% { opacity: 0; }
-    50% { opacity: 1; }
-    100% { opacity: 0; }
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
   }
 `;
 
@@ -130,13 +146,16 @@ export class ScLoading extends LitElement {
         <div class="sk-cube4 sk-cube"></div>
         <div class="sk-cube3 sk-cube"></div>
       </div>
-      <div class="loading-text"><span>${this.text}</span><span class="ellipsis-anim"><span>.</span><span>.</span><span>.</span></span></div>
+      <div class="loading-text">
+        <span>${this.text}</span
+        ><span class="ellipsis-anim"><span>.</span><span>.</span><span>.</span></span>
+      </div>
     `;
   }
 
   static get properties() {
     return {
-      text: { type: String }
+      text: { type: String },
     };
   }
 }

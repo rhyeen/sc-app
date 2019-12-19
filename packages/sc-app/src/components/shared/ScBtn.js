@@ -51,8 +51,8 @@ export const SC_BTN_COLORS = {
 
 export const SC_BTN_STYLES = {
   BUTTON: {
-    PADDING: css`10px 16px`
-  }
+    PADDING: css`10px 16px`,
+  },
 };
 
 export const ScBtnStyles = css`
@@ -173,24 +173,24 @@ export class ScBtn extends LitElement {
   _getBtnClasses() {
     switch (this.btntype) {
       case SC_BTN_TYPES.GENERIC.PRIMARY:
-        return classMap({'btn-primary': true });
+        return classMap({ 'btn-primary': true });
       case SC_BTN_TYPES.GENERIC.SECONDARY:
-        return classMap({'btn-secondary': true });
+        return classMap({ 'btn-secondary': true });
       case SC_BTN_TYPES.GENERIC.WARNING:
-        return classMap({'btn-warning': true });
+        return classMap({ 'btn-warning': true });
       case SC_BTN_TYPES.GENERIC.BACK:
-        return classMap({'btn-back': true });
+        return classMap({ 'btn-back': true });
       case SC_BTN_TYPES.PRESET.BACK:
-        return classMap({'btn-back': true });
+        return classMap({ 'btn-back': true });
       case SC_BTN_TYPES.PRESET.CANCEL:
-        return classMap({'btn-warning': true, 'btn-cancel': true });
+        return classMap({ 'btn-warning': true, 'btn-cancel': true });
       case SC_BTN_TYPES.PRESET.END_TURN:
-        return classMap({'btn-secondary': true, 'btn-endturn': true });
+        return classMap({ 'btn-secondary': true, 'btn-endturn': true });
       case SC_BTN_TYPES.PRESET.DONE:
-        return classMap({'btn-primary': true, 'btn-done': true });
+        return classMap({ 'btn-primary': true, 'btn-done': true });
       default:
         Log.error(`invalid btntype: ${this.btntype}`);
-        return classMap({'btn-secondary': true });
+        return classMap({ 'btn-secondary': true });
     }
   }
 }

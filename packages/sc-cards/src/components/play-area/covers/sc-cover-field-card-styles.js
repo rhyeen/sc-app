@@ -5,8 +5,8 @@ export const ScCoverFieldCardStyles = css`
   :host {
     display: flex;
     flex-direction: column;
-    width: calc(${CARDS.MINION_COVER.WIDTH} - 2*${CARDS.MINION_COVER.PADDING});
-    height: calc(${CARDS.MINION_COVER.HEIGHT} - 2*${CARDS.MINION_COVER.PADDING});
+    width: calc(${CARDS.MINION_COVER.WIDTH} - 2 * ${CARDS.MINION_COVER.PADDING});
+    height: calc(${CARDS.MINION_COVER.HEIGHT} - 2 * ${CARDS.MINION_COVER.PADDING});
     border-radius: ${CARDS.MINION_COVER.BORDER_RADIUS};
     padding: ${CARDS.MINION_COVER.PADDING};
     background-color: ${CARDS.MINION_COVER.BACKGROUND_COLOR};

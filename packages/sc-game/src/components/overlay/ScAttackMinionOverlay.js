@@ -8,7 +8,7 @@ import { SC_BTN_TYPES } from '../../../../sc-app/src/components/shared/ScBtn.js'
 import { Localize } from '../../../../utils/localizer.js';
 import { cancelSelectedCard } from '../../../../sc-cards/src/state/actions.js';
 
-export class ScPlaceMinionOverlay extends LitElement {
+export class ScAttackMinionOverlay extends LitElement {
   static get styles() {
     return [ScOverlayStyles, ScBtnGroupStyles];
   }
@@ -23,7 +23,7 @@ export class ScPlaceMinionOverlay extends LitElement {
       <div class="btn-group-hand-area" btn-group>
         <sc-btn
           .btntype=${SC_BTN_TYPES.PRESET.CANCEL}
-          @click=${() => ScPlaceMinionOverlay._cancel()}
+          @click=${() => ScAttackMinionOverlay._cancel()}
         >
           ${Localize.localeMap.SC_BTN.PRESET.CANCEL}</sc-btn
         >

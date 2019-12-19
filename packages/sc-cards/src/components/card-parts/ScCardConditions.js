@@ -3,13 +3,15 @@ import { CardConditionsKey } from '@shardedcards/sc-types/dist/card/enums/card-c
 
 export class ScCardConditions extends LitElement {
   render() {
-    return html`${this._getConditionsHtml()}`;
+    return html`
+      ${this._getConditionsHtml()}
+    `;
   }
 
-  static get properties() { 
+  static get properties() {
     return {
-      card: { type: Object }
-    }
+      card: { type: Object },
+    };
   }
 
   _getConditionsHtml() {
@@ -18,14 +20,16 @@ export class ScCardConditions extends LitElement {
     }
     const conditionsHtml = [];
     if (this.card.conditions.exhausted) {
-      conditionsHtml.push(this._getExhaustedConditionHtml());
+      conditionsHtml.push(ScCardConditions._getExhaustedConditionHtml());
     }
-    return html`${conditionsHtml}`;
+    return html`
+      ${conditionsHtml}
+    `;
   }
 
-  _getExhaustedConditionHtml() {
+  static _getExhaustedConditionHtml() {
     return html`
-      <sc-card-condition-value .condition=${CardConditionsKey.Exhausted}></sc-card-condition-value>`;
+      <sc-card-condition-value .condition=${CardConditionsKey.Exhausted}></sc-card-condition-value>
+    `;
   }
 }
-

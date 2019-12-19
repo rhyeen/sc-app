@@ -39,11 +39,16 @@ export class ScGame extends connect(localStore)(LitElement) {
       playerDeckId: { type: String },
       dungeonId: { type: String },
       _game: { type: Game },
-    }
+      _gameVersion: { type: Number },
+    };
   }
 
   updated(changedProps) {
-    if (changedProps.has('playerId') || changedProps.has('playerDeckId') || changedProps.has('dungeonId')) {
+    if (
+      changedProps.has('playerId') ||
+      changedProps.has('playerDeckId') ||
+      changedProps.has('dungeonId')
+    ) {
       this._newGame();
     }
   }
@@ -57,10 +62,10 @@ export class ScGame extends connect(localStore)(LitElement) {
       `;
     }
     return html`
-      <sc-game-view .game=${this._game}></sc-game-view>
-      <sc-game-header .game=${this._game}></sc-game-header>
-      <sc-game-footer .game=${this._game}></sc-game-footer>
-      <sc-game-overlay .game=${this._game}></sc-game-overlay>
+      <sc-game-view .game=${this._game} .gameVersion=${this._gameVersion}></sc-game-view>
+      <sc-game-header .game=${this._game} .gameVersion=${this._gameVersion}></sc-game-header>
+      <sc-game-footer .game=${this._game} .gameVersion=${this._gameVersion}></sc-game-footer>
+      <sc-game-overlay .game=${this._game} .gameVersion=${this._gameVersion}></sc-game-overlay>
     `;
   }
 
@@ -73,5 +78,6 @@ export class ScGame extends connect(localStore)(LitElement) {
 
   stateChanged(state) {
     this._game = Selectors.getGame(state);
+    this._gameVersion = Selectors.getGameVersion(state);
   }
 }

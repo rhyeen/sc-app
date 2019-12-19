@@ -1,5 +1,5 @@
-import { css } from "lit-element";
-import { APP_COLORS } from "../../../../sc-app/sc-app-styles";
+import { css } from 'lit-element';
+import { APP_COLORS } from '../../../../sc-app/sc-app-styles.js';
 
 export const ScCardAbilityConditionStyles = css`
   [card-ability],
@@ -41,5 +41,4 @@ export const ScCardAbilityConditionStyles = css`
   [card-ability] .modifier {
     color: ${APP_COLORS.PRIMARY_BLUE};
   }
-
 `;

@@ -1,6 +1,6 @@
 import * as Actions from './actions.js';
 
-import { CARD_SOURCES, CARD_TARGETS } from './state-specifiers.js';
+import { CARD_SOURCES, CARD_TARGETS, SELECTED_CARD_STATES } from './state-specifiers.js';
 import { localStore } from './store.js';
 
 function _resetState() {
@@ -10,17 +10,30 @@ function _resetState() {
         source: null,
         handCardIndex: null,
         fieldSlotIndex: null,
-        inPlay: false,
+        state: null,
       },
       selectedAbility: {
         targets: null,
         abilityId: null,
       },
-    }
+    },
   };
 }
 
-function _setSelectedCard(state, source, handCardIndex, fieldSlotIndex) {
+function _setSelectedCardState(state, selectedCardState) {
+  return {
+    ...state,
+    ui: {
+      ...state.ui,
+      selectedCard: {
+        ...state.ui.selectedCard,
+        state: selectedCardState,
+      },
+    },
+  };
+}
+
+function _setSelectedCard(state, source, handCardIndex, fieldSlotIndex, selectedCardState) {
   return {
     ...state,
     ui: {
@@ -29,20 +42,7 @@ function _setSelectedCard(state, source, handCardIndex, fieldSlotIndex) {
         source,
         handCardIndex,
         fieldSlotIndex,
-        inPlay: false,
-      },
-    },
-  };
-}
-
-function _setPlayOfSelectedCard(state, inPlay) {
-  return {
-    ...state,
-    ui: {
-      ...state.ui,
-      selectedCard: {
-        ...state.ui.selectedCard,
-        inPlay,
+        state: selectedCardState,
       },
     },
   };
@@ -57,7 +57,7 @@ function _removeSelectedCard(state) {
         source: null,
         handCardIndex: null,
         fieldSlotIndex: null,
-        inPlay: false,
+        state: null,
       },
     },
   };
@@ -89,7 +89,6 @@ function _setSelectedCardSource(state, source) {
   };
 }
 
-
 function _removeSelectedAbility(state) {
   return {
     ...state,
@@ -117,6 +116,7 @@ const reducer = (state = INITIAL_STATE, action) => {
         CARD_SOURCES.SELECT_PLAYER_HAND_CARD,
         action.handCardIndex,
         null,
+        SELECTED_CARD_STATES.PREVIEW,
       );
     case Actions.CANCEL_SELECTED_CARD:
     case Actions.PLACE_MINION.SUCCESS:
@@ -127,20 +127,24 @@ const reducer = (state = INITIAL_STATE, action) => {
         CARD_SOURCES.SELECT_DUNGEON_FIELD_SLOT_CARD,
         null,
         action.fieldSlotIndex,
+        SELECTED_CARD_STATES.PREVIEW,
       );
-    case Actions.SELECT_PLAYER_FIELD_SLOT_CARD:
+    case Actions.PREVIEW_ATTACK_MINION:
       return _setSelectedCard(
         newState,
-        CARD_SOURCES.SELECT_DUNGEON_FIELD_SLOT_CARD,
+        CARD_SOURCES.SELECT_PLAYER_FIELD_SLOT_CARD,
         null,
         action.fieldSlotIndex,
+        SELECTED_CARD_STATES.TARGET_FIELD,
       );
-    case Actions.PLAY_SELECTED_CARD:
-      return _setPlayOfSelectedCard(newState, true);
-
-
-
-
+    case Actions.PREVIEW_PLACE_MINION:
+      return _setSelectedCardState(newState, SELECTED_CARD_STATES.TARGET_FIELD);
+    case Actions.PREVIEW_PLAYER_FIELD_SLOT_CARD:
+      return _setSelectedCardState(newState, SELECTED_CARD_STATES.PREVIEW);
+    case Actions.PREVIEW_CARD_ABILITIES:
+      return _setSelectedCardState(newState, SELECTED_CARD_STATES.USE_ABILITIES);
+    case Actions.CANCEL_PREVIEW_PLAYER_FIELD_SLOT_CARD:
+      return _setSelectedCardState(newState, SELECTED_CARD_STATES.TARGET_FIELD);
 
     case Actions.CANCEL_PLAY_SELECTED_MINION:
       cardId = newState.ui.selectedCard.id;

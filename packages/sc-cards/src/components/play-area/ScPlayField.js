@@ -40,6 +40,7 @@ export class ScPlayField extends connect(localStore)(LitElement) {
 
   static get properties() {
     return {
+      gameVersion: { type: Number },
       game: { type: Game },
       owner: { type: String },
       selectedCard: { type: Object },
@@ -51,6 +52,7 @@ export class ScPlayField extends connect(localStore)(LitElement) {
       return html`
         <sc-cover-field-card
           .game=${this.game}
+          .gameVersion=${this.gameVersion}
           .selectedCard=${this.selectedCard}
           .fieldSlotIndex=${fieldSlotIndex}
           .owner=${this.owner}
@@ -60,6 +62,7 @@ export class ScPlayField extends connect(localStore)(LitElement) {
     return html`
       <sc-minion-field-slot
         .game=${this.game}
+        .gameVersion=${this.gameVersion}
         .fieldSlotIndex=${fieldSlotIndex}
         .owner=${this.owner}
       ></sc-minion-field-slot>

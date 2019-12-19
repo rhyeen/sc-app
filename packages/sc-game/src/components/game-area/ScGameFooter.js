@@ -42,6 +42,7 @@ export class ScGameFooter extends connect(localStore)(LitElement) {
 
   static get properties() {
     return {
+      gameVersion: { type: Number },
       game: { type: Game },
       _isPlayingCards: { type: Boolean },
       _isCrafting: { type: Boolean },
@@ -62,9 +63,15 @@ export class ScGameFooter extends connect(localStore)(LitElement) {
   _getPlayingBarItemsHtml() {
     return html`
       <div class="item-group left-items">
-        <sc-draw-deck-bar-item .game=${this.game}></sc-draw-deck-bar-item>
-        <sc-discard-deck-bar-item .game=${this.game}></sc-discard-deck-bar-item>
-        <sc-lost-deck-bar-item .game=${this.game}></cc-lost-deck-bar-item>
+        <sc-draw-deck-bar-item .game=${this.game} .gameVersion=${
+      this.gameVersion
+    }></sc-draw-deck-bar-item>
+        <sc-discard-deck-bar-item .game=${this.game} .gameVersion=${
+      this.gameVersion
+    }></sc-discard-deck-bar-item>
+        <sc-lost-deck-bar-item .game=${this.game} .gameVersion=${
+      this.gameVersion
+    }></cc-lost-deck-bar-item>
       </div>
       <div class="item-group right-items">
         <sc-btn

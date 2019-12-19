@@ -12,7 +12,6 @@ export class ScPlayerHand extends connect(localStore)(LitElement) {
       css`
         :host {
           width: calc(100% - ${AREAS.PLAYER_HAND.MARGIN});
-          /** @DEBUG: no idea why this is not AREAS.PLAYER_HAND.WIDTH... */
           max-width: ${CARDS.HAND.WIDTH};
           flex: 0 0 ${AREAS.PLAYER_HAND.HEIGHT};
         }
@@ -91,8 +90,9 @@ export class ScPlayerHand extends connect(localStore)(LitElement) {
 
   static get properties() {
     return {
+      gameVersion: { type: Number },
       game: { type: Game },
-      _selectedCard: { type: Object }
+      _selectedCard: { type: Object },
     };
   }
 
@@ -100,10 +100,10 @@ export class ScPlayerHand extends connect(localStore)(LitElement) {
     return this.game.player.hand.cards.map(
       (card, handCardIndex) => html`
         <sc-player-hand-card
-            class="hand-card-${handCardIndex}"
-            .card=${card}
-            @click=${() => ScPlayerHand._selectCard(handCardIndex)}
-            ?active=${this._isActiveCard(handCardIndex)}
+          class="hand-card-${handCardIndex}"
+          .card=${card}
+          @click=${() => ScPlayerHand._selectCard(handCardIndex)}
+          ?active=${this._isActiveCard(handCardIndex)}
         ></sc-player-hand-card>
       `,
     );

@@ -1,6 +1,6 @@
 import { css } from 'lit-element';
-import { AREAS as CARDS_AREAS } from '../../../../sc-cards/sc-cards-styles';
-import { AREAS as CRAFT_AREAS } from '../../../../sc-craft/src/components/sc-craft-styles';
+import { AREAS as CARDS_AREAS } from '../../../../sc-cards/sc-cards-styles.js';
+import { AREAS as CRAFT_AREAS } from '../../../../sc-craft/src/components/sc-craft-styles.js';
 
 export const ScOverlayStyles = css`
   :host {

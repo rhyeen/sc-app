@@ -1,7 +1,7 @@
 import { html, LitElement } from 'lit-element';
-import { Condition } from '../../entities/card-aspects';
-import { ScIconsStyles } from '../../../../sc-app/src/components/shared/ScIcons';
-import { ScCardAbilityConditionStyles } from './card-parts-styles';
+import { Condition } from '../../entities/card-aspects.js';
+import { ScIconsStyles } from '../../../../sc-app/src/components/shared/ScIcons.js';
+import { ScCardAbilityConditionStyles } from './card-parts-styles.js';
 
 export class ScCardConditionValue extends LitElement {
   static get styles() {
@@ -20,22 +20,27 @@ export class ScCardConditionValue extends LitElement {
     `;
   }
 
-  static get properties() { 
+  static get properties() {
     return {
-      condition: { type: String }
-    }
+      condition: { type: String },
+    };
   }
 
   _cardConditionTooltip() {
-    return html`${Condition.getName(this.condition)}`;
+    return html`
+      ${Condition.getName(this.condition)}
+    `;
   }
 
   _cardConditionTooltipDescription() {
-    return html`${Condition.getDescription(this.condition)}`;
+    return html`
+      ${Condition.getDescription(this.condition)}
+    `;
   }
 
   _cardConditionIcon() {
-    return html`${Condition.getIcon(this.condition)}`;
+    return html`
+      ${Condition.getIcon(this.condition)}
+    `;
   }
 }
-

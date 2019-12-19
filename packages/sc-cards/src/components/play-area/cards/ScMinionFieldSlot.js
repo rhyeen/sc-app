@@ -1,8 +1,8 @@
 import { html, LitElement } from 'lit-element';
 import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
-
 import { Log } from 'interface-handler/src/logger.js';
-import { selectDungeonFieldSlotCard, selectPlayerFieldSlotCard } from '../../../state/actions.js';
+
+import { selectDungeonFieldSlotCard, previewAttackMinion } from '../../../state/actions.js';
 import { PLAY_FIELD_OWNER } from '../ScPlayField.js';
 import { localStore } from '../../../state/store.js';
 
@@ -16,6 +16,7 @@ export class ScMinionFieldSlot extends LitElement {
   static get properties() {
     return {
       game: { type: Game },
+      gameVersion: { type: Number },
       fieldSlotIndex: { type: Number },
       owner: { type: String },
     };
@@ -58,7 +59,6 @@ export class ScMinionFieldSlot extends LitElement {
   }
 
   _opponentMinionClicked() {
-    const card = this._getFieldSlotCard();
     localStore.dispatch(selectDungeonFieldSlotCard(this.fieldSlotIndex));
   }
 
@@ -72,7 +72,6 @@ export class ScMinionFieldSlot extends LitElement {
   }
 
   _playerMinionClicked() {
-    const card = this._getFieldSlotCard();
-    localStore.dispatch(selectPlayerFieldSlotCard(this.fieldSlotIndex));
+    localStore.dispatch(previewAttackMinion(this.fieldSlotIndex));
   }
 }

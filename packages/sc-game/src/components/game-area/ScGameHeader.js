@@ -28,8 +28,14 @@ export class ScGameHeader extends LitElement {
     return html`
       <div bar-items>
         <div class="item-group left-items">
-          <sc-energy-bar-item .game=${this.game}></sc-energy-bar-item>
-          <sc-health-bar-item .game=${this.game}></sc-health-bar-item>
+          <sc-energy-bar-item
+            .game=${this.game}
+            .gameVersion=${this.gameVersion}
+          ></sc-energy-bar-item>
+          <sc-health-bar-item
+            .game=${this.game}
+            .gameVersion=${this.gameVersion}
+          ></sc-health-bar-item>
         </div>
 
         <div class="item-group right-items">
@@ -41,6 +47,7 @@ export class ScGameHeader extends LitElement {
 
   static get properties() {
     return {
+      gameVersion: { type: Number },
       game: { type: Game },
     };
   }

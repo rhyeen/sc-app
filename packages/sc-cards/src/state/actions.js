@@ -3,8 +3,7 @@ import { ReduxAction } from '../../../utils/redux-action.js';
 const ra = new ReduxAction('SR_CARDS');
 
 export const CANCEL_SELECTED_CARD = ra.createRequestRaw('CANCEL_SELECTED_CARD');
-export const cancelSelectedCard = () =>
-  ReduxAction.action(CANCEL_SELECTED_CARD, {});
+export const cancelSelectedCard = () => ReduxAction.action(CANCEL_SELECTED_CARD, {});
 
 export const SELECT_HAND_CARD = ra.createRequestRaw('SELECT_HAND_CARD');
 export const selectHandCard = handCardIndex =>
@@ -14,12 +13,19 @@ export const SELECT_DUNGEON_FIELD_SLOT_CARD = ra.createRequestRaw('SELECT_DUNGEO
 export const selectDungeonFieldSlotCard = fieldSlotIndex =>
   ReduxAction.action(SELECT_DUNGEON_FIELD_SLOT_CARD, { fieldSlotIndex });
 
-export const SELECT_PLAYER_FIELD_SLOT_CARD = ra.createRequestRaw('SELECT_PLAYER_FIELD_SLOT_CARD');
-export const selectPlayerFieldSlotCard = fieldSlotIndex =>
-  ReduxAction.action(SELECT_PLAYER_FIELD_SLOT_CARD, { fieldSlotIndex });
-  
-export const PLAY_SELECTED_CARD = ra.createRequestRaw('PLAY_SELECTED_CARD');
-export const playSelectedCard = () => ReduxAction.action(PLAY_SELECTED_CARD, {});
+export const PREVIEW_ATTACK_MINION = ra.createRequestRaw('PREVIEW_ATTACK_MINION');
+export const previewAttackMinion = fieldSlotIndex =>
+  ReduxAction.action(PREVIEW_ATTACK_MINION, { fieldSlotIndex });
+
+export const PREVIEW_PLAYER_FIELD_SLOT_CARD = ra.createRequestRaw('PREVIEW_PLAYER_FIELD_SLOT_CARD');
+export const previewPlayerFieldSlotCard = () =>
+  ReduxAction.action(PREVIEW_PLAYER_FIELD_SLOT_CARD, {});
+
+export const PREVIEW_PLACE_MINION = ra.createRequestRaw('PREVIEW_PLACE_MINION');
+export const previewPlaceMinion = () => ReduxAction.action(PREVIEW_PLACE_MINION, {});
+
+export const PREVIEW_CARD_ABILITIES = ra.createRequestRaw('PREVIEW_CARD_ABILITIES');
+export const previewCardAbilities = () => ReduxAction.action(PREVIEW_CARD_ABILITIES, {});
 
 export const FINISH_USING_ABILITIES = ra.createRequestRaw('FINISH_USING_ABILITIES');
 export const finishUsingAbilities = () => ReduxAction.action(FINISH_USING_ABILITIES, {});
@@ -30,7 +36,11 @@ export const placeMinion = {
   success: () => ReduxAction.action(PLACE_MINION.SUCCESS, {}),
 };
 
-
+export const CANCEL_PREVIEW_PLAYER_FIELD_SLOT_CARD = ra.createRequestRaw(
+  'CANCEL_PREVIEW_PLAYER_FIELD_SLOT_CARD',
+);
+export const cancelPreviewPlayerFieldSlotCard = () =>
+  ReduxAction.action(CANCEL_PREVIEW_PLAYER_FIELD_SLOT_CARD, {});
 
 export const CANCEL_PLAY_SELECTED_SPELL = ra.createRequestRaw('CANCEL_PLAY_SELECTED_SPELL');
 export const cancelPlaySelectedSpell = () => ReduxAction.action(CANCEL_PLAY_SELECTED_SPELL, {});
@@ -47,8 +57,6 @@ export const cancelSelectPlayerMinion = () => ReduxAction.action(CANCEL_SELECT_P
 
 export const CANCEL_PLAY_SELECTED_MINION = ra.createRequestRaw('CANCEL_PLAY_SELECTED_MINION');
 export const cancelPlaySelectedMinion = () => ReduxAction.action(CANCEL_PLAY_SELECTED_MINION, {});
-
-
 
 export const SELECT_PLAYER_MINION = ra.createRequestRaw('SELECT_PLAYER_MINION');
 export const selectPlayerMinion = (cardId, cardInstance, fieldSlotIndex) =>

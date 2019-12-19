@@ -1,9 +1,13 @@
 import { LitElement, css, html } from 'lit-element';
-import * as Selector from '../../../state/selectors.js';
-import { localStore } from '../../../state/store.js';
-import { ScIconsStyles, DeadIcon, HealthIcon, RangeIcon } from '../../../../../sc-app/src/components/shared/ScIcons.js';
+import {
+  ScIconsStyles,
+  DeadIcon,
+  HealthIcon,
+  RangeIcon,
+} from '../../../../../sc-app/src/components/shared/ScIcons.js';
 import { ScCoverFieldCardStyles } from './sc-cover-field-card-styles.js';
 import { CARDS } from '../../../../sc-cards-styles.js';
+import { Ability } from '../../../entities/card-aspects.js';
 
 export class ScTargetMinionAbilityCover extends LitElement {
   static get styles() {
@@ -18,10 +22,10 @@ export class ScTargetMinionAbilityCover extends LitElement {
         }
       `,
       ScIconsStyles,
-      ScCoverFieldCardStyles
-    ]
+      ScCoverFieldCardStyles,
+    ];
   }
-  
+
   render() {
     return html`
       <div minion-cover-top>${this._getTargetResultHtml()}</div>
@@ -30,11 +34,11 @@ export class ScTargetMinionAbilityCover extends LitElement {
     `;
   }
 
-  static get properties() { 
+  static get properties() {
     return {
       caster: { type: Object },
-      target: { type: Object }
-    }
+      target: { type: Object },
+    };
   }
 
   _getCasterResultHtml() {
@@ -42,42 +46,43 @@ export class ScTargetMinionAbilityCover extends LitElement {
   }
 
   _getTargetResultHtml() {
-    let _caster = this._deepCopy(this.caster);
-    let _target = this._deepCopy(this.target);
-    const state = localStore.getState();
-    let _playerFieldSlots = Selector.getPlayerFieldSlots(state);
-    let _opponentFieldSlots = Selector.getOpponentFieldSlots(state);
-    let cards = Selector.getCards(state);
-    let { updatedCards, opponentFieldSlots } = CardActions.useCardAbility(cards, _target.playAreaIndex, _caster, _playerFieldSlots, _opponentFieldSlots);
-    _caster = Cards.getUpdatedCard(_caster, updatedCards);
-    _target = Cards.getUpdatedCard(_target, updatedCards);
-    switch(this.caster.abilityId) {
-      case CARD_ABILITIES.SPELLSHOT:
-        return this._getHealthResultHtml(this.target.card.health, _target.card.health, opponentFieldSlots[this.target.playAreaIndex]);
-      case CARD_ABILITIES.REACH:
-        return this._getRangeResultHtml(this.target.card.range, _target.card.range);
-      default:
-        Log.error(`unexpected ability: ${this.caster.abilityId}`);
-        return html``;
-    }
+    return this.caster;
+    // let _caster = this._deepCopy(this.caster);
+    // let _target = this._deepCopy(this.target);
+    // const state = localStore.getState();
+    // const _playerFieldSlots = Selector.getPlayerFieldSlots(state);
+    // const _opponentFieldSlots = Selector.getOpponentFieldSlots(state);
+    // const cards = Selector.getCards(state);
+    // const { updatedCards, opponentFieldSlots } = CardActions.useCardAbility(cards, _target.playAreaIndex, _caster, _playerFieldSlots, _opponentFieldSlots);
+    // _caster = Cards.getUpdatedCard(_caster, updatedCards);
+    // _target = Cards.getUpdatedCard(_target, updatedCards);
+    // switch(this.caster.abilityId) {
+    //   case CARD_ABILITIES.SPELLSHOT:
+    //     return this.static (this.target.card.health, _target.card.health, opponentFieldSlots[this.target.playAreaIndex]);
+    //   case CARD_ABILITIES.REACH:
+    //     return this._getRangeResultHtml(this.target.card.range, _target.card.range);
+    //   default:
+    //     Log.error(`unexpected ability: ${this.caster.abilityId}`);
+    //     return html``;
+    // }
   }
 
-  _deepCopy(obj) {
-    return JSON.parse(JSON.stringify(obj));
-  }
-
-  _getHealthResultHtml(oldHealth, newHealth, playAreaSlot) {
+  static _getHealthResultHtml(oldHealth, newHealth, playAreaSlot) {
     if (!playAreaSlot.id) {
       return DeadIcon();
     }
-    return html`${this._getModification(newHealth - oldHealth)} ${HealthIcon()}`;
+    return html`
+      ${ScTargetMinionAbilityCover._getModification(newHealth - oldHealth)} ${HealthIcon()}
+    `;
   }
 
-  _getRangeResultHtml(oldRange, newRange) {
-    return html`${this._getModification(newRange - oldRange)} ${RangeIcon()}`;
+  static _getRangeResultHtml(oldRange, newRange) {
+    return html`
+      ${ScTargetMinionAbilityCover._getModification(newRange - oldRange)} ${RangeIcon()}
+    `;
   }
 
-  _getModification(modifier) {
+  static _getModification(modifier) {
     if (modifier > 0) {
       return `+${modifier}`;
     }

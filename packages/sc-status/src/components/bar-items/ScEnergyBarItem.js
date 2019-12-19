@@ -23,6 +23,7 @@ export class ScEnergyBarItem extends LitElement {
   static get properties() {
     return {
       game: { type: Game },
+      gameVersion: { type: Number },
     };
   }
 }

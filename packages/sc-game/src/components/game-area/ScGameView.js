@@ -31,7 +31,8 @@ export class ScGameView extends connect(localStore)(LitElement) {
   static get properties() {
     return {
       _isCrafting: { type: Boolean },
-      game: { type: Game }
+      game: { type: Game },
+      gameVersion: { type: Number },
     };
   }
 
@@ -43,8 +44,8 @@ export class ScGameView extends connect(localStore)(LitElement) {
       `;
     }
     return html`
-      <sc-play-area .game=${this.game}></sc-play-area>
-      <sc-player-hand .game=${this.game}></sc-player-hand>
+      <sc-play-area .game=${this.game} .gameVersion=${this.gameVersion}></sc-play-area>
+      <sc-player-hand .game=${this.game} .gameVersion=${this.gameVersion}></sc-player-hand>
     `;
   }
 

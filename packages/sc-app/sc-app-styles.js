@@ -14,7 +14,7 @@ export const APP_COLORS = {
   OVERLAY_CARD_WHITE: css`rgba(255, 255, 255, 0.5)`,
   SVG_DEFAULT: NEAR_BLACK,
   PRIMARY_BLUE: css`#2196F3`,
-  ABILITY_CAST: css`#7E57C2`
+  ABILITY_CAST: css`#7E57C2`,
 };
 
 export const SHADOW_ELEVATIONS = {

@@ -21,6 +21,7 @@ export class ScDiscardDeckBarItem extends LitElement {
   static get properties() {
     return {
       game: { type: Game },
+      gameVersion: { type: Number },
     };
   }
 }

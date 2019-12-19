@@ -1,6 +1,11 @@
 import { LitElement, css, html } from 'lit-element';
-import { Game } from '@shardedcards/sc-types/dist/game/entities/game';
-import { ScIconsStyles, DeadIcon, ShieldIcon } from '../../../../../sc-app/src/components/shared/ScIcons.js';
+import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
+import { PlaceMinionAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action/place-minion-action.js';
+import {
+  ScIconsStyles,
+  DeadIcon,
+  ShieldIcon,
+} from '../../../../../sc-app/src/components/shared/ScIcons.js';
 import { ScCoverFieldCardStyles } from './sc-cover-field-card-styles.js';
 import { CARDS } from '../../../../sc-cards-styles.js';
 
@@ -13,12 +18,12 @@ export class ScPlaceMinionCover extends LitElement {
         :host {
           border: ${CARDS.MINION_COVER.PLACE_MINION_BORDER};
         }
-        
+
         [minion-cover-separator] {
           border-bottom: ${CARDS.MINION_COVER.PLACE_MINION_BORDER};
         }
-      `
-    ]
+      `,
+    ];
   }
 
   render() {
@@ -37,9 +42,10 @@ export class ScPlaceMinionCover extends LitElement {
   static get properties() {
     return {
       game: { type: Game },
+      gameVersion: { type: Number },
       selectedCard: { type: Object },
       fieldSlotIndex: { type: Number },
-    }
+    };
   }
 
   _getFieldSlotCard() {
@@ -60,13 +66,23 @@ export class ScPlaceMinionCover extends LitElement {
 
   _getReplacerResultHtml() {
     if (this._noCardToReplace()) {
-      return this._getShieldResultHtml(0);
+      return ScPlaceMinionCover._getShieldResultHtml(0);
     }
-    // @TODO: handle processing of sheild gain.
-    return this._getShieldResultHtml(42);
+    const placeMinionAction = new PlaceMinionAction(
+      this.selectedCard.handCardIndex,
+      this.fieldSlotIndex,
+    );
+    const result = placeMinionAction.execute(this.game);
+    return ScPlaceMinionCover._getShieldResultHtml(
+      result.game.player.field[this.fieldSlotIndex].card.conditions.shield,
+    );
   }
 
-  _getShieldResultHtml(gainedShield) {
-    return gainedShield <= 0 ? html`` : html`+${gainedShield} ${ShieldIcon()}`;
+  static _getShieldResultHtml(gainedShield) {
+    return gainedShield <= 0
+      ? html``
+      : html`
+          +${gainedShield} ${ShieldIcon()}
+        `;
   }
 }

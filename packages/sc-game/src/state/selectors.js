@@ -6,6 +6,7 @@ const _gameMenuSelector = state => state.scGame.ui.menu;
 const _gameStateSelector = state => state.scGame.ui.game;
 const _pendingTurnSelector = state => state.scGame.entities.pendingTurn;
 const _gameSelector = state => state.scGame.entities.game;
+const _gameVersionSelector = state => state.scGame.ui.game.version;
 const _playerIdSelector = state => state.scGame.entities.playerId;
 const _playerDeckIdSelector = state => state.scGame.entities.playerDeckId;
 const _dungeonIdSelector = state => state.scGame.entities.dungeonId;
@@ -43,6 +44,11 @@ export const hasLost = createSelector(
 export const getGame = createSelector(
   _gameSelector,
   game => game,
+);
+
+export const getGameVersion = createSelector(
+  _gameVersionSelector,
+  gameVersion => gameVersion,
 );
 
 export const getPlayerId = createSelector(

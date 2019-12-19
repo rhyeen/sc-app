@@ -1,5 +1,5 @@
 import { html, LitElement } from 'lit-element';
-import { classMap } from 'lit-html/directives/class-map';
+import { classMap } from 'lit-html/directives/class-map.js';
 import { ScIconsStyles } from '../../../../sc-app/src/components/shared/ScIcons.js';
 
 import { Ability } from '../../entities/card-aspects.js';
@@ -22,16 +22,16 @@ export class ScCardAbilityValue extends LitElement {
     `;
   }
 
-  static get properties() { 
+  static get properties() {
     return {
       ability: { type: Object },
-      modifiedAbility: { type: Object }
-    }
+      modifiedAbility: { type: Object },
+    };
   }
 
   _getCardAbilityClasses() {
     if (!this.ability.id) {
-      return classMap({'proposed': true });
+      return classMap({ proposed: true });
     }
     return classMap();
   }
@@ -47,8 +47,16 @@ export class ScCardAbilityValue extends LitElement {
     if (!this.ability.id) {
       return Ability.getDescription(this.modifiedAbility.id, this.modifiedAbility.amount);
     }
-    if (this.modifiedAbility && this.modifiedAbility.id && this.modifiedAbility.amount !== this.ability.amount) {
-      return Ability.getModifiedDescription(this.ability.id, this.ability.amount, this.modifiedAbility.amount);
+    if (
+      this.modifiedAbility &&
+      this.modifiedAbility.id &&
+      this.modifiedAbility.amount !== this.ability.amount
+    ) {
+      return Ability.getModifiedDescription(
+        this.ability.id,
+        this.ability.amount,
+        this.modifiedAbility.amount,
+      );
     }
     return Ability.getDescription(this.ability.id, this.ability.amount);
   }
@@ -60,4 +68,3 @@ export class ScCardAbilityValue extends LitElement {
     return Ability.getIcon(this.ability.id);
   }
 }
-

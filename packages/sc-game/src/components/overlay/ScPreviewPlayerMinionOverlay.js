@@ -6,26 +6,22 @@ import { localStore } from '../../state/store.js';
 import { ScOverlayStyles, ScBtnGroupStyles } from './sc-overlay-styles.js';
 import { SC_BTN_TYPES } from '../../../../sc-app/src/components/shared/ScBtn.js';
 import { Localize } from '../../../../utils/localizer.js';
-import { cancelSelectedCard } from '../../../../sc-cards/src/state/actions.js';
+import { cancelPreviewPlayerFieldSlotCard } from '../../../../sc-cards/src/state/actions.js';
 
-export class ScPlaceMinionOverlay extends LitElement {
+export class ScPreviewPlayerMinionOverlay extends LitElement {
   static get styles() {
     return [ScOverlayStyles, ScBtnGroupStyles];
   }
 
   render() {
     return html`
-      <sc-play-area
-        .game=${this.game}
-        .gameVersion=${this.gameVersion}
-        .selectedCard=${this.selectedCard}
-      ></sc-play-area>
-      <div class="btn-group-hand-area" btn-group>
+      <sc-full-card .card=${this.selectedCard.card}></sc-full-card>
+      <div btn-group>
         <sc-btn
-          .btntype=${SC_BTN_TYPES.PRESET.CANCEL}
-          @click=${() => ScPlaceMinionOverlay._cancel()}
+          .btntype=${SC_BTN_TYPES.PRESET.BACK}
+          @click=${() => ScPreviewPlayerMinionOverlay._cancel()}
         >
-          ${Localize.localeMap.SC_BTN.PRESET.CANCEL}</sc-btn
+          ${Localize.localeMap.SC_BTN.PRESET.BACK}</sc-btn
         >
       </div>
     `;
@@ -40,6 +36,6 @@ export class ScPlaceMinionOverlay extends LitElement {
   }
 
   static _cancel() {
-    localStore.dispatch(cancelSelectedCard());
+    localStore.dispatch(cancelPreviewPlayerFieldSlotCard());
   }
 }

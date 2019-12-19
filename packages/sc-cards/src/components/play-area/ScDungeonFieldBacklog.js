@@ -18,7 +18,7 @@ export class ScDungeonFieldBacklog extends LitElement {
         [overlay] {
           display: none;
         }
-      `
+      `,
     ];
   }
 
@@ -27,19 +27,25 @@ export class ScDungeonFieldBacklog extends LitElement {
       <div class="field-slot-left" ?overlay=${this.overlay} field-slot>
         <sc-dungeon-slot-backlog
           .game=${this.game}
-          .fieldSlotIndex=${0}></sc-dungeon-slot-backlog>
+          .gameVersion=${this.gameVersion}
+          .fieldSlotIndex=${0}
+        ></sc-dungeon-slot-backlog>
       </div>
       <div ?overlay=${this.overlay} field-slot-separator></div>
       <div class="field-slot-middle" ?overlay=${this.overlay} field-slot>
         <sc-dungeon-slot-backlog
           .game=${this.game}
-          .fieldSlotIndex=${1}></sc-dungeon-slot-backlog>
+          .gameVersion=${this.gameVersion}
+          .fieldSlotIndex=${1}
+        ></sc-dungeon-slot-backlog>
       </div>
       <div ?overlay=${this.overlay} field-slot-separator></div>
       <div class="field-slot-right" ?overlay=${this.overlay} field-slot>
         <sc-dungeon-slot-backlog
           .game=${this.game}
-          .fieldSlotIndex=${2}></sc-dungeon-slot-backlog>
+          .gameVersion=${this.gameVersion}
+          .fieldSlotIndex=${2}
+        ></sc-dungeon-slot-backlog>
       </div>
     `;
   }
@@ -48,6 +54,7 @@ export class ScDungeonFieldBacklog extends LitElement {
     return {
       overlay: { type: Boolean },
       game: { type: Game },
+      gameVersion: { type: Number },
     };
   }
 }

@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { CARD_SOURCES } from './state-specifiers';
+import { CARD_SOURCES } from './state-specifiers.js';
 
 const _selectedCardSelector = state => state.scCards.ui.selectedCard;
 const _selectedAbilitySelector = state => state.scCards.ui.selectedAbility;
@@ -10,15 +10,24 @@ function _validIndex(index) {
 }
 
 function _isSelectHandCard(selectedCard) {
-  return _validIndex(selectedCard.handCardIndex) && selectedCard.source === CARD_SOURCES.SELECT_PLAYER_HAND_CARD;
+  return (
+    _validIndex(selectedCard.handCardIndex) &&
+    selectedCard.source === CARD_SOURCES.SELECT_PLAYER_HAND_CARD
+  );
 }
 
 function _isSelectPlayerFieldSlotCard(selectedCard) {
-  return _validIndex(selectedCard.fieldSlotIndex) && selectedCard.source === CARD_SOURCES.SELECT_PLAYER_FIELD_SLOT_CARD;
+  return (
+    _validIndex(selectedCard.fieldSlotIndex) &&
+    selectedCard.source === CARD_SOURCES.SELECT_PLAYER_FIELD_SLOT_CARD
+  );
 }
 
 function _isSelectDungeonFieldSlotCard(selectedCard) {
-  return _validIndex(selectedCard.fieldSlotIndex) && selectedCard.source === CARD_SOURCES.SELECT_DUNGEON_FIELD_SLOT_CARD;
+  return (
+    _validIndex(selectedCard.fieldSlotIndex) &&
+    selectedCard.source === CARD_SOURCES.SELECT_DUNGEON_FIELD_SLOT_CARD
+  );
 }
 
 export const getSelectedCard = createSelector(
@@ -36,7 +45,7 @@ export const getSelectedCard = createSelector(
     return {
       ...selectedCard,
       card,
-    }
+    };
   },
 );
 
@@ -44,9 +53,9 @@ export const getSelectedAbility = createSelector(
   _selectedCardSelector,
   _selectedAbilitySelector,
   (selectedCard, selectedAbility) => ({
-      ...selectedCard,
-      ...selectedAbility,
-      card: selectedCard.card,
-      ability: card.getAbility(selectedAbility.abilityId),
-    }),
+    ...selectedCard,
+    ...selectedAbility,
+    card: selectedCard.card,
+    // ability: card.getAbility(selectedAbility.abilityId),
+  }),
 );

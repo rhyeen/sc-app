@@ -50,7 +50,7 @@ export class ScMinionCard extends LitElement {
           background-color: ${CardRarityColor(this.card.rarity)};
         }
       </style>
-      
+
       <header>
         <div card-title>${this.card.name}</div>
       </header>
