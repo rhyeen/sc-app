@@ -4,10 +4,10 @@ export function newGame(playerId, playerDeckId, dungeonId) {
   return firebaseFunctions.httpsCallable('newGame')({ playerId, playerDeckId, dungeonId });
 }
 
-export function endCrafting(turn) {
-  return firebaseFunctions.httpsCallable('endCrafting')({ turn });
+export function endCrafting(gameId, turn) {
+  return firebaseFunctions.httpsCallable('endCrafting')({ gameId, turn });
 }
 
-export function endTurn(turn) {
-  return firebaseFunctions.httpsCallable('endTurn')({ turn });
+export function endTurn(gameId, turn) {
+  return firebaseFunctions.httpsCallable('endTurn')({ gameId, turn });
 }

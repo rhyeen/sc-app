@@ -4,7 +4,7 @@ import { Log } from 'interface-handler/src/logger.js';
 
 import { localStore } from '../../../state/store.js';
 import { attackMinion, placeMinion, previewPlayerFieldSlotCard } from '../../../state/actions.js';
-import { CARD_SOURCES, SELECTED_CARD_STATES } from '../../../state/state-specifiers.js';
+import { SELECTED_CARD_SOURCES, SELECTED_CARD_STATES } from '../../../state/state-specifiers.js';
 import { PLAY_FIELD_OWNER } from '../ScPlayField.js';
 
 export class ScCoverFieldCard extends LitElement {
@@ -59,10 +59,8 @@ export class ScCoverFieldCard extends LitElement {
     if (!this._getFieldSlotCard()) {
       return false;
     }
-    return (
-      this.fieldSlotIndex in
-      this.game.getValidPlayerMinionAttackTargets(this.selectedCard.fieldSlotIndex)
-    );
+    const validTargetIndices = this.game.getValidPlayerMinionAttackTargets(this.selectedCard.fieldSlotIndex);
+    return validTargetIndices.includes(this.fieldSlotIndex);
   }
 
   _selectedCardExhausted() {
@@ -71,9 +69,8 @@ export class ScCoverFieldCard extends LitElement {
 
   get _showPlaceMinionCover() {
     return (
-      this.selectedCard.source === CARD_SOURCES.SELECT_PLAYER_HAND_CARD &&
-      this.selectedCard.state &&
-      SELECTED_CARD_STATES.TARGET_FIELD &&
+      this.selectedCard.source === SELECTED_CARD_SOURCES.SELECT_PLAYER_HAND_CARD &&
+      this.selectedCard.state === SELECTED_CARD_STATES.TARGET_FIELD &&
       this.owner === PLAY_FIELD_OWNER.PLAYER
     );
   }
@@ -96,10 +93,9 @@ export class ScCoverFieldCard extends LitElement {
 
   get _showAttackedMinionCover() {
     return (
-      this.selectedCard.source === CARD_SOURCES.SELECT_PLAYER_FIELD_SLOT_CARD &&
-      this.selectedCard.state &&
-      SELECTED_CARD_STATES.TARGET_FIELD &&
-      this.owner === PLAY_FIELD_OWNER.OPPONENT &&
+      this.selectedCard.source === SELECTED_CARD_SOURCES.SELECT_PLAYER_FIELD_SLOT_CARD &&
+      this.selectedCard.state === SELECTED_CARD_STATES.TARGET_FIELD &&
+      this.owner === PLAY_FIELD_OWNER.DUNGEON &&
       this._inRangeOfSelectedCard() &&
       !this._selectedCardExhausted()
     );
@@ -123,9 +119,8 @@ export class ScCoverFieldCard extends LitElement {
 
   get _showSelectedPlayerMinionCover() {
     return (
-      this.selectedCard.source === CARD_SOURCES.SELECT_PLAYER_FIELD_SLOT_CARD &&
-      this.selectedCard.state &&
-      SELECTED_CARD_STATES.TARGET_FIELD &&
+      this.selectedCard.source === SELECTED_CARD_SOURCES.SELECT_PLAYER_FIELD_SLOT_CARD &&
+      this.selectedCard.state === SELECTED_CARD_STATES.TARGET_FIELD &&
       this.owner === PLAY_FIELD_OWNER.PLAYER &&
       this.selectedCard.fieldSlotIndex === this.fieldSlotIndex
     );
@@ -163,7 +158,7 @@ export class ScCoverFieldCard extends LitElement {
   // _usingAbilityOnOpponentMinion() {
   //   return (
   //     this._usingAbility()
-  //     && this.selectedCard.targets === CARD_TARGETS.OPPONENT_MINION
+  //     && this.selectedCard.targets === CARD_TARGETS.DUNGEON_MINION
   //   );
   // }
 
@@ -176,14 +171,14 @@ export class ScCoverFieldCard extends LitElement {
 
   // _usingAbility() {
   //   return (
-  //     this.selectedCard.source === CARD_SOURCES.CAST_PLAYER_SPELL
-  //     || this.selectedCard.source === CARD_SOURCES.PLAY_PLAYER_MINION
+  //     this.selectedCard.source === SELECTED_CARD_SOURCES.CAST_PLAYER_SPELL
+  //     || this.selectedCard.source === SELECTED_CARD_SOURCES.PLAY_PLAYER_MINION
   //   );
   // }
 
   // _showSelectedPlayerMinion() {
   //   return (
-  //     this.selectedCard.source === CARD_SOURCES.SELECT_PLAYER_MINION
+  //     this.selectedCard.source === SELECTED_CARD_SOURCES.SELECT_PLAYER_MINION
   //     && this.owner === PLAY_FIELD_OWNER.PLAYER
   //     && this._selectedCardInThisFieldSlot()
   //   );
@@ -193,7 +188,7 @@ export class ScCoverFieldCard extends LitElement {
   //   return (
   //     this._fieldSlotHasCard()
   //     && this._usingAbilityOnOpponentMinion()
-  //     && this.owner === PLAY_FIELD_OWNER.OPPONENT
+  //     && this.owner === PLAY_FIELD_OWNER.DUNGEON
   //   );
   // }
 

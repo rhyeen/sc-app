@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { CARD_SOURCES } from './state-specifiers.js';
+import { SELECTED_CARD_SOURCES } from './state-specifiers.js';
 
 const _selectedCardSelector = state => state.scCards.ui.selectedCard;
 const _selectedAbilitySelector = state => state.scCards.ui.selectedAbility;
@@ -12,21 +12,21 @@ function _validIndex(index) {
 function _isSelectHandCard(selectedCard) {
   return (
     _validIndex(selectedCard.handCardIndex) &&
-    selectedCard.source === CARD_SOURCES.SELECT_PLAYER_HAND_CARD
+    selectedCard.source === SELECTED_CARD_SOURCES.SELECT_PLAYER_HAND_CARD
   );
 }
 
 function _isSelectPlayerFieldSlotCard(selectedCard) {
   return (
     _validIndex(selectedCard.fieldSlotIndex) &&
-    selectedCard.source === CARD_SOURCES.SELECT_PLAYER_FIELD_SLOT_CARD
+    selectedCard.source === SELECTED_CARD_SOURCES.SELECT_PLAYER_FIELD_SLOT_CARD
   );
 }
 
 function _isSelectDungeonFieldSlotCard(selectedCard) {
   return (
     _validIndex(selectedCard.fieldSlotIndex) &&
-    selectedCard.source === CARD_SOURCES.SELECT_DUNGEON_FIELD_SLOT_CARD
+    selectedCard.source === SELECTED_CARD_SOURCES.SELECT_DUNGEON_FIELD_SLOT_CARD
   );
 }
 

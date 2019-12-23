@@ -10,7 +10,7 @@ import * as Selectors from '../../state/selectors.js';
 import * as CardSelectors from '../../../../sc-cards/src/state/selectors.js';
 import { APP_COLORS } from '../../../../sc-app/sc-app-styles.js';
 import {
-  CARD_SOURCES,
+  SELECTED_CARD_SOURCES,
   SELECTED_CARD_STATES,
 } from '../../../../sc-cards/src/state/state-specifiers.js';
 
@@ -65,7 +65,7 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
   get _previewHandCard() {
     return (
       ScGameOverlay._validIndex(this._selectedCard.handCardIndex) &&
-      this._selectedCard.source === CARD_SOURCES.SELECT_PLAYER_HAND_CARD &&
+      this._selectedCard.source === SELECTED_CARD_SOURCES.SELECT_PLAYER_HAND_CARD &&
       this._selectedCard.state === SELECTED_CARD_STATES.PREVIEW
     );
   }
@@ -73,7 +73,7 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
   get _previewPlayerMinion() {
     return (
       ScGameOverlay._validIndex(this._selectedCard.fieldSlotIndex) &&
-      this._selectedCard.source === CARD_SOURCES.SELECT_PLAYER_FIELD_SLOT_CARD &&
+      this._selectedCard.source === SELECTED_CARD_SOURCES.SELECT_PLAYER_FIELD_SLOT_CARD &&
       this._selectedCard.state === SELECTED_CARD_STATES.PREVIEW
     );
   }
@@ -81,7 +81,7 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
   get _previewDungeonMinion() {
     return (
       ScGameOverlay._validIndex(this._selectedCard.fieldSlotIndex) &&
-      this._selectedCard.source === CARD_SOURCES.SELECT_DUNGEON_FIELD_SLOT_CARD &&
+      this._selectedCard.source === SELECTED_CARD_SOURCES.SELECT_DUNGEON_FIELD_SLOT_CARD &&
       this._selectedCard.state === SELECTED_CARD_STATES.PREVIEW
     );
   }
@@ -90,8 +90,8 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
     return (
       (ScGameOverlay._validIndex(this._selectedCard.handCardIndex) ||
         ScGameOverlay._validIndex(this._selectedCard.fieldSlotIndex)) &&
-      (this._selectedCard.source === CARD_SOURCES.SELECT_PLAYER_FIELD_SLOT_CARD ||
-        this._selectedCard.source === CARD_SOURCES.SELECT_PLAYER_HAND_CARD) &&
+      (this._selectedCard.source === SELECTED_CARD_SOURCES.SELECT_PLAYER_FIELD_SLOT_CARD ||
+        this._selectedCard.source === SELECTED_CARD_SOURCES.SELECT_PLAYER_HAND_CARD) &&
       this._selectedCard.state === SELECTED_CARD_STATES.USE_ABILITIES
     );
   }
@@ -100,7 +100,7 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
     return (
       ScGameOverlay._validIndex(this._selectedCard.handCardIndex) &&
       this._selectedCard.card.type === CardType.Minion &&
-      this._selectedCard.source === CARD_SOURCES.SELECT_PLAYER_HAND_CARD &&
+      this._selectedCard.source === SELECTED_CARD_SOURCES.SELECT_PLAYER_HAND_CARD &&
       this._selectedCard.state === SELECTED_CARD_STATES.TARGET_FIELD
     );
   }
@@ -108,7 +108,7 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
   get _attackMinion() {
     return (
       ScGameOverlay._validIndex(this._selectedCard.fieldSlotIndex) &&
-      this._selectedCard.source === CARD_SOURCES.SELECT_PLAYER_FIELD_SLOT_CARD &&
+      this._selectedCard.source === SELECTED_CARD_SOURCES.SELECT_PLAYER_FIELD_SLOT_CARD &&
       this._selectedCard.state === SELECTED_CARD_STATES.TARGET_FIELD
     );
   }

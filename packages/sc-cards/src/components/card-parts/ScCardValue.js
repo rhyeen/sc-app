@@ -122,7 +122,7 @@ export class ScCardValue extends LitElement {
       case VALUE_TYPES.COST:
         return roundToTwoDecimalsString(card.cost);
       case VALUE_TYPES.HEALTH:
-        return card.health;
+        return card.remainingHealth;
       case VALUE_TYPES.RANGE:
         return card.range;
       case VALUE_TYPES.SHIELD:

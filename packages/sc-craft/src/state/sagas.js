@@ -1,8 +1,8 @@
 import { all, takeEvery, takeLatest, put, call } from 'redux-saga/effects'; // eslint-disable-line import/extensions
 import { DraftCardModifier } from '@shardedcards/sc-types/dist/card/services/draft-card-modifier.js';
-import { AddCraftedCardToDeckAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action/add-crafted-card-to-deck-action.js';
-import { AddCraftingPartAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action/add-crafting-part-action.js';
-import { CraftBaseCardAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action/craft-base-card-action.js';
+import { AddCraftedCardToDeckAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action/player-turn-actions/add-crafted-card-to-deck-action.js';
+import { AddCraftingPartAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action/player-turn-actions/add-crafting-part-action.js';
+import { CraftBaseCardAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action/player-turn-actions/craft-base-card-action.js';
 import { Log } from 'interface-handler/src/logger.js';
 import * as Actions from './actions.js';
 import * as CraftInterface from '../services/interface/craft.js';

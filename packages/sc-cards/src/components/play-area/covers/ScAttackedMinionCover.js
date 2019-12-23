@@ -1,6 +1,6 @@
 import { LitElement, css, html } from 'lit-element';
 import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
-import { PlayMinionAttackAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action/play-minion-attack-action.js';
+import { PlayMinionAttackAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action/player-turn-actions/play-minion-attack-action.js';
 import { OpponentMinionActionTarget } from '@shardedcards/sc-types/dist/turn/entities/action-target.js';
 import { CARDS } from '../../../../sc-cards-styles.js';
 import {
@@ -59,7 +59,7 @@ export class ScAttackedMinionCover extends LitElement {
     const oldCard = this._getTargetCard(this.game);
     const newCard = result.game.getCard(oldCard.hash, oldCard.id);
     const isDiscarded = !ScAttackedMinionCover._sameCard(oldCard, this._getTargetCard(result.game));
-    return ScAttackedMinionCover._getHealthResultHtml(oldCard.health, newCard.health, isDiscarded);
+    return ScAttackedMinionCover._getHealthResultHtml(oldCard.remainingHealth, newCard.remainingHealth, isDiscarded);
   }
 
   _getTargetCard(game) {
@@ -70,7 +70,7 @@ export class ScAttackedMinionCover extends LitElement {
     const oldCard = this._getSourceCard(this.game);
     const newCard = result.game.getCard(oldCard.hash, oldCard.id);
     const isDiscarded = !ScAttackedMinionCover._sameCard(oldCard, this._getTargetCard(result.game));
-    return ScAttackedMinionCover._getHealthResultHtml(oldCard.health, newCard.health, isDiscarded);
+    return ScAttackedMinionCover._getHealthResultHtml(oldCard.remainingHealth, newCard.remainingHealth, isDiscarded);
   }
 
   _getSourceCard(game) {

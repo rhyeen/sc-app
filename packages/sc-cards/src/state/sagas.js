@@ -1,9 +1,9 @@
 import { put, takeEvery, takeLatest, all, call } from 'redux-saga/effects'; // eslint-disable-line import/extensions
 import { ActionTargetType } from '@shardedcards/sc-types/dist/turn/enums/action-type.js';
-import { PlaceMinionAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action/place-minion-action.js';
-import { PlayMinionAttackAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action/play-minion-attack-action.js';
-import { PlayMinionAbilityAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action/play-minion-ability-action.js';
-import { PlaySpellAbilityAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action/play-spell-ability-action.js';
+import { PlaceMinionAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action/player-turn-actions/place-minion-action.js';
+import { PlayMinionAttackAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action/player-turn-actions/play-minion-attack-action.js';
+import { PlayMinionAbilityAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action/player-turn-actions/play-minion-ability-action.js';
+import { PlaySpellAbilityAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action/player-turn-actions/play-spell-ability-action.js';
 import {
   OpponentMinionActionTarget,
   PlayerMinionActionTarget,
@@ -16,33 +16,6 @@ import { localStore } from './store.js';
 import * as Selectors from './selectors.js';
 import * as Actions from './actions.js';
 import * as GameActions from '../../../sc-game/src/state/actions.js';
-import * as CardsInterface from '../services/interface/cards.js';
-
-function* _setCards() {
-  try {
-    const cards = yield call(CardsInterface.getCards);
-    yield put(Actions.setCards.success(cards));
-  } catch (e) {
-    yield Log.error(`@TODO: unable to getCards(): ${e}`);
-  }
-}
-
-function* _setPlayerDecks() {
-  try {
-    const { hand, deck, discardDeck, lostCards } = yield call(CardsInterface.getPlayerDecks);
-    yield put(
-      Actions.setPlayerDecks.success(
-        hand.cards,
-        hand.refillSize,
-        discardDeck.cards,
-        lostCards.cards,
-        deck.size,
-      ),
-    );
-  } catch (e) {
-    yield Log.error(`@TODO: unable to getPlayerDecks(): ${e}`);
-  }
-}
 
 function _getSummonMinionAction(fieldSlotIndex) {
   const state = localStore.getState();
@@ -67,25 +40,6 @@ function* _attackMinion({ fieldSlotIndex }) {
   const action = yield _getAttackMinionAction(fieldSlotIndex);
   yield put(GameActions.fulfillTurnAction.request(action));
   yield put(Actions.attackMinion.success());
-}
-
-function* _setPlayingField() {
-  try {
-    const { opponent, player } = yield call(CardsInterface.getPlayingField);
-    yield put(Actions.setPlayingField.success(opponent.slots, opponent.backlog, player.slots));
-  } catch (e) {
-    yield Log.error(`@TODO: unable to getPlayingField(): ${e}`);
-  }
-}
-
-function _prepareClearHand() {
-  const state = localStore.getState();
-  return Selectors.getHandCards(state);
-}
-
-function* _clearHand() {
-  const addedToDiscardDeck = yield _prepareClearHand();
-  yield put(Actions.clearHand.success(addedToDiscardDeck));
 }
 
 function _getActionFromSelectedAbility(selectedAbility, actionTargets) {
@@ -123,21 +77,21 @@ function _getUseCardAbilityAction(fieldSlotIndex) {
   return _getActionFromSelectedAbility(selectedAbility, [target]);
 }
 
-function* _useCardAbility({ fieldSlotIndex }) {
+function* _useSelectedAbility({ fieldSlotIndex }) {
   const action = yield _getUseCardAbilityAction(fieldSlotIndex);
   yield put(GameActions.fulfillTurnAction.request(action));
-  yield put(Actions.useCardAbility.success());
+  yield put(Actions.useSelectedAbility.success());
 }
 
 function* _selectAbility({ abilityId }) {
   const ability = AbilityRetriever.getDefaultedAbility(abilityId);
   if (ability.targetsOpponentMinion()) {
-    yield put(Actions.selectOpponentMinionTargetedAbility(abilityId));
+    yield put(Actions.selectAbility.success(abilityId, ActionTargetType.TargetOpponentMinion));
   } else if (ability.targetsPlayerMinion()) {
-    yield put(Actions.selectPlayerMinionTargetedAbility(abilityId));
+    yield put(Actions.selectAbility.success(abilityId, ActionTargetType.TargetPlayerMinion));
   } else if (ability.targetsPlayer()) {
-    yield put(Actions.selectPlayerTargetedAbility(abilityId));
-    yield put(Actions.useCardAbility.request());
+    yield put(Actions.selectAbility.success(abilityId, ActionTargetType.TargetPlayer));
+    yield put(Actions.useSelectedAbility.request());
   } else {
     Log.error(`unexpected ability targets for ability id: ${abilityId}`);
   }
@@ -161,12 +115,8 @@ function* saga() {
   yield all([
     takeEvery(Actions.PLACE_MINION.REQUEST, _placeMinion),
     takeEvery(Actions.ATTACK_MINION.REQUEST, _attackMinion),
-    takeLatest(Actions.SET_PLAYING_FIELD.REQUEST, _setPlayingField),
-    takeLatest(Actions.CLEAR_HAND.REQUEST, _clearHand),
-    takeEvery(Actions.USE_CARD_ABILITY.REQUEST, _useCardAbility),
-    takeLatest(Actions.SET_PLAYER_DECKS.REQUEST, _setPlayerDecks),
-    takeLatest(Actions.SET_CARDS.REQUEST, _setCards),
-    takeEvery(Actions.SELECT_ABILITY, _selectAbility),
+    takeEvery(Actions.USE_SELECTED_ABILITY.REQUEST, _useSelectedAbility),
+    takeEvery(Actions.SELECT_ABILITY.REQUEST, _selectAbility),
     takeEvery(Actions.CANCEL_SELECT_MINION_TARGETED_ABILITY, _cancelSelectMinionTargetedAbility),
   ]);
 }

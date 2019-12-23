@@ -39,9 +39,29 @@ export const placeMinion = {
 export const CANCEL_PREVIEW_PLAYER_FIELD_SLOT_CARD = ra.createRequestRaw(
   'CANCEL_PREVIEW_PLAYER_FIELD_SLOT_CARD',
 );
+
 export const cancelPreviewPlayerFieldSlotCard = () =>
   ReduxAction.action(CANCEL_PREVIEW_PLAYER_FIELD_SLOT_CARD, {});
 
+export const ATTACK_MINION = ra.createRequestTypes('ATTACK_MINION');
+export const attackMinion = {
+  request: fieldSlotIndex => ReduxAction.action(ATTACK_MINION.REQUEST, { fieldSlotIndex }),
+  success: () => ReduxAction.action(ATTACK_MINION.SUCCESS, {}),
+};
+
+export const SELECT_ABILITY = ra.createRequestTypes('SELECT_ABILITY');
+export const selectAbility = {
+  request: abilityId => ReduxAction.action(SELECT_ABILITY.REQUEST, { abilityId }),
+  success: (abilityId, target) => ReduxAction.action(SELECT_ABILITY.SUCCESS, { abilityId, target }),
+};
+
+export const USE_SELECTED_ABILITY = ra.createRequestTypes('USE_SELECTED_ABILITY');
+export const useSelectedAbility = {
+  request: () => ReduxAction.action(USE_SELECTED_ABILITY.REQUEST, {}),
+  success: () => ReduxAction.action(USE_SELECTED_ABILITY.SUCCESS, {}),
+};
+
+// @TODO: determine use of those below
 export const CANCEL_PLAY_SELECTED_SPELL = ra.createRequestRaw('CANCEL_PLAY_SELECTED_SPELL');
 export const cancelPlaySelectedSpell = () => ReduxAction.action(CANCEL_PLAY_SELECTED_SPELL, {});
 
@@ -65,87 +85,8 @@ export const selectPlayerMinion = (cardId, cardInstance, fieldSlotIndex) =>
 export const PLAY_PLAYER_MINION = ra.createRequestRaw('PLAY_PLAYER_MINION');
 export const playPlayerMinion = () => ReduxAction.action(PLAY_PLAYER_MINION, {});
 
-export const ATTACK_MINION = ra.createRequestTypes('ATTACK_MINION');
-export const attackMinion = {
-  request: fieldSlotIndex => ReduxAction.action(ATTACK_MINION.REQUEST, { fieldSlotIndex }),
-  success: (updatedCards, addedToDiscardDeck, playerFieldSlots, opponentFieldSlots) =>
-    ReduxAction.action(ATTACK_MINION.SUCCESS, {
-      updatedCards,
-      addedToDiscardDeck,
-      playerFieldSlots,
-      opponentFieldSlots,
-    }),
-};
-
-export const SET_PLAYING_FIELD = ra.createRequestTypes('SET_PLAYING_FIELD');
-export const setPlayingField = {
-  request: () => ReduxAction.action(SET_PLAYING_FIELD.REQUEST, {}),
-  success: (opponentFieldSlots, opponentFieldBacklog, playerFieldSlots) =>
-    ReduxAction.action(SET_PLAYING_FIELD.SUCCESS, {
-      opponentFieldSlots,
-      opponentFieldBacklog,
-      playerFieldSlots,
-    }),
-};
-
-export const CLEAR_HAND = ra.createRequestTypes('CLEAR_HAND');
-export const clearHand = {
-  request: () => ReduxAction.action(CLEAR_HAND.REQUEST, {}),
-  success: addedToDiscardDeck => ReduxAction.action(CLEAR_HAND.SUCCESS, { addedToDiscardDeck }),
-};
-
-export const SET_PLAYER_DECKS = ra.createRequestTypes('SET_PLAYER_DECKS');
-export const setPlayerDecks = {
-  request: () => ReduxAction.action(SET_PLAYER_DECKS.REQUEST, {}),
-  success: (handCards, handRefillSize, discardDeckCards, lostDeckCards, deckSize) =>
-    ReduxAction.action(SET_PLAYER_DECKS.SUCCESS, {
-      handCards,
-      handRefillSize,
-      discardDeckCards,
-      lostDeckCards,
-      deckSize,
-    }),
-};
-
-export const REFRESH_PLAYER_CARDS = ra.createRequestTypes('REFRESH_PLAYER_CARDS');
-export const refreshPlayerCards = {
-  request: () => ReduxAction.action(REFRESH_PLAYER_CARDS.REQUEST, {}),
-  success: updatedCards => ReduxAction.action(REFRESH_PLAYER_CARDS.SUCCESS, { updatedCards }),
-};
-
-export const SET_UPDATED_CARDS = ra.createRequestRaw('SET_UPDATED_CARDS');
-export const setUpdatedCards = updatedCards =>
-  ReduxAction.action(SET_UPDATED_CARDS, { updatedCards });
-
-export const SET_NEW_CARDS = ra.createRequestRaw('SET_NEW_CARDS');
-export const setNewCards = newCards => ReduxAction.action(SET_NEW_CARDS, { newCards });
-
-export const SET_CARDS = ra.createRequestTypes('SET_CARDS');
-export const setCards = {
-  request: () => ReduxAction.action(SET_CARDS.REQUEST, {}),
-  success: cards => ReduxAction.action(SET_CARDS.SUCCESS, { cards }),
-};
-
-export const RESET_CARDS = ra.createRequestRaw('RESET_CARDS');
-export const resetCards = () => ReduxAction.action(RESET_CARDS, {});
-
-export const USE_CARD_ABILITY = ra.createRequestTypes('USE_CARD_ABILITY');
-export const useCardAbility = {
-  request: fieldSlotIndex => ReduxAction.action(USE_CARD_ABILITY.REQUEST, { fieldSlotIndex }),
-  success: (updatedCards, addedToDiscardDeck, playerFieldSlots, opponentFieldSlots) =>
-    ReduxAction.action(USE_CARD_ABILITY.SUCCESS, {
-      updatedCards,
-      addedToDiscardDeck,
-      playerFieldSlots,
-      opponentFieldSlots,
-    }),
-};
-
 export const FINISH_SPELL_CARD = ra.createRequestRaw('FINISH_SPELL_CARD');
 export const finishSpellCard = () => ReduxAction.action(FINISH_SPELL_CARD, {});
-
-export const SELECT_ABILITY = ra.createRequestRaw('SELECT_ABILITY');
-export const selectAbility = abilityId => ReduxAction.action(SELECT_ABILITY, { abilityId });
 
 // Use selectAbility instead, which will handle this case in the saga.
 export const SELECT_OPPONENT_MINION_TARGETED_ABILITY = ra.createRequestRaw(

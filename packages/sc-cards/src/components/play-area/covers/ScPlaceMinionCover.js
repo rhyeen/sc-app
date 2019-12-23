@@ -1,6 +1,6 @@
 import { LitElement, css, html } from 'lit-element';
 import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
-import { PlaceMinionAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action/place-minion-action.js';
+import { PlaceMinionAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action/player-turn-actions/place-minion-action.js';
 import {
   ScIconsStyles,
   DeadIcon,

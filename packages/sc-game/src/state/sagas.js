@@ -42,7 +42,8 @@ function* _beginCrafting() {
 function _callEndCrafting() {
   const state = localStore.getState();
   const turn = Selectors.getPendingTurn(state);
-  return GameInterface.endCrafting(turn);
+  const gameId = Selectors.getGameId(state);
+  return GameInterface.endCrafting(gameId, turn);
 }
 
 function* _setGameState(gameState) {
@@ -82,7 +83,8 @@ function* _loseGame() {
 function _callEndTurn() {
   const state = localStore.getState();
   const turn = Selectors.getPendingTurn(state);
-  return GameInterface.endTurn(turn);
+  const gameId = Selectors.getGameId(state);
+  return GameInterface.endTurn(gameId, turn);
 }
 
 function* _endTurn() {

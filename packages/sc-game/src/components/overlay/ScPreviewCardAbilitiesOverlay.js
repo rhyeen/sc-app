@@ -8,7 +8,7 @@ import { Localize } from '../../../../utils/localizer.js';
 import {
   cancelSelectedCard,
   finishUsingAbilities,
-  useCardAbility,
+  selectAbility,
 } from '../../../../sc-cards/src/state/actions.js';
 
 export class ScPreviewCardAbilitiesOverlay extends LitElement {
@@ -45,7 +45,7 @@ export class ScPreviewCardAbilitiesOverlay extends LitElement {
     return html`
       <sc-use-ability-btn
         .ability=${ability}
-        @click=${() => ScPreviewCardAbilitiesOverlay._useAbility(ability.id)}
+        @click=${() => ScPreviewCardAbilitiesOverlay._selectAbility(ability)}
       ></sc-use-ability-btn>
     `;
   }
@@ -89,7 +89,10 @@ export class ScPreviewCardAbilitiesOverlay extends LitElement {
     localStore.dispatch(finishUsingAbilities());
   }
 
-  static _useAbility(abilityId) {
-    localStore.dispatch(useCardAbility.request(abilityId));
+  static _selectAbility(ability) {
+    if (ability.used) {
+      return;
+    }
+    localStore.dispatch(selectAbility.request(ability.id));
   }
 }

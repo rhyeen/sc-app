@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 import { GAME_STATES } from '../entities/game-states.js';
 
 const _gameMenuSelector = state => state.scGame.ui.menu;
-const _gameStateSelector = state => state.scGame.ui.game;
+const _uiGameSelector = state => state.scGame.ui.game;
 const _pendingTurnSelector = state => state.scGame.entities.pendingTurn;
 const _gameSelector = state => state.scGame.entities.game;
 const _gameVersionSelector = state => state.scGame.ui.game.version;
@@ -22,22 +22,22 @@ export const isGameMenuOpen = createSelector(
 );
 
 export const isPlayingCards = createSelector(
-  _gameStateSelector,
+  _uiGameSelector,
   game => game.state === GAME_STATES.PLAYING,
 );
 
 export const isCrafting = createSelector(
-  _gameStateSelector,
+  _uiGameSelector,
   game => game.state === GAME_STATES.CRAFTING,
 );
 
 export const hasWon = createSelector(
-  _gameStateSelector,
+  _uiGameSelector,
   game => game.state === GAME_STATES.WIN,
 );
 
 export const hasLost = createSelector(
-  _gameStateSelector,
+  _uiGameSelector,
   game => game.state === GAME_STATES.LOSE,
 );
 
@@ -45,6 +45,11 @@ export const getGame = createSelector(
   _gameSelector,
   game => game,
 );
+
+export const getGameId = createSelector(
+  _gameSelector,
+  game => game.id,
+)
 
 export const getGameVersion = createSelector(
   _gameVersionSelector,
