@@ -1,22 +1,14 @@
 import { put, all, call, takeLatest } from 'redux-saga/effects'; // eslint-disable-line import/extensions
 import { Log } from 'interface-handler/src/logger.js';
 import { GameBuilder } from '@shardedcards/sc-types/dist/game/services/builders/game-builder.js';
+import { CraftingTableBuilder } from '@shardedcards/sc-types/dist/game/services/builders/crafting-table-builder.js';
 import * as GameInterface from '../services/interface/game.js';
 import * as Selectors from './selectors.js';
 import { localStore } from './store.js';
 
 import * as Actions from './actions.js';
 import * as CardsActions from '../../../sc-cards/src/state/actions.js';
-import * as StatusActions from '../../../sc-status/src/state/actions.js';
-import * as CraftActions from '../../../sc-craft/src/state/actions.js';
 import { GAME_STATES } from '../entities/game-states.js';
-
-function* _beginTurn() {
-  yield put(CardsActions.setPlayerDecks.request());
-  yield put(CardsActions.setPlayingField.request());
-  yield put(StatusActions.setPlayerStatus.request());
-  yield put(Actions.beginTurn.success());
-}
 
 function _buildGame(gameData) {
   const game = GameBuilder.buildGame(gameData);
@@ -28,15 +20,7 @@ function* _resetGame({ playerId, playerDeckId, dungeonId }) {
   const { data } = yield call(GameInterface.newGame, playerId, playerDeckId, dungeonId);
   const game = yield call(_buildGame, data.game);
   yield put(Actions.setGame(game));
-  // yield put(CardsActions.setCards.request());
-  // yield put(Actions.beginTurn.request());
   yield put(Actions.resetGame.success());
-}
-
-function* _beginCrafting() {
-  yield put(CraftActions.setCraftingBaseCard.request());
-  yield put(CraftActions.setCraftingParts.request());
-  yield put(Actions.beginCrafting.success());
 }
 
 function _callEndCrafting() {
@@ -87,10 +71,22 @@ function _callEndTurn() {
   return GameInterface.endTurn(gameId, turn);
 }
 
+function _setCraftingTable(craftingPartsData, baseCardsData) {
+  const baseCards = CraftingTableBuilder.buildBaseCards(baseCardsData);
+  const craftingParts = CraftingTableBuilder.buildCraftingParts(craftingPartsData);
+  const state = localStore.getState();
+  const game = Selectors.getGame(state);
+  game.player.craftingTable.baseCards = baseCards;
+  game.player.craftingTable.craftingParts = craftingParts;
+  return game;
+}
+
 function* _endTurn() {
   yield call(_callEndTurn);
+  const { data } = yield call(_callEndTurn);
+  const game = yield call(_setCraftingTable, data.craftingParts, data.baseCards);
+  yield put(Actions.setGame(game));
   yield put(Actions.endTurn.success());
-  yield put(Actions.beginCrafting.request());
 }
 
 function _executeTurnAction(turnAction) {
@@ -109,12 +105,10 @@ function* _fulfillTurnAction({ turnAction }) {
 function* saga() {
   yield all([
     takeLatest(Actions.RESET_GAME.REQUEST, _resetGame),
-    takeLatest(Actions.BEGIN_CRAFTING.REQUEST, _beginCrafting),
     takeLatest(Actions.END_CRAFTING.REQUEST, _endCrafting),
     takeLatest(Actions.WIN_GAME.REQUEST, _winGame),
     takeLatest(Actions.LOSE_GAME.REQUEST, _loseGame),
     takeLatest(Actions.END_TURN.REQUEST, _endTurn),
-    takeLatest(Actions.BEGIN_TURN.REQUEST, _beginTurn),
     takeLatest(Actions.FULFILL_TURN_ACTION.REQUEST, _fulfillTurnAction),
   ]);
 }

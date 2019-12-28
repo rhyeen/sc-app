@@ -10,7 +10,7 @@ const INITIAL_STATE = {
     },
     game: {
       version: 0,
-      state: GAME_STATES.PLAYING,
+      state: GAME_STATES.BATTLE,
     },
   },
   entities: {
@@ -136,11 +136,9 @@ const reducer = (state = INITIAL_STATE, action) => {
       return _toggleMenuState(newState, false);
     case Actions.RESET_GAME.SUCCESS:
       newState = _toggleMenuState(newState, false);
-      return _updateGameState(newState, GAME_STATES.PLAYING);
-    case Actions.BEGIN_CRAFTING.SUCCESS:
-      return _updateGameState(newState, GAME_STATES.CRAFTING);
+      return _updateGameState(newState, GAME_STATES.BATTLE);
     case Actions.END_CRAFTING.SUCCESS:
-      newState = _updateGameState(newState, GAME_STATES.PLAYING);
+      newState = _updateGameState(newState, GAME_STATES.BATTLE);
       newState = _endTurn(newState);
       return _addOpponentTurn(newState, action.opponentTurn);
     case Actions.WIN_GAME.SUCCESS:
@@ -150,6 +148,7 @@ const reducer = (state = INITIAL_STATE, action) => {
     case Actions.RECORD_ACTION:
       return _updatePendingTurn(newState, action.action);
     case Actions.END_TURN.SUCCESS:
+      newState = _updateGameState(newState, GAME_STATES.DRAFT);
       return _endTurn(newState);
     case Actions.SET_GAME:
       return _setGame(newState, action.game);

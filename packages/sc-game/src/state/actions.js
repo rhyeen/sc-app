@@ -24,18 +24,6 @@ export const endTurn = {
   success: () => ReduxAction.action(END_TURN.SUCCESS, {}),
 };
 
-export const BEGIN_TURN = ra.createRequestTypes('BEGIN_TURN');
-export const beginTurn = {
-  request: () => ReduxAction.action(BEGIN_TURN.REQUEST, {}),
-  success: () => ReduxAction.action(BEGIN_TURN.SUCCESS, {}),
-};
-
-export const BEGIN_CRAFTING = ra.createRequestTypes('BEGIN_CRAFTING');
-export const beginCrafting = {
-  request: () => ReduxAction.action(BEGIN_CRAFTING.REQUEST, {}),
-  success: () => ReduxAction.action(BEGIN_CRAFTING.SUCCESS, {}),
-};
-
 export const END_CRAFTING = ra.createRequestTypes('END_CRAFTING');
 export const endCrafting = {
   request: () => ReduxAction.action(END_CRAFTING.REQUEST, {}),

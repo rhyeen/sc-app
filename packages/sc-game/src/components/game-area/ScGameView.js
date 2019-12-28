@@ -30,17 +30,17 @@ export class ScGameView extends connect(localStore)(LitElement) {
 
   static get properties() {
     return {
-      _isCrafting: { type: Boolean },
+      _isDrafting: { type: Boolean },
       game: { type: Game },
       gameVersion: { type: Number },
     };
   }
 
   _getGameViewHtml() {
-    if (this._isCrafting) {
+    if (this._isDrafting) {
       return html`
-        <sc-crafting-area></sc-crafting-area>
-        <sc-crafting-parts></sc-crafting-parts>
+        <sc-crafting-area .game=${this.game} .gameVersion=${this.gameVersion}></sc-crafting-area>
+        <sc-crafting-parts .game=${this.game} .gameVersion=${this.gameVersion}></sc-crafting-parts>
       `;
     }
     return html`
@@ -50,6 +50,6 @@ export class ScGameView extends connect(localStore)(LitElement) {
   }
 
   stateChanged(state) {
-    this._isCrafting = Selectors.isCrafting(state);
+    this._isDrafting = Selectors.isDrafting(state);
   }
 }

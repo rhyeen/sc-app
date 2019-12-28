@@ -52,8 +52,8 @@ export class ScMinionFieldSlot extends LitElement {
   _opponentMinion() {
     return html`
       <sc-minion-card
-        .card="${this._getFieldSlotCard()}"
-        @click="${this._opponentMinionClicked}"
+        .card=${this._getFieldSlotCard()}
+        @click=${this._opponentMinionClicked}
       ></sc-minion-card>
     `;
   }
@@ -65,8 +65,8 @@ export class ScMinionFieldSlot extends LitElement {
   _playerMinion() {
     return html`
       <sc-minion-card
-        .card="${this._getFieldSlotCard()}"
-        @click="${this._playerMinionClicked}"
+        .card=${this._getFieldSlotCard()}
+        @click=${this._playerMinionClicked}
       ></sc-minion-card>
     `;
   }

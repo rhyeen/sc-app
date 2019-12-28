@@ -1,7 +1,5 @@
 import { html, css, LitElement } from 'lit-element';
 import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
-import { connect } from 'pwa-helpers/connect-mixin.js';
-import { localStore } from '../../state/store.js';
 
 import { FieldSlotStyles } from './play-area-styles.js';
 
@@ -10,7 +8,7 @@ export const PLAY_FIELD_OWNER = {
   DUNGEON: 'dungeon',
 };
 
-export class ScPlayField extends connect(localStore)(LitElement) {
+export class ScPlayField extends LitElement {
   static get styles() {
     return [
       css`

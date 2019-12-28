@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect';
 
+const _usedCraftingPartsSelector = state => state.scCraft.ui.usedCraftingParts;
+
 const _forgeSelector = state => state.scCraft.entities.forge;
 const _craftingBaseCardSelector = state => state.scCraft.entities.craftingBaseCard;
 const _craftingPartsSelector = state => state.scCraft.entities.craftingParts;
@@ -7,9 +9,12 @@ const _isCraftingBaseCardSelectedSelector = state => state.scCraft.ui.isCrafting
 const _isForgingCraftingBaseCardSelector = state => state.scCraft.ui.isForgingCraftingBaseCard;
 const _selectedForgeSlotSelector = state => state.scCraft.ui.selectedForgeSlot;
 const _selectedCraftingPartSelector = state => state.scCraft.ui.selectedCraftingPart;
-const _craftingPartsUsedSelector = state => state.scCraft.entities.craftingPartsUsed;
-const _maxCraftingPartsUsedSelector = state => state.scCraft.entities.maxCraftingPartsUsed;
 const _finishedForgeCardSelector = state => state.scCraft.ui.selectedForgeSlot.finishedCard;
+
+export const getUsedCraftingParts = createSelector(
+  _usedCraftingPartsSelector,
+  usedCraftingParts => usedCraftingParts,
+);
 
 export const getForgeSlots = createSelector(
   _forgeSelector,
@@ -29,12 +34,6 @@ export const getCraftingParts = createSelector(
 export const emptyForgeSlots = createSelector(
   _forgeSelector,
   forge => forge.slots.findIndex(slot => !!slot.draftCard) >= 0,
-);
-
-export const getCraftingPartsLeftToUse = createSelector(
-  _craftingPartsUsedSelector,
-  _maxCraftingPartsUsedSelector,
-  (craftingPartsUsed, maxCraftingPartsUsed) => maxCraftingPartsUsed - craftingPartsUsed,
 );
 
 export const isCraftingBaseCardSelected = createSelector(

@@ -44,23 +44,23 @@ export class ScGameFooter extends connect(localStore)(LitElement) {
     return {
       gameVersion: { type: Number },
       game: { type: Game },
-      _isPlayingCards: { type: Boolean },
-      _isCrafting: { type: Boolean },
+      _isBattling: { type: Boolean },
+      _isDrafting: { type: Boolean },
     };
   }
 
   _getBarItemsHtml() {
-    if (this._isPlayingCards) {
-      return this._getPlayingBarItemsHtml();
+    if (this._isBattling) {
+      return this._getBattlingBarItemsHtml();
     }
-    if (this._isCrafting) {
-      return this._getCraftingBarItemsHtml();
+    if (this._isDrafting) {
+      return ScGameFooter._getCraftingBarItemsHtml();
     }
     // @NOTE: if the game is in the win/lose state
-    return this._getPlayingBarItemsHtml();
+    return this._getBattlingBarItemsHtml();
   }
 
-  _getPlayingBarItemsHtml() {
+  _getBattlingBarItemsHtml() {
     return html`
       <div class="item-group left-items">
         <sc-draw-deck-bar-item .game=${this.game} .gameVersion=${
@@ -105,7 +105,7 @@ export class ScGameFooter extends connect(localStore)(LitElement) {
   }
 
   stateChanged(state) {
-    this._isCrafting = Selectors.isCrafting(state);
-    this._isPlayingCards = Selectors.isPlayingCards(state);
+    this._isDrafting = Selectors.isDrafting(state);
+    this._isBattling = Selectors.isBattling(state);
   }
 }

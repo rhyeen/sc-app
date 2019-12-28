@@ -21,14 +21,14 @@ export const isGameMenuOpen = createSelector(
   menu => menu.show,
 );
 
-export const isPlayingCards = createSelector(
+export const isBattling = createSelector(
   _uiGameSelector,
-  game => game.state === GAME_STATES.PLAYING,
+  game => game.state === GAME_STATES.BATTLE,
 );
 
-export const isCrafting = createSelector(
+export const isDrafting = createSelector(
   _uiGameSelector,
-  game => game.state === GAME_STATES.CRAFTING,
+  game => game.state === GAME_STATES.DRAFT,
 );
 
 export const hasWon = createSelector(

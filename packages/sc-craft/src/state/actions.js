@@ -2,8 +2,12 @@ import { ReduxAction } from '../../../utils/redux-action.js';
 
 const ra = new ReduxAction('SR_CRAFT');
 
+export const SELECT_CRAFTING_PART = ra.createRequestRaw('SELECT_CRAFTING_PART');
+export const selectCraftingPart = craftingPartIndex =>
+  ReduxAction.action(SELECT_CRAFTING_PART, { craftingPartIndex });
+
 export const SELECT_CRAFTING_BASE_CARD = ra.createRequestRaw('SELECT_CRAFTING_BASE_CARD');
-export const selectCraftingBaseCard = () => ReduxAction.action(SELECT_CRAFTING_BASE_CARD, {});
+export const selectCraftingBaseCard = baseCardIndex => ReduxAction.action(SELECT_CRAFTING_BASE_CARD, { baseCardIndex });
 
 export const CANCEL_SELECT_CRAFTING_BASE_CARD = ra.createRequestRaw(
   'CANCEL_SELECT_CRAFTING_BASE_CARD',
@@ -30,10 +34,6 @@ export const addCraftedCardToDeck = {
     ReduxAction.action(ADD_CRAFTED_CARD_TO_DECK.REQUEST, { numberOfInstances }),
   success: () => ReduxAction.action(ADD_CRAFTED_CARD_TO_DECK.SUCCESS, {}),
 };
-
-export const SELECT_CRAFTING_PART = ra.createRequestRaw('SELECT_CRAFTING_PART');
-export const selectCraftingPart = craftingPartIndex =>
-  ReduxAction.action(SELECT_CRAFTING_PART, { craftingPartIndex });
 
 export const CANCEL_SELECT_CRAFTING_PART = ra.createRequestRaw('CANCEL_SELECT_CRAFTING_PART');
 export const cancelSelectCraftingPart = () => ReduxAction.action(CANCEL_SELECT_CRAFTING_PART, {});
