@@ -1,6 +1,5 @@
 import { html, css, LitElement } from 'lit-element';
 import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
-import { AREAS } from '../sc-craft-styles.js';
 import { selectCraftingBaseCard } from '../../state/actions.js';
 
 export class ScCraftingField extends LitElement {
@@ -8,8 +7,13 @@ export class ScCraftingField extends LitElement {
     return [
       css`
         :host {
-          padding: 0 ${AREAS.CRAFTING_AREA.PADDING};
           display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .middle-slot {
+          margin: 0 10px;
         }
       `,
     ];
@@ -17,9 +21,15 @@ export class ScCraftingField extends LitElement {
 
   render() {
     return html`
-      ${this._getCraftingForgeHtml(0)}
-      ${this._getCraftingBaseCardHtml(0)}
-      ${this._getCraftingForgeHtml(1)}
+      <div class="left-slot">
+        ${this._getCraftingForgeHtml(0)}
+      </div>
+      <div class="middle-slot">
+        ${this._getCraftingBaseCardHtml(0)}
+      </div>
+      <div class="right-slot">
+        ${this._getCraftingForgeHtml(1)}
+      </div>
     `;
   }
 

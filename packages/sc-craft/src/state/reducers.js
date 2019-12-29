@@ -5,6 +5,8 @@ function _resetState() {
   return {
     ui: {
       usedCraftingParts: [],
+
+      
       selectedCraftingPart: {
         craftingPartIndex: null,
         forgeSlotIndex: null,

@@ -82,7 +82,6 @@ function _setCraftingTable(craftingPartsData, baseCardsData) {
 }
 
 function* _endTurn() {
-  yield call(_callEndTurn);
   const { data } = yield call(_callEndTurn);
   const game = yield call(_setCraftingTable, data.craftingParts, data.baseCards);
   yield put(Actions.setGame(game));

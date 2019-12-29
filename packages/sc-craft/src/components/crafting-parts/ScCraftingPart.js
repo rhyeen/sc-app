@@ -1,9 +1,9 @@
-import { html, css, LitElement } from 'lit-element';
+import { html, LitElement } from 'lit-element';
 import { ScIconsStyles} from '../../../../sc-app/src/components/shared/ScIcons.js';
-import { ScBtnStyles, SC_BTN_STYLES, SC_BTN_COLORS } from '../../../../sc-app/src/components/shared/ScBtn.js';
+import { ScBtnStyles } from '../../../../sc-app/src/components/shared/ScBtn.js';
 import { ScCardAbilityConditionStyles } from '../../../../sc-cards/src/components/card-parts/card-parts-styles.js';
 import { Ability, CardStat } from '../../../../sc-cards/src/entities/card-aspects.js';
-import { APP_COLORS } from '../../../../sc-app/sc-app-styles.js';
+import { ScUseAbilityBtnStyles } from '../../../../sc-cards/src/components/selected-card/ScUseAbilityBtn.js';
 
 export class ScCraftingPart extends LitElement {
   static get styles() {
@@ -11,33 +11,7 @@ export class ScCraftingPart extends LitElement {
       ScIconsStyles,
       ScCardAbilityConditionStyles,
       ScBtnStyles,
-      css`
-        button[card-ability] {
-          padding: ${SC_BTN_STYLES.BUTTON
-            .PADDING}; /* @NOTE: ScCardAbilityConditionStyles resets the padding */
-          text-align: left;
-          text-transform: none;
-          background-color: ${APP_COLORS.ABILITY_CAST};
-          color: ${SC_BTN_COLORS.DARK_BTN_TEXT_COLOR};
-        }
-
-        [svg-icon] {
-          fill: ${SC_BTN_COLORS.DARK_BTN_TEXT_COLOR};
-        }
-
-        [card-ability] .tooltip-title {
-          font-weight: 500;
-        }
-
-        [card-ability] .tooltip-description {
-          font-weight: 400;
-          color: ${SC_BTN_COLORS.DARK_BTN_TEXT_COLOR};
-        }
-
-        [card-ability][disabled] .tooltip-description {
-          color: ${SC_BTN_COLORS.DISABLED.TEXT_COLOR};
-        }
-      `,
+      ScUseAbilityBtnStyles,
     ];
   }
 

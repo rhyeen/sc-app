@@ -23,6 +23,10 @@ export class ScCardValue extends LitElement {
   static get styles() {
     return [
       css`
+        :host {
+          padding: 2px;
+        }
+
         [card-part] {
           display: flex;
           align-items: center;

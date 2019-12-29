@@ -52,6 +52,8 @@ export const SC_BTN_COLORS = {
 export const SC_BTN_STYLES = {
   BUTTON: {
     PADDING: css`10px 16px`,
+    PADDING_CONDENSED: css`8px 12px`,
+    MARGIN: css`0`
   },
 };
 
@@ -112,21 +114,21 @@ export const ScBtnStyles = css`
   }
 
   button[disabled] {
-    background-color: ${SC_BTN_COLORS.DISABLED.BACKGROUND_COLOR};
-    color: ${SC_BTN_COLORS.DISABLED.TEXT_COLOR};
-    box-shadow: none;
+    background-color: ${SC_BTN_COLORS.DISABLED.BACKGROUND_COLOR} !important;
+    color: ${SC_BTN_COLORS.DISABLED.TEXT_COLOR} !important;
+    box-shadow: none !important;
   }
 
   button[disabled]:hover {
-    box-shadow: none;
+    box-shadow: none !important;
   }
 
   button[disabled]:active {
-    box-shadow: none;
+    box-shadow: none !important;
   }
 
   button[disabled] .button-svg-icon {
-    fill: ${SC_BTN_COLORS.DISABLED.TEXT_COLOR};
+    fill: ${SC_BTN_COLORS.DISABLED.TEXT_COLOR} !important;
   }
 `;
 

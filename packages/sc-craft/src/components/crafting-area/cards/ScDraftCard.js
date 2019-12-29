@@ -70,6 +70,7 @@ export class ScDraftCard extends LitElement {
   }
 
   _getFooterHtml() {
+    debugger;
     if (this.card.type === CardType.Minion) {
       return html`
         <sc-card-value

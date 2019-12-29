@@ -11,6 +11,7 @@ export class ScCraftingArea extends LitElement {
           display: flex;
           flex-direction: column;
           align-items: center;
+          justify-content: center;
           flex: 1;
           width: 100%;
           max-width: ${AREAS.PLAY_AREA.MAX_WIDTH};
