@@ -10,16 +10,16 @@ export class ScCardConditions extends LitElement {
 
   static get properties() {
     return {
-      card: { type: Object },
+      conditions: { type: Array },
     };
   }
 
   _getConditionsHtml() {
-    if (!this.card.conditions) {
+    if (!this.conditions) {
       return html``;
     }
     const conditionsHtml = [];
-    if (this.card.conditions.exhausted) {
+    if (this.conditions.exhausted) {
       conditionsHtml.push(ScCardConditions._getExhaustedConditionHtml());
     }
     return html`

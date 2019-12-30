@@ -9,16 +9,16 @@ export class ScCardAbilities extends LitElement {
 
   static get properties() {
     return {
-      card: { type: Object },
+      abilities: { type: Array },
     };
   }
 
   _getAbilitiesHtml() {
-    if (!this.card.abilities) {
+    if (!this.abilities) {
       return html``;
     }
     return html`
-      ${this.card.abilities.map(ability => ScCardAbilities._getAbilityHtml(ability))}
+      ${this.abilities.map(ability => ScCardAbilities._getAbilityHtml(ability))}
     `;
   }
 

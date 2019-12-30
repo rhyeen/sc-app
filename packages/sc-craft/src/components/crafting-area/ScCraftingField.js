@@ -1,6 +1,6 @@
 import { html, css, LitElement } from 'lit-element';
 import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
-import { selectCraftingBaseCard } from '../../state/actions.js';
+import { selectBaseDraftCard } from '../../state/actions.js';
 
 export class ScCraftingField extends LitElement {
   static get styles() {
@@ -39,16 +39,18 @@ export class ScCraftingField extends LitElement {
       game: { type: Game },
       owner: { type: String },
       selectedCraftingPart: { type: Object },
+      selectedBaseDraftCard: { type: Object }
     }
   }
 
   _getCraftingForgeHtml(forgeSlotIndex) {
-    if (this.selectedCraftingPart) {
+    if (this.overlay) {
       return html`
         <sc-cover-forge-card
           .game=${this.game}
           .gameVersion=${this.gameVersion}
           .selectedCraftingPart=${this.selectedCraftingPart}
+          .selectedBaseDraftCard=${this.selectedBaseDraftCard}
           .forgeSlotIndex=${forgeSlotIndex}
         ></sc-cover-forge-card>
       `;
@@ -62,8 +64,12 @@ export class ScCraftingField extends LitElement {
     `;
   }
 
+  get overlay() {
+    return this.selectedCraftingPart || this.selectedBaseDraftCard && this.selectedBaseDraftCard.isForging;
+  }
+
   _getCraftingBaseCardHtml(baseCardIndex) {
-    if (this.selectedCraftingPart) {
+    if (this.overlay) {
       return html`
         <sc-cover-base-draft-card></sc-cover-base-draft-card>
       `;
@@ -75,9 +81,5 @@ export class ScCraftingField extends LitElement {
         .baseCardIndex=${baseCardIndex}
       ></sc-base-draft-card-slot>
     `;
-  }
-
-  static _selectCraftingBaseCard(baseCardIndex) {
-    localStore.dispatch(selectCraftingBaseCard(baseCardIndex));
   }
 }

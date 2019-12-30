@@ -1,9 +1,12 @@
 import { html, css, LitElement } from 'lit-element';
 import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
+import { connect } from 'pwa-helpers/connect-mixin.js';
+import { localStore } from '../../state/store.js';
+import * as Selectors from '../../state/selectors.js';
 import { AREAS } from '../../../../sc-cards/sc-cards-styles.js';
 
 
-export class ScCraftingArea extends LitElement {
+export class ScCraftingArea extends connect(localStore)(LitElement) {
   static get styles() {
     return [
       css`
@@ -31,7 +34,7 @@ export class ScCraftingArea extends LitElement {
       <sc-crafting-field
         .game=${this.game}
         .gameVersion=${this.gameVersion}
-        .selectedCraftingPart=${this.selectedCraftingPart}
+        .selectedCraftingComponent=${this._selectedCraftingComponent}
       ></sc-crafting-field>
     `;
   }
@@ -40,7 +43,11 @@ export class ScCraftingArea extends LitElement {
     return {
       game: { type: Game },
       gameVersion: { type: Number },
-      selectedCraftingPart: { type: Object },
+      _selectedCraftingComponent: { type: Object },
     }
+  }
+
+  stateChanged(state) {
+    this._selectedCraftingComponent = Selectors.getSelectedCraftingComponent(state);
   }
 }

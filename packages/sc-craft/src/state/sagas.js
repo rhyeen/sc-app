@@ -30,14 +30,14 @@ function* _setCraftingParts() {
 
 function _getModifiedForgeCard() {
   const state = localStore.getState();
-  const { craftingPart, forgeSlot } = Selectors.getSelectedCraftingPartSelector(state);
+  const { craftingPart, forgeSlot } = Selectors.getSelectedCraftingPart(state);
   const { modifiedCard } = DraftCardModifier.addCraftingPart(forgeSlot.draftCard, craftingPart);
   return modifiedCard;
 }
 
 function _getAddCraftingPartAction() {
   const state = localStore.getState();
-  const { craftingPartIndex, forgeSlotIndex } = Selectors.getSelectedCraftingPartSelector(state);
+  const { craftingPartIndex, forgeSlotIndex } = Selectors.getSelectedCraftingPart(state);
   return new AddCraftingPartAction(craftingPartIndex, forgeSlotIndex);
 }
 

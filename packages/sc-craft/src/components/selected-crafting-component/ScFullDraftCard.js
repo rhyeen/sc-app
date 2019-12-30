@@ -1,8 +1,8 @@
 import { html, css, LitElement } from 'lit-element';
-import { CARDS, CardRarityColor } from '../../../sc-cards-styles.js';
-import { VALUE_TYPES } from '../card-parts/ScCardValue.js';
+import { CARDS, CardRarityColor } from '../../../../sc-cards/sc-cards-styles.js';
+import { VALUE_TYPES } from '../../../../sc-cards/src/components/card-parts/ScCardValue.js';
 
-export class ScFullCard extends LitElement {
+export class ScFullDraftCard extends LitElement {
   static get styles() {
     return [
       css`
@@ -68,8 +68,7 @@ export class ScFullCard extends LitElement {
         <div card-name>${this.card.name}</div>
       </header>
       <section>
-        <sc-card-abilities .abilities="${this.card.abilities}"></sc-card-abilities>
-        <sc-card-conditions .conditions="${this.card.conditions}"></sc-card-conditions>
+        <sc-full-draft-card-ability-slots .slots=${this.card.slots}></sc-full-draft-card-ability-slots>
       </section>
       <footer>
         <div class="footer-left">

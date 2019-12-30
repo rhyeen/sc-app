@@ -25,9 +25,9 @@ export class ScForgeSlot extends LitElement {
       return html`<sc-forge-slot-mold></sc-forge-slot-mold>`;
     }
     return html`
-      <sc-draft-card
+      <sc-reduced-draft-card
         .card=${card}
-        @click=${this._draftCardClicked}></sc-draft-card>
+        @click=${this._draftCardClicked}></sc-reduced-draft-card>
       <sc-forge-slot-mold></sc-forge-slot-mold>
     `;
   }

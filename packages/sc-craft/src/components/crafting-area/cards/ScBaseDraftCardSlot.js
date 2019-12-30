@@ -2,7 +2,7 @@ import { html, LitElement } from 'lit-element';
 import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
 
 import { localStore } from '../../../state/store.js';
-import { selectCraftingBaseCard } from '../../../state/actions.js';
+import { selectBaseDraftCard } from '../../../state/actions.js';
 
 export class ScBaseDraftCardSlot extends LitElement {
   render() {
@@ -25,13 +25,13 @@ export class ScBaseDraftCardSlot extends LitElement {
       return html``;
     }
     return html`
-      <sc-draft-card
+      <sc-reduced-draft-card
         .card=${card}
-        @click=${this._draftCardClicked}></sc-draft-card>
+        @click=${this._draftCardClicked}></sc-reduced-draft-card>
     `;
   }
 
   _draftCardClicked() {
-    localStore.dispatch(selectCraftingBaseCard(this.baseCardIndex));
+    localStore.dispatch(selectBaseDraftCard(this.baseCardIndex));
   }
 }

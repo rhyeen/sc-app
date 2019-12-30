@@ -2,18 +2,21 @@ import { ReduxAction } from '../../../utils/redux-action.js';
 
 const ra = new ReduxAction('SR_CRAFT');
 
+export const SELECT_BASE_DRAFT_CARD = ra.createRequestRaw('SELECT_BASE_DRAFT_CARD');
+export const selectBaseDraftCard = baseCardIndex => ReduxAction.action(SELECT_BASE_DRAFT_CARD, { baseCardIndex });
+
+export const CANCEL_SELECT_CRAFTING_COMPONENT = ra.createRequestRaw('CANCEL_SELECT_CRAFTING_COMPONENT');
+export const cancelSelectCraftingComponent = () => ReduxAction.action(CANCEL_SELECT_CRAFTING_COMPONENT, {});
+
+export const FORGE_SELECTED_BASE_DRAFT_CARD = ra.createRequestRaw('FORGE_SELECTED_BASE_DRAFT_CARD');
+export const forgeSelectedBaseDraftCard = () => ReduxAction.action(FORGE_SELECTED_BASE_DRAFT_CARD, {});
+
 export const SELECT_CRAFTING_PART = ra.createRequestRaw('SELECT_CRAFTING_PART');
 export const selectCraftingPart = craftingPartIndex =>
   ReduxAction.action(SELECT_CRAFTING_PART, { craftingPartIndex });
 
-export const SELECT_CRAFTING_BASE_CARD = ra.createRequestRaw('SELECT_CRAFTING_BASE_CARD');
-export const selectCraftingBaseCard = baseCardIndex => ReduxAction.action(SELECT_CRAFTING_BASE_CARD, { baseCardIndex });
-
-export const CANCEL_SELECT_CRAFTING_BASE_CARD = ra.createRequestRaw(
-  'CANCEL_SELECT_CRAFTING_BASE_CARD',
-);
-export const cancelSelectCraftingBaseCard = () =>
-  ReduxAction.action(CANCEL_SELECT_CRAFTING_BASE_CARD, {});
+export const CANCEL_SELECT_CRAFTING_PART = ra.createRequestRaw('CANCEL_SELECT_CRAFTING_PART');
+export const cancelSelectCraftingPart = () => ReduxAction.action(CANCEL_SELECT_CRAFTING_PART, {});
 
 export const SELECT_FORGE_SLOT = ra.createRequestRaw('SELECT_FORGE_SLOT');
 export const selectForgeSlot = forgeSlotIndex =>
@@ -34,9 +37,6 @@ export const addCraftedCardToDeck = {
     ReduxAction.action(ADD_CRAFTED_CARD_TO_DECK.REQUEST, { numberOfInstances }),
   success: () => ReduxAction.action(ADD_CRAFTED_CARD_TO_DECK.SUCCESS, {}),
 };
-
-export const CANCEL_SELECT_CRAFTING_PART = ra.createRequestRaw('CANCEL_SELECT_CRAFTING_PART');
-export const cancelSelectCraftingPart = () => ReduxAction.action(CANCEL_SELECT_CRAFTING_PART, {});
 
 export const ADD_CRAFTING_PART = ra.createRequestRaw('ADD_CRAFTING_PART');
 export const addCraftingPart = forgeSlotIndex =>

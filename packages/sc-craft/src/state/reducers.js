@@ -1,11 +1,18 @@
 import * as Actions from './actions.js';
 import { localStore } from './store.js';
+import { SELECTED_CRAFTING_COMPONENT_SOURCES, SELECTED_CRAFTING_COMPONENT_STATES } from './state-specifiers.js';
 
 function _resetState() {
   return {
     ui: {
       usedCraftingParts: [],
-
+      selectedCraftingComponent: {
+        baseCardIndex: null,
+        forgeSlotIndex: null,
+        craftingPartIndex: null,
+        source: null,
+        state: null,
+      },
       
       selectedCraftingPart: {
         craftingPartIndex: null,
@@ -36,6 +43,52 @@ function _resetState() {
     },
   };
 }
+
+function _setSelectedCraftingComponentState(state, selectedCraftingComponentState) {
+  return {
+    ...state,
+    ui: {
+      ...state.ui,
+      selectedCraftingComponent: {
+        ...state.ui.selectedCraftingComponent,
+        state: selectedCraftingComponentState,
+      },
+    },
+  };
+}
+
+function _setSelectedCraftingComponent(state, source, baseCardIndex, forgeSlotIndex, craftingPartIndex, selectedCraftingComponentState) {
+  return {
+    ...state,
+    ui: {
+      ...state.ui,
+      selectedCraftingComponent: {
+        source,
+        baseCardIndex,
+        forgeSlotIndex,
+        craftingPartIndex,
+        state: selectedCraftingComponentState,
+      },
+    },
+  };
+}
+
+function _removeSelectedCraftingComponent(state) {
+  return {
+    ...state,
+    ui: {
+      ...state.ui,
+      selectedCraftingComponent: {
+        source: null,
+        baseCardIndex: null,
+        forgeSlotIndex: null,
+        craftingPartIndex: null,
+        state: null,
+      },
+    },
+  }
+}
+
 
 function _setSelectedCraftingPart(state, craftingPartIndex, forgeSlotIndex) {
   return {
@@ -191,10 +244,24 @@ const INITIAL_STATE = _resetState();
 const reducer = (state = INITIAL_STATE, action) => {
   let newState = state;
   switch (action.type) {
-    case Actions.SELECT_CRAFTING_BASE_CARD:
-      return _setIsCraftingBaseCardSelected(newState, true);
-    case Actions.CANCEL_SELECT_CRAFTING_BASE_CARD:
-      return _setIsCraftingBaseCardSelected(newState, false);
+    case Actions.SELECT_BASE_DRAFT_CARD:
+      return _setSelectedCraftingComponent(
+        newState,
+        SELECTED_CRAFTING_COMPONENT_SOURCES.SELECT_BASE_DRAFT_CARD,
+        action.baseCardIndex,
+        null,
+        null,
+        SELECTED_CRAFTING_COMPONENT_STATES.PREVIEW
+      );
+    case Actions.CANCEL_SELECT_CRAFTING_COMPONENT:
+      return _removeSelectedCraftingComponent(newState);
+    case Actions.FORGE_SELECTED_BASE_DRAFT_CARD:
+      return _setSelectedCraftingComponentState(
+        newState,
+        SELECTED_CRAFTING_COMPONENT_STATES.TARGET_FIELD
+      );
+
+
     case Actions.SELECT_FORGE_SLOT:
       return _setSelectedForgeSlot(newState, action.forgeSlotIndex);
     case Actions.CANCEL_SELECT_FORGE_SLOT:

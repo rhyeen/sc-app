@@ -3,7 +3,7 @@ import { CardType } from '@shardedcards/sc-types/dist/card/enums/card-type.js';
 import { CARDS, CardRarityColor } from '../../../../../sc-cards/sc-cards-styles';
 import { VALUE_TYPES } from '../../../../../sc-cards/src/components/card-parts/ScCardValue';
 
-export class ScDraftCard extends LitElement {
+export class ScReducedDraftCard extends LitElement {
   static get styles() {
     return [
       css`
@@ -54,9 +54,8 @@ export class ScDraftCard extends LitElement {
           reduced
         ></sc-card-value>
       </header>
-      <sc-draft-card-ability-slots
-          .card="${this.card}"
-          reduced></sc-draft-card-ability-slots>
+      <sc-reduced-draft-card-ability-slots
+          .slots=${this.card.slots}></sc-reduced-draft-card-ability-slots>
       <footer>
         ${this._getFooterHtml()}
       </footer>
@@ -70,7 +69,6 @@ export class ScDraftCard extends LitElement {
   }
 
   _getFooterHtml() {
-    debugger;
     if (this.card.type === CardType.Minion) {
       return html`
         <sc-card-value

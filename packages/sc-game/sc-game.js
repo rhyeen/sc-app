@@ -21,6 +21,7 @@ import { ScGameFooter } from './src/components/game-area/ScGameFooter.js';
 import { ScGameHeader } from './src/components/game-area/ScGameHeader.js';
 import { ScGameView } from './src/components/game-area/ScGameView.js';
 import { ScGame } from './src/ScGame.js';
+import { ScPreviewBaseDraftCardOverlay } from './src/components/overlay/ScPreviewBaseDraftCardOverlay.js';
 
 window.customElements.define('sc-game-menu-bar-item', ScGameMenuBarItem);
 
@@ -31,6 +32,7 @@ window.customElements.define('sc-preview-player-minion-overlay', ScPreviewPlayer
 window.customElements.define('sc-preview-card-abilities-overlay', ScPreviewCardAbilitiesOverlay);
 window.customElements.define('sc-attack-minion-overlay', ScAttackMinionOverlay);
 window.customElements.define('sc-place-minion-overlay', ScPlaceMinionOverlay);
+window.customElements.define('sc-preview-base-draft-card-overlay', ScPreviewBaseDraftCardOverlay);
 window.customElements.define('sc-game-overlay', ScGameOverlay);
 
 window.customElements.define('sc-game-footer', ScGameFooter);
