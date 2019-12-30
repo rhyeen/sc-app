@@ -37,9 +37,7 @@ export class ScCraftingField extends LitElement {
     return {
       gameVersion: { type: Number },
       game: { type: Game },
-      owner: { type: String },
-      selectedCraftingPart: { type: Object },
-      selectedBaseDraftCard: { type: Object }
+      selectedCraftingComponent: { type: Object }
     }
   }
 
@@ -49,8 +47,7 @@ export class ScCraftingField extends LitElement {
         <sc-cover-forge-card
           .game=${this.game}
           .gameVersion=${this.gameVersion}
-          .selectedCraftingPart=${this.selectedCraftingPart}
-          .selectedBaseDraftCard=${this.selectedBaseDraftCard}
+          .selectedCraftingComponent=${this.selectedCraftingComponent}
           .forgeSlotIndex=${forgeSlotIndex}
         ></sc-cover-forge-card>
       `;
@@ -65,13 +62,17 @@ export class ScCraftingField extends LitElement {
   }
 
   get overlay() {
-    return this.selectedCraftingPart || this.selectedBaseDraftCard && this.selectedBaseDraftCard.isForging;
+    return !!this.selectedCraftingComponent;
   }
 
   _getCraftingBaseCardHtml(baseCardIndex) {
     if (this.overlay) {
       return html`
-        <sc-cover-base-draft-card></sc-cover-base-draft-card>
+        <sc-cover-base-draft-card
+          .game=${this.game}
+          .gameVersion=${this.gameVersion}
+          .selectedCraftingComponent=${this.selectedCraftingComponent}
+          .baseCardIndex=${baseCardIndex}></sc-cover-base-draft-card>
       `;
     }
     return html`

@@ -128,6 +128,14 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
     );
   }
 
+  get _forgeBaseDraftCard() {
+    return (
+      ScGameOverlay._validIndex(this._selectedCraftingComponent.baseCardIndex) &&
+      this._selectedCraftingComponent.source === SELECTED_CRAFTING_COMPONENT_SOURCES.SELECT_BASE_DRAFT_CARD &&
+      this._selectedCraftingComponent.state === SELECTED_CRAFTING_COMPONENT_STATES.TARGET_FIELD
+    );
+  }
+
   _getOverlayInnerHtml() {
     if (this._showGameMenu) {
       return html`
@@ -189,6 +197,15 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
           .gameVersion=${this.gameVersion}
           .selectedCraftingComponent=${this._selectedCraftingComponent}
         ></sc-preview-base-draft-card-overlay>
+      `;
+    }
+    if (this._forgeBaseDraftCard) {
+      return html`
+        <sc-forge-base-draft-card-overlay
+          .game=${this.game}
+          .gameVersion=${this.gameVersion}
+          .selectedCraftingComponent=${this._selectedCraftingComponent}
+        ></sc-forge-base-draft-card-overlay>
       `;
     }
     return null;
