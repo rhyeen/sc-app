@@ -7,7 +7,7 @@ export class ScForgeSlotMold extends LitElement {
     return [
       ScIconsStyles,
       css`
-        [forge-mold] {
+        :host {
           display: flex;
           align-items: center;
           justify-content: center;
@@ -31,7 +31,7 @@ export class ScForgeSlotMold extends LitElement {
 
   render() {
     return html`
-      <div forge-mold>${ForgeIcon()}</div>
+      ${ForgeIcon()}
     `;
   }
 }

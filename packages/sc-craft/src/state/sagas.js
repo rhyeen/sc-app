@@ -7,6 +7,7 @@ import { Log } from 'interface-handler/src/logger.js';
 import * as Actions from './actions.js';
 import * as CraftInterface from '../services/interface/craft.js';
 import * as Selectors from './selectors.js';
+import * as GameSelectors from '../../../sc-game/src/state/selectors.js';
 import { localStore } from './store.js';
 import * as GameActions from '../../../sc-game/src/state/actions.js';
 
@@ -87,26 +88,45 @@ function* _addCraftedCardToDeck({ numberOfInstances }) {
 }
 
 function _getForgeBaseCardAction(forgeSlotIndex) {
-  return new CraftBaseCardAction(forgeSlotIndex);
+  const state = localStore.getState();
+  const selectedCraftingComponent = Selectors.getSelectedCraftingComponent(state);
+  return new CraftBaseCardAction(selectedCraftingComponent.baseCardIndex, forgeSlotIndex);
 }
 
-function* _finishForgeSelectedCraftingBaseCard({ forgeSlotIndex }) {
+function* _finishForgeSelectedBaseDraftCard({ forgeSlotIndex }) {
   const action = yield _getForgeBaseCardAction(forgeSlotIndex);
-  yield put(GameActions.recordAction(action));
-  yield put(Actions.finishForgeSelectedCraftingBaseCard.success(forgeSlotIndex));
+  yield put(GameActions.fulfillTurnAction.request(action));
+  yield put(Actions.finishForgeSelectedBaseDraftCard.success());
+}
+
+function _getFinalizedSelectedForgeDraftCard() {
+  const state = localStore.getState();
+  const selectedCraftingComponent = Selectors.getSelectedCraftingComponent(state);
+  const game = GameSelectors.getGame(state);
+  const draftCard = game.player.craftingTable.forge[selectedCraftingComponent.forgeSlotIndex].card;
+  return draftCard.buildCard();
+}
+
+function* _finalizeSelectedForgeDraftCard() {
+  const card = yield _getFinalizedSelectedForgeDraftCard();
+  yield put(Actions.finalizeSelectedForgeDraftCard.success(card));
 }
 
 function* saga() {
   yield all([
+    takeEvery(
+      Actions.FINISH_FORGE_SELECTED_BASE_DRAFT_CARD.REQUEST,
+      _finishForgeSelectedBaseDraftCard,
+    ),
+    takeEvery(
+      Actions.FINALIZE_SELECTED_FORGE_DRAFT_CARD.REQUEST,
+      _finalizeSelectedForgeDraftCard,
+    ),
     takeLatest(Actions.SET_CRAFTING_BASE_CARD.REQUEST, _setCraftingBaseCard),
     takeLatest(Actions.SET_CRAFTING_PARTS.REQUEST, _setCraftingParts),
     takeEvery(Actions.FINISH_ADD_CRAFTING_PART.REQUEST, _finishAddCraftingPart),
     takeEvery(Actions.FINISH_FORGING_CARD.REQUEST, _finishForgingCard),
     takeEvery(Actions.ADD_CRAFTED_CARD_TO_DECK.REQUEST, _addCraftedCardToDeck),
-    takeEvery(
-      Actions.FINISH_FORGE_SELECTED_CRAFTING_BASE_CARD.REQUEST,
-      _finishForgeSelectedCraftingBaseCard,
-    ),
   ]);
 }
 

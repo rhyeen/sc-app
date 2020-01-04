@@ -1,4 +1,5 @@
 import { html, css, LitElement } from 'lit-element';
+import { CardType } from '@shardedcards/sc-types/dist/card/enums/card-type.js';
 import { CARDS, CardRarityColor } from '../../../../sc-cards/sc-cards-styles.js';
 import { VALUE_TYPES } from '../../../../sc-cards/src/components/card-parts/ScCardValue.js';
 
@@ -71,14 +72,7 @@ export class ScFullDraftCard extends LitElement {
         <sc-full-draft-card-ability-slots .slots=${this.card.slots}></sc-full-draft-card-ability-slots>
       </section>
       <footer>
-        <div class="footer-left">
-          <sc-card-value valueType="${VALUE_TYPES.RANGE}" .card="${this.card}"></sc-card-value>
-          <sc-card-value valueType="${VALUE_TYPES.ATTACK}" .card="${this.card}"></sc-card-value>
-        </div>
-        <div class="footer-right">
-          <sc-card-value valueType="${VALUE_TYPES.HEALTH}" .card="${this.card}"></sc-card-value>
-          <sc-card-value valueType="${VALUE_TYPES.SHIELD}" .card="${this.card}"></sc-card-value>
-        </div>
+        ${this._getFooterHtml()}
       </footer>
     `;
   }
@@ -87,5 +81,20 @@ export class ScFullDraftCard extends LitElement {
     return {
       card: { type: Object },
     };
+  }
+
+  _getFooterHtml() {
+    if (this.card.type === CardType.Minion) {
+      return html`
+        <div class="footer-left">
+          <sc-card-value valueType="${VALUE_TYPES.RANGE}" .card="${this.card}"></sc-card-value>
+          <sc-card-value valueType="${VALUE_TYPES.ATTACK}" .card="${this.card}"></sc-card-value>
+        </div>
+        <div class="footer-right">
+          <sc-card-value valueType="${VALUE_TYPES.HEALTH}" .card="${this.card}"></sc-card-value>
+        </div>
+      `;
+    }
+    return html``;
   }
 }

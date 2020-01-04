@@ -3,6 +3,7 @@ import { SELECTED_CRAFTING_COMPONENT_SOURCES } from './state-specifiers';
 
 const _usedCraftingPartsSelector = state => state.scCraft.ui.usedCraftingParts;
 const _selectedCraftingComponentSelector = state => state.scCraft.ui.selectedCraftingComponent;
+const _finalizedCardSelector = state => state.scCraft.ui.finalizedCard;
 const _gameSelector = state => state.scGame.entities.game;
 
 const _forgeSelector = state => state.scCraft.entities.forge;
@@ -19,15 +20,26 @@ export const getUsedCraftingParts = createSelector(
   usedCraftingParts => usedCraftingParts,
 );
 
+export const getFinalizedCard = createSelector(
+  _finalizedCardSelector,
+  finalizedCard => finalizedCard,
+);
+
 function _validIndex(index) {
   return index || index === 0;
 }
-
 
 function _isSelectBaseDraftCard(selectedCraftingComponent) {
   return (
     _validIndex(selectedCraftingComponent.baseCardIndex) &&
     selectedCraftingComponent.source === SELECTED_CRAFTING_COMPONENT_SOURCES.SELECT_BASE_DRAFT_CARD
+  );
+}
+
+function _isSelectForgeDraftCard(selectedCraftingComponent) {
+  return (
+    _validIndex(selectedCraftingComponent.forgeSlotIndex) &&
+    selectedCraftingComponent.source === SELECTED_CRAFTING_COMPONENT_SOURCES.SELECT_FORGE_SLOT
   );
 }
 
@@ -38,6 +50,9 @@ export const getSelectedCraftingComponent = createSelector(
     let card = null;
     if (_isSelectBaseDraftCard(selectedCraftingComponent)) {
       card = game.player.craftingTable.baseCards[selectedCraftingComponent.baseCardIndex];
+    }
+    if (_isSelectForgeDraftCard(selectedCraftingComponent)) {
+      card = game.player.craftingTable.forge[selectedCraftingComponent.forgeSlotIndex].card;
     }
     return {
       ...selectedCraftingComponent,

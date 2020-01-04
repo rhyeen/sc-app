@@ -13,6 +13,8 @@ function _resetState() {
         source: null,
         state: null,
       },
+      finalizedCard: null,
+      
       
       selectedCraftingPart: {
         craftingPartIndex: null,
@@ -41,6 +43,26 @@ function _resetState() {
       craftingPartsUsed: 0,
       maxCraftingPartsUsed: 1,
     },
+  };
+}
+
+function _setFinalizedCard(state, finalizedCard) {
+  return {
+    ...state,
+    ui: {
+      ...state.ui,
+      finalizedCard
+    }
+  };
+}
+
+function _removeFinalizedCard(state) {
+  return {
+    ...state,
+    ui: {
+      ...state.ui,
+      finalizedCard: null
+    }
   };
 }
 
@@ -254,16 +276,32 @@ const reducer = (state = INITIAL_STATE, action) => {
         SELECTED_CRAFTING_COMPONENT_STATES.PREVIEW
       );
     case Actions.CANCEL_SELECT_CRAFTING_COMPONENT:
-      return _removeSelectedCraftingComponent(newState);
+    case Actions.FINISH_FORGE_SELECTED_BASE_DRAFT_CARD.SUCCESS:
+      newState = _removeSelectedCraftingComponent(newState);
+      return _removeFinalizedCard(newState);
     case Actions.FORGE_SELECTED_BASE_DRAFT_CARD:
       return _setSelectedCraftingComponentState(
         newState,
         SELECTED_CRAFTING_COMPONENT_STATES.TARGET_FIELD
       );
-
-
     case Actions.SELECT_FORGE_SLOT:
-      return _setSelectedForgeSlot(newState, action.forgeSlotIndex);
+      return _setSelectedCraftingComponent(
+        newState,
+        SELECTED_CRAFTING_COMPONENT_SOURCES.SELECT_FORGE_SLOT,
+        null,
+        action.forgeSlotIndex,
+        null,
+        SELECTED_CRAFTING_COMPONENT_STATES.PREVIEW
+      );
+    case Actions.FINALIZE_SELECTED_FORGE_DRAFT_CARD.SUCCESS:
+      newState = _setSelectedCraftingComponentState(
+        newState,
+        SELECTED_CRAFTING_COMPONENT_STATES.FINALIZE
+      );
+      return _setFinalizedCard(newState, action.finalizedCard);
+
+
+
     case Actions.CANCEL_SELECT_FORGE_SLOT:
       return _removeSelectedForgeSlot(newState);
     case Actions.SELECT_CRAFTING_PART:

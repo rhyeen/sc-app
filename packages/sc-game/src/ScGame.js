@@ -57,7 +57,7 @@ export class ScGame extends connect(localStore)(LitElement) {
     if (!this._game) {
       return html`
         <div class="centralize">
-          <sc-loading .text=${Localize.localeMap.SC_GAME.LOADING}></sc-loading>
+          <sc-loading .text=${Localize.localeMap.SC_GAME.LOADING_GAME}></sc-loading>
         </div>
       `;
     }

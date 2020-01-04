@@ -51,7 +51,8 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
       game: { type: Game },
       _showGameMenu: { type: Boolean },
       _selectedCard: { type: Object },
-      _selectedCraftingComponent: { type: Object }
+      _selectedCraftingComponent: { type: Object },
+      _loading: { type: Boolean }
     };
   }
 
@@ -136,7 +137,28 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
     );
   }
 
+  get _previewForgeDraftCard() {
+    return (
+      ScGameOverlay._validIndex(this._selectedCraftingComponent.forgeSlotIndex) &&
+      this._selectedCraftingComponent.source === SELECTED_CRAFTING_COMPONENT_SOURCES.SELECT_FORGE_SLOT &&
+      this._selectedCraftingComponent.state === SELECTED_CRAFTING_COMPONENT_STATES.PREVIEW
+    );
+  }
+
+  get _finalizeForgeDraftCard() {
+    return (
+      ScGameOverlay._validIndex(this._selectedCraftingComponent.forgeSlotIndex) &&
+      this._selectedCraftingComponent.source === SELECTED_CRAFTING_COMPONENT_SOURCES.SELECT_FORGE_SLOT &&
+      this._selectedCraftingComponent.state === SELECTED_CRAFTING_COMPONENT_STATES.FINALIZE
+    );
+  }
+
   _getOverlayInnerHtml() {
+    if (this._loading) {
+      return html`
+        <sc-loading-overlay></sc-loading-overlay>
+      `;
+    }
     if (this._showGameMenu) {
       return html`
         <sc-game-menu-overlay></sc-game-menu-overlay>
@@ -208,6 +230,24 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
         ></sc-forge-base-draft-card-overlay>
       `;
     }
+    if (this._previewForgeDraftCard) {
+      return html`
+        <sc-preview-forge-draft-card-overlay
+          .game=${this.game}
+          .gameVersion=${this.gameVersion}
+          .selectedCraftingComponent=${this._selectedCraftingComponent}
+        ></sc-preview-forge-draft-card-overlay>
+      `;
+    }
+    if (this._finalizeForgeDraftCard) {
+      return html`
+        <sc-finalize-forge-draft-card-overlay
+          .game=${this.game}
+          .gameVersion=${this.gameVersion}
+          .selectedCraftingComponent=${this._selectedCraftingComponent}
+        ></sc-finalize-forge-draft-card-overlay>
+      `;
+    }
     return null;
   }
 
@@ -215,10 +255,11 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
     this._showGameMenu = Selectors.isGameMenuOpen(state);
     this._selectedCard = CardSelectors.getSelectedCard(state);
     this._selectedCraftingComponent = CraftSelectors.getSelectedCraftingComponent(state);
-    // @NOTE: since update is not down on object property changes, we need to force the update.
+    // @NOTE: since update is not done on object property changes, we need to force the update.
     // If there is any state change, likely it is due to selectedCard/selectedCraftingComponent being updated.
     if (this._selectedCard.source || this._selectedCraftingComponent.source) {
       this.requestUpdate();
     }
+    this._loading = Selectors.isLoading(state);
   }
 }

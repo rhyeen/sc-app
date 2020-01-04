@@ -75,7 +75,7 @@ export class ScCraftingParts extends connect(localStore)(LitElement) {
     if (this._maximumCraftingPartsUsed()) {
       return html`${Localize.localeMap.SC_CRAFT.CRAFTING_PARTS.NO_USES_REMAIN}`;
     }
-    return html`${Localize.localeMap.SC_CRAFT.CRAFTING_PARTS.FORGE_NOT_EMPTY(this._craftingPartsLeftToUse)}`;
+    return html`${Localize.localeMap.SC_CRAFT.CRAFTING_PARTS.FORGE_NOT_EMPTY(this._craftingPartsLeftToUse())}`;
   }
 
   _getCraftingPartsHtml() {
@@ -105,6 +105,10 @@ export class ScCraftingParts extends connect(localStore)(LitElement) {
 
   _maximumCraftingPartsUsed() {
     return this._usedCraftingParts.length >= this.game.player.craftingTable.maxCraftingPartsUsed;
+  }
+
+  _craftingPartsLeftToUse() {
+    return this.game.player.craftingTable.maxCraftingPartsUsed - this._usedCraftingParts.length;
   }
 
   static _selectCraftingPart(craftingPartIndex) {

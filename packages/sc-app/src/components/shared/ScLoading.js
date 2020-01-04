@@ -1,6 +1,31 @@
 import { LitElement, html, css } from 'lit-element';
 import { APP_COLORS } from '../../../sc-app-styles.js';
 
+const HOST_REVEAL_DELAY_SECONDS = 0.75;
+const HOST_REVEAL_DURATION_SECONDS = 0.5;
+
+const slowRevealStyles = css`
+  :host {
+    animation-name: host-reveal;
+    animation-duration: ${HOST_REVEAL_DURATION_SECONDS}s;
+    animation-delay: ${HOST_REVEAL_DELAY_SECONDS}s;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in;
+    animation-fill-mode: both;
+  }
+
+  @-webkit-keyframes host-reveal {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+`;
+
+const CUBE_FOLD_DURATION_SECONDS = 2.4;
+
 // @SOURCE: https://tobiasahlin.com/spinkit
 const foldingCubeStyles = css`
   .sk-folding-cube {
@@ -27,7 +52,11 @@ const foldingCubeStyles = css`
     width: 100%;
     height: 100%;
     background-color: ${APP_COLORS.HINT_GRAY};
-    animation: sk-foldCubeAngle 2.4s infinite linear both;
+    animation-name: sk-foldCubeAngle;
+    animation-duration: ${CUBE_FOLD_DURATION_SECONDS}s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
     transform-origin: 100% 100%;
   }
 
@@ -44,15 +73,15 @@ const foldingCubeStyles = css`
   }
 
   .sk-folding-cube .sk-cube2:before {
-    animation-delay: 0.3s;
+    animation-delay: ${CUBE_FOLD_DURATION_SECONDS / 8}s;
   }
 
   .sk-folding-cube .sk-cube3:before {
-    animation-delay: 0.6s;
+    animation-delay: ${(CUBE_FOLD_DURATION_SECONDS / 8) * 2}s;
   }
 
   .sk-folding-cube .sk-cube4:before {
-    animation-delay: 0.9s;
+    animation-delay: ${(CUBE_FOLD_DURATION_SECONDS / 8) * 3}s;
   }
 
   @-webkit-keyframes sk-foldCubeAngle {
@@ -92,23 +121,23 @@ const foldingCubeStyles = css`
   }
 `;
 
-const ELLIPSIS_STEP_ANIMATION_DELAY = 0.3;
+const ELLIPSIS_STEP_DELAY_SECONDS = 0.3;
 
 // @SOURCE: http://jsfiddle.net/benbrandt22/k23sn
 const ellipsisStyles = css`
   .ellipsis-anim span {
     opacity: 0;
-    animation: ellipsis-dot ${ELLIPSIS_STEP_ANIMATION_DELAY * 5}s infinite;
+    animation: ellipsis-dot ${ELLIPSIS_STEP_DELAY_SECONDS * 5}s infinite;
   }
 
   .ellipsis-anim span:nth-child(1) {
     animation-delay: 0s;
   }
   .ellipsis-anim span:nth-child(2) {
-    animation-delay: ${ELLIPSIS_STEP_ANIMATION_DELAY}s;
+    animation-delay: ${ELLIPSIS_STEP_DELAY_SECONDS}s;
   }
   .ellipsis-anim span:nth-child(3) {
-    animation-delay: ${ELLIPSIS_STEP_ANIMATION_DELAY * 2}s;
+    animation-delay: ${ELLIPSIS_STEP_DELAY_SECONDS * 2}s;
   }
 
   @-webkit-keyframes ellipsis-dot {
@@ -133,12 +162,38 @@ export class ScLoading extends LitElement {
           color: ${APP_COLORS.HINT_GRAY};
         }
       `,
+      slowRevealStyles,
       foldingCubeStyles,
       ellipsisStyles,
     ];
   }
 
   render() {
+    return html`
+      ${this._getHtml()}
+    `;
+  }
+
+  constructor() {
+    super();
+    this._showContent = false;
+    setTimeout(() => {
+      this._showContent = true;
+      this.requestUpdate();
+    }, HOST_REVEAL_DELAY_SECONDS * 1000);
+  }
+
+  static get properties() {
+    return {
+      text: { type: String },
+      _showContent: { type: Boolean }
+    };
+  }
+
+  _getHtml() {
+    if (!this._showContent) {
+      return html``;
+    }
     return html`
       <div class="sk-folding-cube">
         <div class="sk-cube1 sk-cube"></div>
@@ -151,11 +206,5 @@ export class ScLoading extends LitElement {
         ><span class="ellipsis-anim"><span>.</span><span>.</span><span>.</span></span>
       </div>
     `;
-  }
-
-  static get properties() {
-    return {
-      text: { type: String },
-    };
   }
 }

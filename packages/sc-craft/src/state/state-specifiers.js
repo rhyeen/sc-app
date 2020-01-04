@@ -7,4 +7,5 @@ export const SELECTED_CRAFTING_COMPONENT_SOURCES = {
 export const SELECTED_CRAFTING_COMPONENT_STATES = {
   PREVIEW: 'preview',
   TARGET_FIELD: 'targetField',
+  FINALIZE: 'finalize'
 };

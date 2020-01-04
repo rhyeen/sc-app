@@ -8,6 +8,7 @@ import '../sc-status/sc-status.js';
 
 import { ScGameMenuBarItem } from './src/components/bar-items/ScGameMenuBarItem.js';
 
+import { ScLoadingOverlay } from './src/components/overlay/ScLoadingOverlay.js';
 import { ScGameMenuOverlay } from './src/components/overlay/ScGameMenuOverlay.js';
 import { ScPreviewHandCardOverlay } from './src/components/overlay/ScPreviewHandCardOverlay.js';
 import { ScPreviewDungeonMinionOverlay } from './src/components/overlay/ScPreviewDungeonMinionOverlay.js';
@@ -17,6 +18,8 @@ import { ScPlaceMinionOverlay } from './src/components/overlay/ScPlaceMinionOver
 import { ScAttackMinionOverlay } from './src/components/overlay/ScAttackMinionOverlay.js';
 import { ScPreviewBaseDraftCardOverlay } from './src/components/overlay/ScPreviewBaseDraftCardOverlay.js';
 import { ScForgeBaseDraftCardOverlay } from './src/components/overlay/ScForgeBaseDraftCardOverlay.js';
+import { ScPreviewForgeDraftCardOverlay } from './src/components/overlay/ScPreviewForgeDraftCardOverlay.js';
+import { ScFinalizeForgeDraftCardOverlay } from './src/components/overlay/ScFinalizeForgeDraftCardOverlay.js';
 import { ScGameOverlay } from './src/components/game-area/ScGameOverlay.js';
 
 import { ScGameFooter } from './src/components/game-area/ScGameFooter.js';
@@ -26,6 +29,7 @@ import { ScGame } from './src/ScGame.js';
 
 window.customElements.define('sc-game-menu-bar-item', ScGameMenuBarItem);
 
+window.customElements.define('sc-loading-overlay', ScLoadingOverlay);
 window.customElements.define('sc-game-menu-overlay', ScGameMenuOverlay);
 window.customElements.define('sc-preview-hand-card-overlay', ScPreviewHandCardOverlay);
 window.customElements.define('sc-preview-dungeon-minion-overlay', ScPreviewDungeonMinionOverlay);
@@ -35,6 +39,8 @@ window.customElements.define('sc-attack-minion-overlay', ScAttackMinionOverlay);
 window.customElements.define('sc-place-minion-overlay', ScPlaceMinionOverlay);
 window.customElements.define('sc-preview-base-draft-card-overlay', ScPreviewBaseDraftCardOverlay);
 window.customElements.define('sc-forge-base-draft-card-overlay', ScForgeBaseDraftCardOverlay);
+window.customElements.define('sc-preview-forge-draft-card-overlay', ScPreviewForgeDraftCardOverlay);
+window.customElements.define('sc-finalize-forge-draft-card-overlay', ScFinalizeForgeDraftCardOverlay);
 window.customElements.define('sc-game-overlay', ScGameOverlay);
 
 window.customElements.define('sc-game-footer', ScGameFooter);

@@ -1,10 +1,26 @@
-import { html, LitElement } from 'lit-element';
+import { html, css, LitElement } from 'lit-element';
 import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
 
 import { localStore } from '../../../state/store.js';
 import { selectForgeSlot } from '../../../state/actions.js';
+import { FORGE } from '../../sc-craft-styles.js';
+import { CARDS } from '../../../../../sc-cards/sc-cards-styles.js';
 
 export class ScForgeSlot extends LitElement {
+  static get styles() {
+    return [
+      css`
+        sc-reduced-draft-card {
+          position: absolute;
+          margin-top: calc((${FORGE.HEIGHT} + (${FORGE.PADDING} * 2) - ${CARDS.MINION.HEIGHT})/2);
+          margin-bottom: calc((${FORGE.HEIGHT} + (${FORGE.PADDING} * 2) - ${CARDS.MINION.HEIGHT})/2);
+          margin-left: calc((${FORGE.WIDTH} + (${FORGE.PADDING} * 2) - ${CARDS.MINION.WIDTH})/2);
+          margin-right: calc((${FORGE.WIDTH} + (${FORGE.PADDING} * 2) - ${CARDS.MINION.WIDTH})/2);
+        }
+      `
+    ];
+  }
+
   render() {
     return html`
       ${this._getCardHtml()}

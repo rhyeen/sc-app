@@ -1,6 +1,7 @@
 import { html, css, LitElement } from 'lit-element';
 import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
-import { selectBaseDraftCard } from '../../state/actions.js';
+import { finishForgeSelectedBaseDraftCard } from '../../state/actions.js';
+import { localStore } from '../../state/store.js';
 
 export class ScCraftingField extends LitElement {
   static get styles() {
@@ -49,6 +50,7 @@ export class ScCraftingField extends LitElement {
           .gameVersion=${this.gameVersion}
           .selectedCraftingComponent=${this.selectedCraftingComponent}
           .forgeSlotIndex=${forgeSlotIndex}
+          @click=${() => this._selectForge(forgeSlotIndex)}
         ></sc-cover-forge-card>
       `;
     }
@@ -59,6 +61,10 @@ export class ScCraftingField extends LitElement {
         .forgeSlotIndex=${forgeSlotIndex}
       ></sc-forge-slot>
     `;
+  }
+
+  _selectForge(forgeSlotIndex) {
+    localStore.dispatch(finishForgeSelectedBaseDraftCard.request(forgeSlotIndex));
   }
 
   get overlay() {

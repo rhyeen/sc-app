@@ -4,12 +4,18 @@ import { GAME_STATES } from '../entities/game-states.js';
 
 const _gameMenuSelector = state => state.scGame.ui.menu;
 const _uiGameSelector = state => state.scGame.ui.game;
+const _loadingSelector = state => state.scGame.ui.loading;
 const _pendingTurnSelector = state => state.scGame.entities.pendingTurn;
 const _gameSelector = state => state.scGame.entities.game;
 const _gameVersionSelector = state => state.scGame.ui.game.version;
 const _playerIdSelector = state => state.scGame.entities.playerId;
 const _playerDeckIdSelector = state => state.scGame.entities.playerDeckId;
 const _dungeonIdSelector = state => state.scGame.entities.dungeonId;
+
+export const isLoading = createSelector(
+  _loadingSelector,
+  loading => loading,
+);
 
 export const getPendingTurn = createSelector(
   _pendingTurnSelector,

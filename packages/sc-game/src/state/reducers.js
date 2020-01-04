@@ -12,6 +12,7 @@ const INITIAL_STATE = {
       version: 0,
       state: GAME_STATES.BATTLE,
     },
+    loading: false
   },
   entities: {
     pendingTurn: [],
@@ -22,6 +23,16 @@ const INITIAL_STATE = {
     dungeonId: null,
   },
 };
+
+function _setLoading(state, loading) {
+  return  {
+    ...state,
+    ui: {
+      ...state.ui,
+      loading
+    }
+  };
+}
 
 function _toggleMenuState(state, showMenu) {
   return {
@@ -137,8 +148,11 @@ const reducer = (state = INITIAL_STATE, action) => {
     case Actions.RESET_GAME.SUCCESS:
       newState = _toggleMenuState(newState, false);
       return _updateGameState(newState, GAME_STATES.BATTLE);
+    case Actions.END_CRAFTING.REQUEST:
+      return _setLoading(newState, true);
     case Actions.END_CRAFTING.SUCCESS:
       newState = _updateGameState(newState, GAME_STATES.BATTLE);
+      newState = _setLoading(newState, false);
       newState = _endTurn(newState);
       return _addOpponentTurn(newState, action.opponentTurn);
     case Actions.WIN_GAME.SUCCESS:
@@ -147,8 +161,11 @@ const reducer = (state = INITIAL_STATE, action) => {
       return _updateGameState(newState, GAME_STATES.LOSE);
     case Actions.RECORD_ACTION:
       return _updatePendingTurn(newState, action.action);
+    case Actions.END_TURN.REQUEST:
+      return _setLoading(newState, true);
     case Actions.END_TURN.SUCCESS:
       newState = _updateGameState(newState, GAME_STATES.DRAFT);
+      newState = _setLoading(newState, false);
       return _endTurn(newState);
     case Actions.SET_GAME:
       return _setGame(newState, action.game);

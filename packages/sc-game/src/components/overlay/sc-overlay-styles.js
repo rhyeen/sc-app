@@ -13,6 +13,16 @@ export const ScOverlayStyles = css`
 `;
 
 export const ScBtnGroupStyles = css`
+  [btn-group-stack] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  [btn-group-stack] [btn-group] {
+    margin-bottom: 0;
+  }
+
   [btn-group] {
     margin: 20px 0 40px 0;
   }

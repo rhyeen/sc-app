@@ -11,6 +11,18 @@ export const cancelSelectCraftingComponent = () => ReduxAction.action(CANCEL_SEL
 export const FORGE_SELECTED_BASE_DRAFT_CARD = ra.createRequestRaw('FORGE_SELECTED_BASE_DRAFT_CARD');
 export const forgeSelectedBaseDraftCard = () => ReduxAction.action(FORGE_SELECTED_BASE_DRAFT_CARD, {});
 
+export const FINISH_FORGE_SELECTED_BASE_DRAFT_CARD = ra.createRequestTypes('FINISH_FORGE_SELECTED_BASE_DRAFT_CARD');
+export const finishForgeSelectedBaseDraftCard = {
+  request: forgeSlotIndex => ReduxAction.action(FINISH_FORGE_SELECTED_BASE_DRAFT_CARD.REQUEST, { forgeSlotIndex }),
+  success: () => ReduxAction.action(FINISH_FORGE_SELECTED_BASE_DRAFT_CARD.SUCCESS, {}),
+};
+
+export const FINALIZE_SELECTED_FORGE_DRAFT_CARD = ra.createRequestTypes('FINALIZE_SELECTED_FORGE_DRAFT_CARD');
+export const finalizeSelectedForgeDraftCard = {
+  request: () => ReduxAction.action(FINALIZE_SELECTED_FORGE_DRAFT_CARD.REQUEST, {}),
+  success: finalizedCard => ReduxAction.action(FINALIZE_SELECTED_FORGE_DRAFT_CARD.SUCCESS, { finalizedCard }),
+};
+
 export const SELECT_CRAFTING_PART = ra.createRequestRaw('SELECT_CRAFTING_PART');
 export const selectCraftingPart = craftingPartIndex =>
   ReduxAction.action(SELECT_CRAFTING_PART, { craftingPartIndex });

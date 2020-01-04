@@ -41,10 +41,6 @@ export class ScCardValue extends LitElement {
           flex-direction: column;
         }
 
-        [card-part].no-value-card-part {
-          display: none;
-        }
-
         [card-part] .icon,
         [card-part] .current,
         [card-part] .modified {
@@ -115,11 +111,7 @@ export class ScCardValue extends LitElement {
     `;
   }
 
-  _getValue(card, returnNumber) {
-    let nullValue = html``;
-    if (returnNumber) {
-      nullValue = 0;
-    }
+  _getValue(card) {
     switch (this.valueType) {
       case VALUE_TYPES.ATTACK:
         return card.attack;
@@ -131,7 +123,7 @@ export class ScCardValue extends LitElement {
         return card.range;
       case VALUE_TYPES.SHIELD:
         if (!card.conditions) {
-          return nullValue;
+          return 0;
         }
         return card.conditions.shield;
       default:
@@ -191,10 +183,6 @@ export class ScCardValue extends LitElement {
     }
     if (this.reduced) {
       classes['reduced-card-part'] = true;
-    }
-    const cardValue = this._cardPartValue();
-    if (!cardValue && cardValue !== 0) {
-      classes['no-value-card-part'] = true;
     }
     return classMap(classes);
   }
