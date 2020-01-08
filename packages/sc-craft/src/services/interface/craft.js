@@ -1,6 +1,16 @@
 import { INTERFACE_STATE, InterfaceState } from 'interface-handler/src/interface-state.js';
 import * as CallHttp from './firebase/craft.js';
 
+
+export function getCardNames(cardHash) {
+  switch (InterfaceState.get()) {
+    case INTERFACE_STATE.HTTP:
+      return CallHttp.getCardNames(cardHash);
+    default:
+      return InterfaceState.invalid();
+  }
+}
+
 export function getCraftingBaseCard() {
   switch (InterfaceState.get()) {
     case INTERFACE_STATE.HTTP:

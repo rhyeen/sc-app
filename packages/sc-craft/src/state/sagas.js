@@ -107,9 +107,14 @@ function _getFinalizedSelectedForgeDraftCard() {
   return draftCard.buildCard();
 }
 
+function _getCardNames(card) {
+  return CraftInterface.getCardNames(card.hash);
+}
+
 function* _finalizeSelectedForgeDraftCard() {
   const card = yield _getFinalizedSelectedForgeDraftCard();
-  yield put(Actions.finalizeSelectedForgeDraftCard.success(card));
+  const { data } = yield _getCardNames(card);
+  yield put(Actions.finalizeSelectedForgeDraftCard.success(card, data.names, data.origin));
 }
 
 function* saga() {

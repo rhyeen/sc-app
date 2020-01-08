@@ -1,4 +1,4 @@
-import { html, LitElement } from 'lit-element';
+import { html, css, LitElement } from 'lit-element';
 import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
 
 import { Log } from 'interface-handler/src/logger';
@@ -13,7 +13,16 @@ import { cancelSelectCraftingComponent, finalizeSelectedForgeDraftCard } from '.
 
 export class ScFinalizeForgeDraftCardOverlay extends LitElement {
   static get styles() {
-    return [ScOverlayStyles, ScBtnGroupStyles];
+    return [
+      ScOverlayStyles,
+      ScBtnGroupStyles,
+      css`
+        .square-btn {
+          display: block;
+          width: 9px; /* just an arbitrary number that makes the width + height both 41px */ 
+        }
+      `
+    ];
   }
 
   render() {
@@ -26,14 +35,20 @@ export class ScFinalizeForgeDraftCardOverlay extends LitElement {
         <div btn-group class="btn-group-tight">
           <sc-btn
             .btntype="${SC_BTN_TYPES.GENERIC.PRIMARY}"
-            @click="${() => this._decrementNumberOfInstances()}" ?disabled=${this._numberOfInstances <= 1}>-</sc-btn>
+            @click="${() => this._decrementNumberOfInstances()}"
+            ?disabled=${this._numberOfInstances <= 1}>
+            <span class="square-btn">-</span>
+          </sc-btn>
           <sc-btn
             .btntype="${SC_BTN_TYPES.GENERIC.PRIMARY}"
             @click="${() => this._addToDeck()}">
           ${Localize.localeMap.SC_BTN.OTHER.ADD_CARDS_TO_DECK(this._numberOfInstances)}</sc-btn>
           <sc-btn
             .btntype="${SC_BTN_TYPES.GENERIC.PRIMARY}"
-            @click="${() => this._incrementNumberOfInstances()}" ?disabled=${this._numberOfInstances >= this.maxNumberOfInstances}>+</sc-btn>
+            @click="${() => this._incrementNumberOfInstances()}"
+            ?disabled=${this._numberOfInstances >= this.maxNumberOfInstances}>
+            <span class="square-btn">+</span>
+          </sc-btn>
         </div>
         <div btn-group>
           <sc-btn
@@ -82,13 +97,13 @@ export class ScFinalizeForgeDraftCardOverlay extends LitElement {
   }
 
   _getFinalizedCard() {
-    if (!this._finalizedCard) {
+    if (!this._finalizedCard || !this._finalizedCard.card) {
       const state = localStore.getState();
       this._finalizedCard = CraftSelectors.getFinalizedCard(state);
-      if (!this._finalizedCard) {
+      if (!this._finalizedCard || !this._finalizedCard.card) {
         Log.error(`finalizedCard is not set`);
       }
     }
-    return this._finalizedCard;
+    return this._finalizedCard.card;
   }
 }

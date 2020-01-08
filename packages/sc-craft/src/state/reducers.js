@@ -13,7 +13,11 @@ function _resetState() {
         source: null,
         state: null,
       },
-      finalizedCard: null,
+      finalizedCard: {
+        card: null,
+        possibleNames: null,
+        originalCardMetadata: null
+      },
       
       
       selectedCraftingPart: {
@@ -46,12 +50,17 @@ function _resetState() {
   };
 }
 
-function _setFinalizedCard(state, finalizedCard) {
+function _setFinalizedCard(state, card, possibleNames, originalCardMetadata) {
   return {
     ...state,
     ui: {
       ...state.ui,
-      finalizedCard
+      finalizedCard: {
+        ...state.ui.finalizedCard,
+        card,
+        possibleNames,
+        originalCardMetadata
+      },
     }
   };
 }
@@ -61,7 +70,11 @@ function _removeFinalizedCard(state) {
     ...state,
     ui: {
       ...state.ui,
-      finalizedCard: null
+      finalizedCard: {
+        card: null,
+        possibleNames: null,
+        originalCardMetadata: null
+      }
     }
   };
 }
@@ -298,7 +311,7 @@ const reducer = (state = INITIAL_STATE, action) => {
         newState,
         SELECTED_CRAFTING_COMPONENT_STATES.FINALIZE
       );
-      return _setFinalizedCard(newState, action.finalizedCard);
+      return _setFinalizedCard(newState, action.finalizedCard, action.possibleNames, action.originalCardMetadata);
 
 
 

@@ -1,5 +1,9 @@
 import { firebaseFunctions } from '../../../../../utils/firebase.js';
 
+export function getCardNames(cardHash) {
+  return firebaseFunctions.httpsCallable('getCardNames')({ cardHash });
+}
+
 export function getCraftingBaseCard() {
   return firebaseFunctions.httpsCallable('getCraftingBaseCard')();
 }
