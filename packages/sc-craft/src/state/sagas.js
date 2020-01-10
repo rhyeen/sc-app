@@ -113,8 +113,9 @@ function _getCardNames(card) {
 
 function* _finalizeSelectedForgeDraftCard() {
   const card = yield _getFinalizedSelectedForgeDraftCard();
+  yield put(Actions.finalizeSelectedForgeDraftCard.success(card));
   const { data } = yield _getCardNames(card);
-  yield put(Actions.finalizeSelectedForgeDraftCard.success(card, data.names, data.origin));
+  yield put(Actions.setFinalizedSelectedForgeDraftCardNameData(data.names, data.origin));
 }
 
 function* saga() {

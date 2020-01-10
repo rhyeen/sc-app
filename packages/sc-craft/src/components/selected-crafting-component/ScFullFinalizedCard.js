@@ -1,10 +1,10 @@
 import { html, css, LitElement } from 'lit-element';
 import { CardType } from '@shardedcards/sc-types/dist/card/enums/card-type.js';
-import { CardRarityColor } from '../../../../sc-cards/sc-cards-styles.js';
+import { CardRarityColor } from '../../../../sc-cards/sc-cards-styles';
 import { VALUE_TYPES } from '../../../../sc-cards/src/components/card-parts/ScCardValue.js';
 import { ScFullCardStyles } from '../../../../sc-cards/src/components/selected-card/ScFullCard.js';
 
-export class ScFullDraftCard extends LitElement {
+export class ScFullFinalizedCard extends LitElement {
   static get styles() {
     return [
       ScFullCardStyles
@@ -20,10 +20,11 @@ export class ScFullDraftCard extends LitElement {
       </style>
       <header>
         <sc-card-value valueType="${VALUE_TYPES.COST}" .card="${this.card}"></sc-card-value>
-        <div card-name>${this.card.name}</div>
+        ${this._getPossibleNamesHtml()}
       </header>
       <section>
-        <sc-full-draft-card-ability-slots .slots=${this.card.slots}></sc-full-draft-card-ability-slots>
+        <sc-card-abilities .abilities="${this.card.abilities}"></sc-card-abilities>
+        <sc-card-conditions .conditions="${this.card.conditions}"></sc-card-conditions>
       </section>
       <footer>
         ${this._getFooterHtml()}
@@ -34,6 +35,7 @@ export class ScFullDraftCard extends LitElement {
   static get properties() {
     return {
       card: { type: Object },
+      possibleNames: { type: Array }
     };
   }
 
@@ -50,5 +52,23 @@ export class ScFullDraftCard extends LitElement {
       `;
     }
     return html``;
+  }
+
+  _getPossibleNamesHtml() {
+    return html`
+      <sc-dropdown
+        .items=${this._possibleNames}
+        @select-item=${this._selectName}
+        .loading=${!this._possibleNames || !this._possibleNames.length}></sc-dropdown>
+    `;
+  }
+
+  _selectName(event) {
+    const newEvent = new CustomEvent('select-name', {
+      detail: {
+        name: event.detail.item
+      }
+    });
+    this.dispatchEvent(newEvent);
   }
 }

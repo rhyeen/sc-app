@@ -3,57 +3,59 @@ import { CardType } from '@shardedcards/sc-types/dist/card/enums/card-type.js';
 import { CARDS, CardRarityColor } from '../../../sc-cards-styles.js';
 import { VALUE_TYPES } from '../card-parts/ScCardValue.js';
 
+export const ScFullCardStyles = css`
+  :host {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: ${CARDS.FULL.WIDTH};
+    height: ${CARDS.FULL.HEIGHT};
+    background-color: ${CARDS.FULL.BACKGROUND_COLOR};
+    box-shadow: ${CARDS.FULL.ELEVATION};
+    border-radius: ${CARDS.FULL.BORDER_RADIUS};
+    border: ${CARDS.FULL.BORDER};
+    padding: ${CARDS.FULL.PADDING};
+  }
+
+  header,
+  footer {
+    display: flex;
+    align-items: center;
+  }
+
+  footer {
+    justify-content: space-between;
+  }
+
+  .footer-left,
+  .footer-right {
+    display: flex;
+    align-items: center;
+  }
+
+  sc-card-value:first-child {
+    margin-left: 0px;
+  }
+
+  sc-card-value {
+    margin-left: 10px;
+  }
+
+  [card-name] {
+    text-align: center;
+    margin-left: 10px;
+  }
+
+  sc-card-conditions {
+    margin-top: 20px;
+    display: block;
+  }
+`;
+
 export class ScFullCard extends LitElement {
   static get styles() {
     return [
-      css`
-        :host {
-          display: flex;
-          justify-content: space-between;
-          flex-direction: column;
-          width: ${CARDS.FULL.WIDTH};
-          height: ${CARDS.FULL.HEIGHT};
-          background-color: ${CARDS.FULL.BACKGROUND_COLOR};
-          box-shadow: ${CARDS.FULL.ELEVATION};
-          border-radius: ${CARDS.FULL.BORDER_RADIUS};
-          border: ${CARDS.FULL.BORDER};
-          padding: ${CARDS.FULL.PADDING};
-        }
-
-        header,
-        footer {
-          display: flex;
-          align-items: center;
-        }
-
-        footer {
-          justify-content: space-between;
-        }
-
-        .footer-left,
-        .footer-right {
-          display: flex;
-          align-items: center;
-        }
-
-        sc-card-value:first-child {
-          margin-left: 0px;
-        }
-
-        sc-card-value {
-          margin-left: 10px;
-        }
-
-        [card-name] {
-          text-align: center;
-          margin-left: 10px;
-        }
-
-        sc-card-conditions {
-          margin-top: 20px;
-          display: block;
-        }
-      `,
+      ScFullCardStyles,
     ];
   }
 

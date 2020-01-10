@@ -20,8 +20,15 @@ export const finishForgeSelectedBaseDraftCard = {
 export const FINALIZE_SELECTED_FORGE_DRAFT_CARD = ra.createRequestTypes('FINALIZE_SELECTED_FORGE_DRAFT_CARD');
 export const finalizeSelectedForgeDraftCard = {
   request: () => ReduxAction.action(FINALIZE_SELECTED_FORGE_DRAFT_CARD.REQUEST, {}),
-  success: (finalizedCard, possibleNames, originalCardMetadata) => ReduxAction.action(FINALIZE_SELECTED_FORGE_DRAFT_CARD.SUCCESS, { finalizedCard, possibleNames, originalCardMetadata }),
+  success: finalizedCard => ReduxAction.action(FINALIZE_SELECTED_FORGE_DRAFT_CARD.SUCCESS, { finalizedCard }),
 };
+
+export const SET_FINALIZE_SELECTED_FORGE_DRAFT_CARD_NAME_DATA = ra.createRequestTypes('SET_FINALIZE_SELECTED_FORGE_DRAFT_CARD_NAME_DATA');
+export const setFinalizedSelectedForgeDraftCardNameData = (possibleNames, cardOrigin) =>
+  ReduxAction.action(SET_FINALIZE_SELECTED_FORGE_DRAFT_CARD_NAME_DATA, { possibleNames, cardOrigin });
+
+
+setFinalizedSelectedForgeDraftCardNameData
 
 export const SELECT_CRAFTING_PART = ra.createRequestRaw('SELECT_CRAFTING_PART');
 export const selectCraftingPart = craftingPartIndex =>

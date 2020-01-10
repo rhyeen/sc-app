@@ -16,7 +16,7 @@ function _resetState() {
       finalizedCard: {
         card: null,
         possibleNames: null,
-        originalCardMetadata: null
+        cardOrigin: null
       },
       
       
@@ -50,7 +50,7 @@ function _resetState() {
   };
 }
 
-function _setFinalizedCard(state, card, possibleNames, originalCardMetadata) {
+function _setFinalizedCard(state, card, possibleNames, cardOrigin) {
   return {
     ...state,
     ui: {
@@ -59,7 +59,21 @@ function _setFinalizedCard(state, card, possibleNames, originalCardMetadata) {
         ...state.ui.finalizedCard,
         card,
         possibleNames,
-        originalCardMetadata
+        cardOrigin
+      },
+    }
+  };
+}
+
+function _setFinalizedCardNameData(state, possibleNames, cardOrigin) {
+  return {
+    ...state,
+    ui: {
+      ...state.ui,
+      finalizedCard: {
+        ...state.ui.finalizedCard,
+        possibleNames,
+        cardOrigin
       },
     }
   };
@@ -73,7 +87,7 @@ function _removeFinalizedCard(state) {
       finalizedCard: {
         card: null,
         possibleNames: null,
-        originalCardMetadata: null
+        cardOrigin: null
       }
     }
   };
@@ -311,8 +325,9 @@ const reducer = (state = INITIAL_STATE, action) => {
         newState,
         SELECTED_CRAFTING_COMPONENT_STATES.FINALIZE
       );
-      return _setFinalizedCard(newState, action.finalizedCard, action.possibleNames, action.originalCardMetadata);
-
+      return _setFinalizedCard(newState, action.finalizedCard, null, null);
+    case Actions.SET_FINALIZE_SELECTED_FORGE_DRAFT_CARD_NAME_DATA:
+      return _setFinalizedCardNameData(newState, action.possibleNames, action.cardOrigin);
 
 
     case Actions.CANCEL_SELECT_FORGE_SLOT:

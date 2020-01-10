@@ -158,7 +158,6 @@ export class ScLoading extends LitElement {
     return [
       css`
         .loading-text {
-          font-size: 20px;
           color: ${APP_COLORS.HINT_GRAY};
         }
       `,
@@ -176,6 +175,7 @@ export class ScLoading extends LitElement {
 
   constructor() {
     super();
+    // this._showContent = true;
     this._showContent = false;
     setTimeout(() => {
       this._showContent = true;
@@ -186,6 +186,7 @@ export class ScLoading extends LitElement {
   static get properties() {
     return {
       text: { type: String },
+      reduced: { type: Boolean },
       _showContent: { type: Boolean }
     };
   }
@@ -194,7 +195,25 @@ export class ScLoading extends LitElement {
     if (!this._showContent) {
       return html``;
     }
+    if (this.reduced) {
+      return html`
+        <style>
+          .loading-text {
+            font-size: 16px;
+          }
+        </style>
+        <div class="loading-text">
+          <span>${this.text}</span>
+          <span class="ellipsis-anim"><span>.</span><span>.</span><span>.</span></span>
+        </div>
+      `;
+    }
     return html`
+      <style>
+        .loading-text {
+          font-size: 20px;
+        }
+      </style>
       <div class="sk-folding-cube">
         <div class="sk-cube1 sk-cube"></div>
         <div class="sk-cube2 sk-cube"></div>
@@ -202,8 +221,8 @@ export class ScLoading extends LitElement {
         <div class="sk-cube3 sk-cube"></div>
       </div>
       <div class="loading-text">
-        <span>${this.text}</span
-        ><span class="ellipsis-anim"><span>.</span><span>.</span><span>.</span></span>
+        <span>${this.text}</span>
+        <span class="ellipsis-anim"><span>.</span><span>.</span><span>.</span></span>
       </div>
     `;
   }

@@ -175,6 +175,8 @@ const reducer = (state = INITIAL_STATE, action) => {
       return _setPlayerDeckId(newState, action.playerDeckId);
     case Actions.SET_DUNGEON_ID:
       return _setDungeonId(newState, action.dungeonId);
+    case Actions.SET_LOADING:
+      return _setLoading(newState, action.loading);
     default:
       return newState;
   }

@@ -60,3 +60,6 @@ export const setPlayerDeckId = playerDeckId =>
 
 export const SET_DUNGEON_ID = ra.createRequestRaw('SET_DUNGEON_ID');
 export const setDungeonId = dungeonId => ReduxAction.action(SET_DUNGEON_ID, { dungeonId });
+
+export const SET_LOADING = ra.createRequestRaw('SET_LOADING');
+export const setLoading = loading => ReduxAction.action(SET_LOADING, { loading });

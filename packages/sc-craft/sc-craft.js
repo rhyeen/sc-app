@@ -16,6 +16,7 @@ import { ScCraftingArea } from './src/components/crafting-area/ScCraftingArea.js
 import { ScDraftCardSlotValue } from './src/components/selected-crafting-component/ScDraftCardSlotValue.js';
 import { ScFullDraftCardAbilitySlots } from './src/components/selected-crafting-component/ScFullDraftCardAbilitySlots.js';
 import { ScFullDraftCard } from './src/components/selected-crafting-component/ScFullDraftCard.js';
+import { ScFullFinalizedCard } from './src/components/selected-crafting-component/ScFullFinalizedCard.js';
 
 import { ScCoverForgeCard } from './src/components/crafting-area/covers/ScCoverForgeCard.js';
 import { ScCoverBaseDraftCard } from './src/components/crafting-area/covers/ScCoverBaseDraftCard.js';
@@ -36,6 +37,7 @@ window.customElements.define('sc-crafting-area', ScCraftingArea);
 window.customElements.define('sc-draft-card-slot-value', ScDraftCardSlotValue);
 window.customElements.define('sc-full-draft-card-ability-slots', ScFullDraftCardAbilitySlots);
 window.customElements.define('sc-full-draft-card', ScFullDraftCard);
+window.customElements.define('sc-full-finalized-card', ScFullFinalizedCard);
 
 window.customElements.define('sc-cover-forge-card', ScCoverForgeCard);
 window.customElements.define('sc-cover-base-draft-card', ScCoverBaseDraftCard);

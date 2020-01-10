@@ -5,6 +5,8 @@ const NEAR_BLACK = css`#222426`;
 export const APP_COLORS = {
   NEAR_BLACK,
   NEAR_WHITE: css`#F7FBFF`,
+  HOVER_WHITE: css`#EAEDED`,
+  SELECTED_WHITE: css`#EAF2F8`,
   BASE_WHITE: css`#FFF`,
   NEAR_WHITE_BORDER: css`#E7EBEF`,
   OFF_BLACK: css`#525456`,
