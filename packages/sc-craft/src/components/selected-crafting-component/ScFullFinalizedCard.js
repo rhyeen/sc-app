@@ -7,7 +7,12 @@ import { ScFullCardStyles } from '../../../../sc-cards/src/components/selected-c
 export class ScFullFinalizedCard extends LitElement {
   static get styles() {
     return [
-      ScFullCardStyles
+      ScFullCardStyles,
+      css`
+        sc-dropdown {
+          flex: 1;
+        }
+      `
     ];
   }
 
@@ -57,9 +62,10 @@ export class ScFullFinalizedCard extends LitElement {
   _getPossibleNamesHtml() {
     return html`
       <sc-dropdown
-        .items=${this._possibleNames}
+        .items=${this.possibleNames}
         @select-item=${this._selectName}
-        .loading=${!this._possibleNames || !this._possibleNames.length}></sc-dropdown>
+        .loading=${!this.possibleNames || !this.possibleNames.length}
+        wrapSelected></sc-dropdown>
     `;
   }
 

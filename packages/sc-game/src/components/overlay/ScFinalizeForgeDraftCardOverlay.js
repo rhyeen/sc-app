@@ -10,7 +10,7 @@ import { SC_BTN_TYPES } from '../../../../sc-app/src/components/shared/ScBtn.js'
 import { Localize } from '../../../../utils/localizer.js';
 import * as CraftSelectors from '../../../../sc-craft/src/state/selectors.js';
 
-import { cancelSelectCraftingComponent, finalizeSelectedForgeDraftCard } from '../../../../sc-craft/src/state/actions.js';
+import { cancelSelectCraftingComponent, addFinalizedCardToDeck } from '../../../../sc-craft/src/state/actions.js';
 
 export class ScFinalizeForgeDraftCardOverlay extends connect(localStore)(LitElement) {
   static get styles() {
@@ -100,11 +100,11 @@ export class ScFinalizeForgeDraftCardOverlay extends connect(localStore)(LitElem
   }
 
   _addToDeck() {
-    localStore.dispatch(addFinalizedCardToDeck.request());
+    localStore.dispatch(addFinalizedCardToDeck.request(this._selectedName, this._numberOfInstances));
   }
 
   _selectName(event) {
-    debugger;
+    this._selectedName = event.detail.name;
   }
 
   static _getFinalizedCard(state) {

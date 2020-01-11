@@ -14,6 +14,7 @@ export class ScGame extends connect(localStore)(LitElement) {
         :host {
           height: 100vh;
           width: 100vw;
+          display: block;
         }
 
         .centralize {
@@ -40,6 +41,7 @@ export class ScGame extends connect(localStore)(LitElement) {
       dungeonId: { type: String },
       _game: { type: Game },
       _gameVersion: { type: Number },
+      _removeMe: { type: Array }
     };
   }
 
@@ -54,6 +56,15 @@ export class ScGame extends connect(localStore)(LitElement) {
   }
 
   _getGameHtml() {
+    // return html`
+    //       <sc-dropdown
+    //       style="margin: 50px"
+    //     .items=${this._removeMe}
+    //     @select-item=${this._deleteMe}
+    //     .loading=${!this._removeMe || !this._removeMe.length}
+    //     wrapSelected></sc-dropdown>
+    //     <div>HELLO WORLD</div>
+    //     `;
     if (!this._game) {
       return html`
         <div class="centralize">
@@ -67,6 +78,17 @@ export class ScGame extends connect(localStore)(LitElement) {
       <sc-game-footer .game=${this._game} .gameVersion=${this._gameVersion}></sc-game-footer>
       <sc-game-overlay .game=${this._game} .gameVersion=${this._gameVersion}></sc-game-overlay>
     `;
+  }
+
+  constructor() {
+    super();
+    setTimeout(() => {
+      this._removeMe = ['hello world afd afadsf dasf dsaf adsf asdf ds', 'this is a test', 'a what?'];
+    }, 2000);
+  }
+
+  _deleteMe(event) {
+    console.log(event.detail.item);
   }
 
   _newGame() {

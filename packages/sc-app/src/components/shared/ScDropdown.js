@@ -35,10 +35,24 @@ export class ScDropdown extends LitElement {
           border-radius: ${DROPDOWN.SELECTED_ITEM.BODER_RADIUS};
         }
 
+        [selected-item].wrap-selected {
+          border: none;
+          height: auto;
+        }
+
         [selected-item] .text {
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+        }
+
+        [selected-item].wrap-selected .text {
+          white-space: normal;
+        }
+
+        [selected-item].wrap-selected .icon {
+          background-color: ${APP_COLORS.HOVER_WHITE};
+          border-radius: 100px;
         }
 
         [selected-item] .icon {
@@ -101,6 +115,7 @@ export class ScDropdown extends LitElement {
     return {
       items: { type: Array },
       loading: { type: Boolean },
+      wrapSelected: { type: Boolean },
       _selectedItem: { type: Object },
       _isOpen: { type: Boolean }
     };
@@ -122,19 +137,20 @@ export class ScDropdown extends LitElement {
   }
 
   _getSelectedItemHtml() {
+    const classes = {
+      opened: !!this._isOpen,
+      'wrap-selected': !!this.wrapSelected
+    };
     if (this.loading) {
       return html`
-        <div selected-item disabled>
+        <div selected-item class=${classMap(classes)} disabled>
           <div class="text"><sc-loading .text=${Localize.localeMap.SC_GAME.LOADING} reduced></sc-loading></div>
           <div class="icon">${DropdownIcon()}</div>
         </div>
       `;
     }
-    const classes = {
-      opened: !!this._isOpen
-    };
     return html`
-      <div selected-item class=${classMap(classes)} @click=${() => this._isOpen = true}>
+      <div selected-item class=${classMap(classes)} @click=${() => this._isOpen = !this._isOpen}>
         <div class="text">${this._selectedItem}</div>
         <div class="icon">${DropdownIcon()}</div>
       </div>
