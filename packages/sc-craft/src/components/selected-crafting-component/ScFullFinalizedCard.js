@@ -65,6 +65,7 @@ export class ScFullFinalizedCard extends LitElement {
         .items=${this.possibleNames}
         @select-item=${this._selectName}
         .loading=${!this.possibleNames || !this.possibleNames.length}
+        itemLabelKey="name"
         wrapSelected></sc-dropdown>
     `;
   }

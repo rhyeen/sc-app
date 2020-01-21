@@ -73,6 +73,8 @@ export class ScDropdown extends LitElement {
         }
 
         [dropdown-menu] {
+          max-height: 300px;
+          overflow: scroll;
           position: absolute;
           max-width: ${DROPDOWN.SELECTED_ITEM.MAX_WIDTH};
           margin-right: 10px;
@@ -114,6 +116,7 @@ export class ScDropdown extends LitElement {
   static get properties() {
     return {
       items: { type: Array },
+      itemLabelKey: { type: String },
       loading: { type: Boolean },
       wrapSelected: { type: Boolean },
       _selectedItem: { type: Object },
@@ -151,7 +154,7 @@ export class ScDropdown extends LitElement {
     }
     return html`
       <div selected-item class=${classMap(classes)} @click=${() => this._isOpen = !this._isOpen}>
-        <div class="text">${this._selectedItem}</div>
+        <div class="text">${this._selectedItem[this.itemLabelKey]}</div>
         <div class="icon">${DropdownIcon()}</div>
       </div>
     `;
@@ -176,7 +179,7 @@ export class ScDropdown extends LitElement {
       <div
         dropdown-menu-item
         class=${classMap(classes)}
-        @click=${(e) => this._selectItem(e, item)}>${item}</div>
+        @click=${(e) => this._selectItem(e, item)}>${item[this.itemLabelKey]}</div>
     `;
   }
 

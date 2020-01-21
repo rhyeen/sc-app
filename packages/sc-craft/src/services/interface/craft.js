@@ -11,6 +11,15 @@ export function getCardNames(cardHash) {
   }
 }
 
+export function addCardToDeck(cardName, numberOfInstances) {
+  switch (InterfaceState.get()) {
+    case INTERFACE_STATE.HTTP:
+      return CallHttp.addCardToDeck(cardName, numberOfInstances);
+    default:
+      return InterfaceState.invalid();
+  }
+}
+
 export function getCraftingBaseCard() {
   switch (InterfaceState.get()) {
     case INTERFACE_STATE.HTTP:

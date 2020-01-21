@@ -118,6 +118,11 @@ function* _finalizeSelectedForgeDraftCard() {
   yield put(Actions.setFinalizedSelectedForgeDraftCardNameData(data.names, data.origin));
 }
 
+function* _addFinalizedCardToDeck({ cardName, numberOfInstances }) {
+  yield CraftInterface.addCardToDeck(cardName, numberOfInstances);
+  yield put(Actions.addFinalizedCardToDeck.success());
+}
+
 function* saga() {
   yield all([
     takeEvery(
@@ -127,6 +132,10 @@ function* saga() {
     takeEvery(
       Actions.FINALIZE_SELECTED_FORGE_DRAFT_CARD.REQUEST,
       _finalizeSelectedForgeDraftCard,
+    ),
+    takeEvery(
+      Actions.ADD_FINALIZED_CARD_TO_DECK.REQUEST,
+      _addFinalizedCardToDeck,
     ),
     takeLatest(Actions.SET_CRAFTING_BASE_CARD.REQUEST, _setCraftingBaseCard),
     takeLatest(Actions.SET_CRAFTING_PARTS.REQUEST, _setCraftingParts),
