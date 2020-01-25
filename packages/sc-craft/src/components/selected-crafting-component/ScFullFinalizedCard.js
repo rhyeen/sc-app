@@ -1,5 +1,6 @@
 import { html, css, LitElement } from 'lit-element';
 import { CardType } from '@shardedcards/sc-types/dist/card/enums/card-type.js';
+import { CardOrigin } from '@shardedcards/sc-types/dist/card/entities/card-origin/card-origin.js';
 import { CardRarityColor } from '../../../../sc-cards/sc-cards-styles';
 import { VALUE_TYPES } from '../../../../sc-cards/src/components/card-parts/ScCardValue.js';
 import { ScFullCardStyles } from '../../../../sc-cards/src/components/selected-card/ScFullCard.js';
@@ -25,7 +26,7 @@ export class ScFullFinalizedCard extends LitElement {
       </style>
       <header>
         <sc-card-value valueType="${VALUE_TYPES.COST}" .card="${this.card}"></sc-card-value>
-        ${this._getPossibleNamesHtml()}
+        ${this._getNameContextHtml()}
       </header>
       <section>
         <sc-card-abilities .abilities="${this.card.abilities}"></sc-card-abilities>
@@ -40,7 +41,8 @@ export class ScFullFinalizedCard extends LitElement {
   static get properties() {
     return {
       card: { type: Object },
-      possibleNames: { type: Array }
+      possibleNames: { type: Array },
+      cardOrigin: { type: CardOrigin },
     };
   }
 
@@ -59,7 +61,10 @@ export class ScFullFinalizedCard extends LitElement {
     return html``;
   }
 
-  _getPossibleNamesHtml() {
+  _getNameContextHtml() {
+    if (this.cardOrigin) {
+      return html`<div card-name>${this.cardOrigin.name}</div>`;
+    }
     return html`
       <sc-dropdown
         .items=${this.possibleNames}

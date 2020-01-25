@@ -8,7 +8,7 @@ import { localStore } from './store.js';
 
 import * as Actions from './actions.js';
 import * as CardsActions from '../../../sc-cards/src/state/actions.js';
-import { GAME_STATES } from '../entities/game-states.js';
+import { GamePhase } from '@shardedcards/sc-types/dist/game/enums/game-phase';
 
 function _buildGame(gameData) {
   const game = GameBuilder.buildGame(gameData);
@@ -32,10 +32,10 @@ function _callEndCrafting() {
 
 function* _setGameState(gameState) {
   switch (gameState) {
-    case GAME_STATES.LOSE:
+    case GamePhase.Lose:
       yield put(Actions.loseGame.request());
       break;
-    case GAME_STATES.WIN:
+    case GamePhase.Win:
       yield put(Actions.winGame.request());
       break;
     default:

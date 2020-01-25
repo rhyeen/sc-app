@@ -4,8 +4,8 @@ export function getCardNames(cardHash) {
   return firebaseFunctions.httpsCallable('getCardNames')({ cardHash });
 }
 
-export function addCardToDeck(cardName, numberOfInstances) {
-  return firebaseFunctions.httpsCallable('addCardToDeck')({ cardName, numberOfInstances });
+export function createCard(cardName, cardHash, playerId, gameId) {
+  return firebaseFunctions.httpsCallable('createCard')({ cardName, cardHash, playerId, gameId });
 }
 
 export function getCraftingBaseCard() {

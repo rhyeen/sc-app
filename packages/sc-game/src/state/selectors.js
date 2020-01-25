@@ -1,9 +1,7 @@
 import { createSelector } from 'reselect';
-
-import { GAME_STATES } from '../entities/game-states.js';
+import { GamePhase } from '@shardedcards/sc-types/dist/game/enums/game-phase';
 
 const _gameMenuSelector = state => state.scGame.ui.menu;
-const _uiGameSelector = state => state.scGame.ui.game;
 const _loadingSelector = state => state.scGame.ui.loading;
 const _pendingTurnSelector = state => state.scGame.entities.pendingTurn;
 const _gameSelector = state => state.scGame.entities.game;
@@ -28,23 +26,23 @@ export const isGameMenuOpen = createSelector(
 );
 
 export const isBattling = createSelector(
-  _uiGameSelector,
-  game => game.state === GAME_STATES.BATTLE,
+  _gameSelector,
+  game => game.phase === GamePhase.Battle,
 );
 
 export const isDrafting = createSelector(
-  _uiGameSelector,
-  game => game.state === GAME_STATES.DRAFT,
+  _gameSelector,
+  game => game.phase === GamePhase.Draft,
 );
 
 export const hasWon = createSelector(
-  _uiGameSelector,
-  game => game.state === GAME_STATES.WIN,
+  _gameSelector,
+  game => game.phase === GamePhase.Win,
 );
 
 export const hasLost = createSelector(
-  _uiGameSelector,
-  game => game.state === GAME_STATES.LOSE,
+  _gameSelector,
+  game => game.phase === GamePhase.Lose,
 );
 
 export const getGame = createSelector(

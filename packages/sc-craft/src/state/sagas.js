@@ -115,11 +115,36 @@ function* _finalizeSelectedForgeDraftCard() {
   const card = yield _getFinalizedSelectedForgeDraftCard();
   yield put(Actions.finalizeSelectedForgeDraftCard.success(card));
   const { data } = yield _getCardNames(card);
-  yield put(Actions.setFinalizedSelectedForgeDraftCardNameData(data.names, data.origin));
+  yield put(Actions.setFinalizedSelectedForgeDraftCardNameData(data.names, data.cardOrigin));
+}
+
+function _createCard(cardName) {
+  const state = localStore.getState();
+  const { cardOrigin } = Selectors.getFinalizedCard(state);
+  // @NOTE: this means that the call to get card names returned back a cardOrigin that already existed.
+  if (cardOrigin) {
+    return { data: { cardOrigin }};
+  }
+  const gameId = GameSelectors.getGameId(state);
+  const playerId = GameSelectors.getPlayerId(state);
+  const card = _getFinalizedSelectedForgeDraftCard();
+  return CraftInterface.createCard(cardName, card.hash, playerId, gameId);
+}
+
+function _getAddCardToDeckAction(numberOfInstances, cardOrigin) {
+  const state = localStore.getState();
+  const { forgeSlotIndex } = Selectors.getSelectedCraftingComponent(state);
+  return new AddCraftedCardToDeckAction(
+    forgeSlotIndex,
+    numberOfInstances,
+    cardOrigin,
+  );
 }
 
 function* _addFinalizedCardToDeck({ cardName, numberOfInstances }) {
-  yield CraftInterface.addCardToDeck(cardName, numberOfInstances);
+  const { data } = yield _createCard(cardName);
+  const action = yield _getAddCardToDeckAction(numberOfInstances, data.cardOrigin);
+  yield put(GameActions.fulfillTurnAction.request(action));
   yield put(Actions.addFinalizedCardToDeck.success());
 }
 

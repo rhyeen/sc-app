@@ -31,6 +31,7 @@ export class ScFinalizeForgeDraftCardOverlay extends connect(localStore)(LitElem
       <sc-full-finalized-card
         .card=${this._finalizedCard}
         .possibleNames=${this._possibleNames}
+        .cardOrigin=${this._cardOrigin}
         @select-name=${this._selectName}></sc-full-finalized-card>
       <div btn-group-stack>
         <div btn-group class="btn-group-tight">
@@ -123,6 +124,14 @@ export class ScFinalizeForgeDraftCardOverlay extends connect(localStore)(LitElem
     return finalizedCard.possibleNames;
   }
 
+  static _getCardOrigin(state) {
+    const finalizedCard = CraftSelectors.getFinalizedCard(state);
+    if (!finalizedCard || !finalizedCard.cardOrigin) {
+      return null;
+    }
+    return finalizedCard.cardOrigin;
+  }
+
   stateChanged(state) {
     const finalizedCard = ScFinalizeForgeDraftCardOverlay._getFinalizedCard(state);
     // @NOTE: when finalizedCard is first set, set the number of instance to the max, based on the card's rarity.
@@ -133,6 +142,10 @@ export class ScFinalizeForgeDraftCardOverlay extends connect(localStore)(LitElem
     this._possibleNames = ScFinalizeForgeDraftCardOverlay._getPossibleNames(state);
     if (this._possibleNames && this._possibleNames.length) {
       this._selectedName = this._possibleNames[0];
+    }
+    this._cardOrigin = ScFinalizeForgeDraftCardOverlay._getCardOrigin(state);
+    if (this._cardOrigin) {
+      this._selectedName = this._cardOrigin.name;
     }
   }
 }

@@ -11,10 +11,10 @@ export function getCardNames(cardHash) {
   }
 }
 
-export function addCardToDeck(cardName, numberOfInstances) {
+export function createCard(cardName, cardHash, playerId, gameId) {
   switch (InterfaceState.get()) {
     case INTERFACE_STATE.HTTP:
-      return CallHttp.addCardToDeck(cardName, numberOfInstances);
+      return CallHttp.createCard(cardName, cardHash, playerId, gameId);
     default:
       return InterfaceState.invalid();
   }

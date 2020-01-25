@@ -304,6 +304,7 @@ const reducer = (state = INITIAL_STATE, action) => {
       );
     case Actions.CANCEL_SELECT_CRAFTING_COMPONENT:
     case Actions.FINISH_FORGE_SELECTED_BASE_DRAFT_CARD.SUCCESS:
+    case Actions.ADD_FINALIZED_CARD_TO_DECK.SUCCESS:
       newState = _removeSelectedCraftingComponent(newState);
       return _removeFinalizedCard(newState);
     case Actions.FORGE_SELECTED_BASE_DRAFT_CARD:

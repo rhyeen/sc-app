@@ -1,7 +1,7 @@
 import * as Actions from './actions.js';
 
-import { GAME_STATES } from '../entities/game-states.js';
 import { localStore } from './store.js';
+import { GamePhase } from '@shardedcards/sc-types/dist/game/enums/game-phase';
 
 const INITIAL_STATE = {
   ui: {
@@ -10,7 +10,6 @@ const INITIAL_STATE = {
     },
     game: {
       version: 0,
-      state: GAME_STATES.BATTLE,
     },
     loading: false
   },
@@ -47,17 +46,10 @@ function _toggleMenuState(state, showMenu) {
   };
 }
 
-function _updateGameState(state, gameState) {
-  return {
-    ...state,
-    ui: {
-      ...state.ui,
-      game: {
-        ...state.ui.game,
-        state: gameState,
-      },
-    },
-  };
+function _updateGamePhase(state, gamePhase) {
+  const game = state.entities.game.copy();
+  game.phase = gamePhase;
+  return _setGame(state, game);
 }
 
 function _updatePendingTurn(state, action) {
@@ -147,24 +139,24 @@ const reducer = (state = INITIAL_STATE, action) => {
       return _toggleMenuState(newState, false);
     case Actions.RESET_GAME.SUCCESS:
       newState = _toggleMenuState(newState, false);
-      return _updateGameState(newState, GAME_STATES.BATTLE);
+      return _updateGamePhase(newState, GamePhase.Battle);
     case Actions.END_CRAFTING.REQUEST:
       return _setLoading(newState, true);
     case Actions.END_CRAFTING.SUCCESS:
-      newState = _updateGameState(newState, GAME_STATES.BATTLE);
+      newState = _updateGamePhase(newState, GamePhase.Battle);
       newState = _setLoading(newState, false);
       newState = _endTurn(newState);
       return _addOpponentTurn(newState, action.opponentTurn);
     case Actions.WIN_GAME.SUCCESS:
-      return _updateGameState(newState, GAME_STATES.WIN);
+      return _updateGamePhase(newState, GamePhase.Win);
     case Actions.LOSE_GAME.SUCCESS:
-      return _updateGameState(newState, GAME_STATES.LOSE);
+      return _updateGamePhase(newState, GamePhase.Lose);
     case Actions.RECORD_ACTION:
       return _updatePendingTurn(newState, action.action);
     case Actions.END_TURN.REQUEST:
       return _setLoading(newState, true);
     case Actions.END_TURN.SUCCESS:
-      newState = _updateGameState(newState, GAME_STATES.DRAFT);
+      newState = _updateGamePhase(newState, GamePhase.Draft);
       newState = _setLoading(newState, false);
       return _endTurn(newState);
     case Actions.SET_GAME:
