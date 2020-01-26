@@ -29,13 +29,6 @@ function* _setCraftingParts() {
   }
 }
 
-function _getModifiedForgeCard() {
-  const state = localStore.getState();
-  const { craftingPart, forgeSlot } = Selectors.getSelectedCraftingPart(state);
-  const { modifiedCard } = DraftCardModifier.addCraftingPart(forgeSlot.draftCard, craftingPart);
-  return modifiedCard;
-}
-
 function _getAddCraftingPartAction() {
   const state = localStore.getState();
   const { craftingPartIndex, forgeSlotIndex } = Selectors.getSelectedCraftingPart(state);
@@ -148,8 +141,24 @@ function* _addFinalizedCardToDeck({ cardName, numberOfInstances }) {
   yield put(Actions.addFinalizedCardToDeck.success());
 }
 
+function _getModifiedForgeCard() {
+  const state = localStore.getState();
+  const { card, craftingPart } = Selectors.getSelectedCraftingComponent(state);
+  const { draftCard } = DraftCardModifier.addCraftingPart(card, craftingPart);
+  return draftCard;
+}
+
+function* _selectForgeForCraftingPart() {
+  const draftCard = yield _getModifiedForgeCard();
+  yield put(Actions.selectForgeForCraftingPart.success(draftCard));
+}
+
 function* saga() {
   yield all([
+    takeEvery(
+      Actions.SELECT_FORGE_FOR_CRAFTING_PART.REQUEST,
+      _selectForgeForCraftingPart,
+    ),
     takeEvery(
       Actions.FINISH_FORGE_SELECTED_BASE_DRAFT_CARD.REQUEST,
       _finishForgeSelectedBaseDraftCard,

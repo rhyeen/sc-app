@@ -1,7 +1,8 @@
 import { html, css, LitElement } from 'lit-element';
 import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
-import { finishForgeSelectedBaseDraftCard } from '../../state/actions.js';
+import { finishForgeSelectedBaseDraftCard, selectForgeForCraftingPart } from '../../state/actions.js';
 import { localStore } from '../../state/store.js';
+import { SELECTED_CRAFTING_COMPONENT_SOURCES } from '../../state/state-specifiers.js';
 
 export class ScCraftingField extends LitElement {
   static get styles() {
@@ -63,7 +64,15 @@ export class ScCraftingField extends LitElement {
     `;
   }
 
+  get _addingCraftingPart() {
+    return this.selectedCraftingComponent.source === SELECTED_CRAFTING_COMPONENT_SOURCES.SELECT_CRAFTING_PART;
+  }
+
   _selectForge(forgeSlotIndex) {
+    if (this._addingCraftingPart) {
+      localStore.dispatch(selectForgeForCraftingPart.request(forgeSlotIndex));
+      return;
+    }
     localStore.dispatch(finishForgeSelectedBaseDraftCard.request(forgeSlotIndex));
   }
 

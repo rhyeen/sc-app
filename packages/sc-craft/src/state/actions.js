@@ -38,6 +38,12 @@ export const SELECT_CRAFTING_PART = ra.createRequestRaw('SELECT_CRAFTING_PART');
 export const selectCraftingPart = craftingPartIndex =>
   ReduxAction.action(SELECT_CRAFTING_PART, { craftingPartIndex });
 
+export const SELECT_FORGE_FOR_CRAFTING_PART = ra.createRequestTypes('SELECT_FORGE_FOR_CRAFTING_PART');
+export const selectForgeForCraftingPart = {
+  request: forgeSlotIndex => ReduxAction.action(SELECT_FORGE_FOR_CRAFTING_PART.REQUEST, { forgeSlotIndex }),
+  success: modifiedCard => ReduxAction.action(SELECT_FORGE_FOR_CRAFTING_PART.SUCCESS, { modifiedCard }),
+};
+
 export const CANCEL_SELECT_CRAFTING_PART = ra.createRequestRaw('CANCEL_SELECT_CRAFTING_PART');
 export const cancelSelectCraftingPart = () => ReduxAction.action(CANCEL_SELECT_CRAFTING_PART, {});
 

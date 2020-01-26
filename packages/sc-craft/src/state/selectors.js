@@ -43,20 +43,35 @@ function _isSelectForgeDraftCard(selectedCraftingComponent) {
   );
 }
 
+function _isSelectCraftingPart(selectedCraftingComponent) {
+  return (
+    _validIndex(selectedCraftingComponent.craftingPartIndex) &&
+    selectedCraftingComponent.source === SELECTED_CRAFTING_COMPONENT_SOURCES.SELECT_CRAFTING_PART
+  );
+}
+
 export const getSelectedCraftingComponent = createSelector(
   _selectedCraftingComponentSelector,
   _gameSelector,
   (selectedCraftingComponent, game) => {
     let card = null;
+    let craftingPart = null;
     if (_isSelectBaseDraftCard(selectedCraftingComponent)) {
       card = game.player.craftingTable.baseCards[selectedCraftingComponent.baseCardIndex];
     }
     if (_isSelectForgeDraftCard(selectedCraftingComponent)) {
       card = game.player.craftingTable.forge[selectedCraftingComponent.forgeSlotIndex].card;
     }
+    if (_isSelectCraftingPart(selectedCraftingComponent)) {
+      if (_validIndex(selectedCraftingComponent.forgeSlotIndex)) {
+        card = game.player.craftingTable.forge[selectedCraftingComponent.forgeSlotIndex].card;
+      }
+      craftingPart = game.player.craftingTable.craftingParts[selectedCraftingComponent.craftingPartIndex];
+    }
     return {
       ...selectedCraftingComponent,
       card,
+      craftingPart,
     };
   },
 );

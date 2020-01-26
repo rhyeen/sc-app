@@ -1,5 +1,6 @@
 import { LitElement, css, html } from 'lit-element';
 import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
+import { DraftCardModifier } from '@shardedcards/sc-types/dist/card/services/draft-card-modifier.js';
 import { ScCoverForgeCardStyles, DRAFT_CARDS } from './sc-cover-forge-card-styles.js';
 import { ScIconsStyles, RemoveIcon, ForgeIcon } from '../../../../../sc-app/src/components/shared/ScIcons.js';
 import { SELECTED_CRAFTING_COMPONENT_SOURCES } from '../../../state/state-specifiers.js';
@@ -9,29 +10,24 @@ export class ScCoverForgeCard extends LitElement {
   static get styles() {
     return [
       ScIconsStyles,
-      ScCoverForgeCardStyles,
-      css`
-        :host {
-          border: ${DRAFT_CARDS.FORGE_COVER.FORGE_BASE_DRAFT_CARD_BORDER};
-        }
-
-        [minion-cover-separator] {
-          border-bottom: ${DRAFT_CARDS.FORGE_COVER.FORGE_BASE_DRAFT_CARD_BORDER};
-        }
-      `,
+      ScCoverForgeCardStyles
     ];
   }
 
   render() {
     return html`
       <style>
-        [minion-cover-separator] {
-          opacity: ${this._getCardSeparatorOpacity()};
+        :host {
+          border: ${this._getBorder()};
+        }
+
+        [crafting-cover-separator] {
+          border-bottom: ${this._getBorder(true)};
         }
       </style>
-      <div minion-cover-top>${this._getReplacedResultHtml()}</div>
-      <div minion-cover-separator></div>
-      <div minion-cover-bottom>${this._getReplacerResultHtml()}</div>
+      <div crafting-cover-top>${this._getReplacedResultHtml()}</div>
+      <div crafting-cover-separator></div>
+      <div crafting-cover-bottom>${this._getReplacerResultHtml()}</div>
     `;
   }
 
@@ -44,45 +40,60 @@ export class ScCoverForgeCard extends LitElement {
     };
   }
 
-  _getForgeSlotCard() {
+  get _forgeSlotCard() {
     return this.game.player.craftingTable.forge[this.forgeSlotIndex].card;
   }
 
-  _getCardSeparatorOpacity() {
-    return this._noCardToReplace() ? css`0` : css`1`;
-  }
-
-  _noCardToReplace() {
-    return !this._getForgeSlotCard();
-  }
-
-  _getReplacedResultHtml() {
+  _getBorder(isSeparator) {
     if (this._addingCraftingPart) {
-      return ForgeIcon();
+      return this._cardModified ? DRAFT_CARDS.FORGE_COVER.FORGE_BASE_DRAFT_CARD_BORDER : css`none`;
     }
-    return this._noCardToReplace() ? html`` : RemoveIcon();
+    if (isSeparator) {
+      return this._cardInForge ? DRAFT_CARDS.FORGE_COVER.FORGE_BASE_DRAFT_CARD_BORDER : css`none`;
+    }
+    return  DRAFT_CARDS.FORGE_COVER.FORGE_BASE_DRAFT_CARD_BORDER;
+  }
+
+  get _cardInForge() {
+    return !!this._forgeSlotCard;
   }
 
   get _addingCraftingPart() {
     return this.selectedCraftingComponent.source === SELECTED_CRAFTING_COMPONENT_SOURCES.SELECT_CRAFTING_PART;
   }
 
-  _getReplacerResultHtml() {
-    if (this._addingCraftingPart) {
-      return this._getCraftingPartIcon();
+  get _cardModified() {
+    const card = this._forgeSlotCard;
+    if (!card) {
+      return false;
     }
-    return this._noCardToReplace() ? html`` : ForgeIcon();
+    const craftingPart = this._selectedCraftingPart;
+    const { wasModified } = DraftCardModifier.addCraftingPart(card, craftingPart);
+    return wasModified;
   }
 
-  _getSeletedCraftingPart() {
-    return this.game.player.craftingTable.craftingParts[this.selectedCraftingComponent.craftingPartIndex];
+  _getReplacedResultHtml() {
+    if (this._addingCraftingPart) {
+      return this._cardModified ? ForgeIcon() : html``;
+    }
+    return this._cardInForge ? RemoveIcon() : html``;
+  }
+
+  _getReplacerResultHtml() {
+    if (this._addingCraftingPart) {
+      return this._cardModified ? this._getCraftingPartIcon() : html``;
+    }
+    return this._cardInForge ? ForgeIcon(): html``;
+  }
+
+  get _selectedCraftingPart() {
+    return this.selectedCraftingComponent.craftingPart;
   }
 
   _getCraftingPartIcon() {
-    const craftingPart = this._getSeletedCraftingPart();
-    if (craftingPart.type) {
-      return html`${CardStat.getIcon(craftingPart.type)}`;
+    if (this._selectedCraftingPart.type) {
+      return html`${CardStat.getIcon(this._selectedCraftingPart.type)}`;
     }
-    return html`${Ability.getIcon(craftingPart.ability.id)}`;
+    return html`${Ability.getIcon(this._selectedCraftingPart.ability.id)}`;
   }
 }

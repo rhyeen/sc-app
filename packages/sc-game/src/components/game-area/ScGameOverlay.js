@@ -153,6 +153,14 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
     );
   }
 
+  get _selectForgeForCraftingPart() {
+    return (
+      ScGameOverlay._validIndex(this._selectedCraftingComponent.craftingPartIndex) &&
+      this._selectedCraftingComponent.source === SELECTED_CRAFTING_COMPONENT_SOURCES.SELECT_CRAFTING_PART &&
+      this._selectedCraftingComponent.state === SELECTED_CRAFTING_COMPONENT_STATES.TARGET_FIELD
+    );
+  }
+
   _getOverlayInnerHtml() {
     if (this._loading) {
       return html`
@@ -246,6 +254,15 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
           .gameVersion=${this.gameVersion}
           .selectedCraftingComponent=${this._selectedCraftingComponent}
         ></sc-finalize-forge-draft-card-overlay>
+      `;
+    }
+    if (this._selectForgeForCraftingPart) {
+      return html`
+        <sc-select-forge-for-crafting-part-overlay
+          .game=${this.game}
+          .gameVersion=${this.gameVersion}
+          .selectedCraftingComponent=${this._selectedCraftingComponent}
+        ></sc-select-forge-for-crafting-part-overlay>
       `;
     }
     return null;
