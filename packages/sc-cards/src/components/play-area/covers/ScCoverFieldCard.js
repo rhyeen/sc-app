@@ -129,8 +129,8 @@ export class ScCoverFieldCard extends LitElement {
   _selectedPlayerMinionCoverHtml() {
     return html`
       <sc-minion-card
-        .card="${this.selectedCard.card}"
-        @click="${ScCoverFieldCard._selectedPlayerMinionCoverClicked}"
+        .card=${this.selectedCard.card}
+        @click=${ScCoverFieldCard._selectedPlayerMinionCoverClicked}
       ></sc-minion-card>
     `;
   }

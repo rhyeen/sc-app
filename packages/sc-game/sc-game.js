@@ -21,6 +21,7 @@ import { ScForgeBaseDraftCardOverlay } from './src/components/overlay/ScForgeBas
 import { ScPreviewForgeDraftCardOverlay } from './src/components/overlay/ScPreviewForgeDraftCardOverlay.js';
 import { ScFinalizeForgeDraftCardOverlay } from './src/components/overlay/ScFinalizeForgeDraftCardOverlay.js';
 import { ScSelectForgeForCraftingPartOverlay } from './src/components/overlay/ScSelectForgeForCraftingPartOverlay.js';
+import { ScAddCraftingPartOverlay } from './src/components/overlay/ScAddCraftingPartOverlay.js';
 import { ScGameOverlay } from './src/components/game-area/ScGameOverlay.js';
 
 import { ScGameFooter } from './src/components/game-area/ScGameFooter.js';
@@ -43,6 +44,7 @@ window.customElements.define('sc-forge-base-draft-card-overlay', ScForgeBaseDraf
 window.customElements.define('sc-preview-forge-draft-card-overlay', ScPreviewForgeDraftCardOverlay);
 window.customElements.define('sc-finalize-forge-draft-card-overlay', ScFinalizeForgeDraftCardOverlay);
 window.customElements.define('sc-select-forge-for-crafting-part-overlay', ScSelectForgeForCraftingPartOverlay);
+window.customElements.define('sc-add-crafting-part-overlay', ScAddCraftingPartOverlay);
 window.customElements.define('sc-game-overlay', ScGameOverlay);
 
 window.customElements.define('sc-game-footer', ScGameFooter);

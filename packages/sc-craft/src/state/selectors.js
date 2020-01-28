@@ -4,6 +4,7 @@ import { SELECTED_CRAFTING_COMPONENT_SOURCES } from './state-specifiers';
 const _usedCraftingPartsSelector = state => state.scCraft.ui.usedCraftingParts;
 const _selectedCraftingComponentSelector = state => state.scCraft.ui.selectedCraftingComponent;
 const _finalizedCardSelector = state => state.scCraft.ui.finalizedCard;
+const _modifiedCardSelector = state => state.scCraft.ui.modifiedCard;
 const _gameSelector = state => state.scGame.entities.game;
 
 const _forgeSelector = state => state.scCraft.entities.forge;
@@ -18,6 +19,11 @@ const _finishedForgeCardSelector = state => state.scCraft.ui.selectedForgeSlot.f
 export const getUsedCraftingParts = createSelector(
   _usedCraftingPartsSelector,
   usedCraftingParts => usedCraftingParts,
+);
+
+export const getModifiedCard = createSelector(
+  _modifiedCardSelector,
+  modifiedCard => modifiedCard,
 );
 
 export const getFinalizedCard = createSelector(

@@ -152,8 +152,8 @@ export class ScBtn extends LitElement {
 
   render() {
     return html`
-      <div class="click-propagation-prevention" @click="${this._handleDisabledPropogation}">
-        <button class=${this._getBtnClasses()} ?disabled="${this.disabled}"><slot></slot></button>
+      <div class="click-propagation-prevention" @click=${this._handleDisabledPropogation}>
+        <button class=${this._getBtnClasses()} ?disabled=${this.disabled}><slot></slot></button>
       </div>
     `;
   }

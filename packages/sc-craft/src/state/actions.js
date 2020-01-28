@@ -44,6 +44,13 @@ export const selectForgeForCraftingPart = {
   success: modifiedCard => ReduxAction.action(SELECT_FORGE_FOR_CRAFTING_PART.SUCCESS, { modifiedCard }),
 };
 
+export const ADD_CRAFTING_PART = ra.createRequestTypes('ADD_CRAFTING_PART');
+export const addCraftingPart = {
+  request: () => ReduxAction.action(ADD_CRAFTING_PART.REQUEST, {}),
+  success: () => ReduxAction.action(ADD_CRAFTING_PART.SUCCESS, {}),
+};
+
+
 export const CANCEL_SELECT_CRAFTING_PART = ra.createRequestRaw('CANCEL_SELECT_CRAFTING_PART');
 export const cancelSelectCraftingPart = () => ReduxAction.action(CANCEL_SELECT_CRAFTING_PART, {});
 
@@ -66,10 +73,6 @@ export const addCraftedCardToDeck = {
     ReduxAction.action(ADD_CRAFTED_CARD_TO_DECK.REQUEST, { numberOfInstances }),
   success: () => ReduxAction.action(ADD_CRAFTED_CARD_TO_DECK.SUCCESS, {}),
 };
-
-export const ADD_CRAFTING_PART = ra.createRequestRaw('ADD_CRAFTING_PART');
-export const addCraftingPart = forgeSlotIndex =>
-  ReduxAction.action(ADD_CRAFTING_PART, { forgeSlotIndex });
 
 export const CANCEL_ADD_CRAFTING_PART = ra.createRequestRaw('CANCEL_ADD_CRAFTING_PART');
 export const cancelAddCraftingPart = () => ReduxAction.action(CANCEL_ADD_CRAFTING_PART, {});

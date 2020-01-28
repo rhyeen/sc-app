@@ -161,6 +161,15 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
     );
   }
 
+  get _addCraftingPart() {
+    return (
+      ScGameOverlay._validIndex(this._selectedCraftingComponent.craftingPartIndex) &&
+      ScGameOverlay._validIndex(this._selectedCraftingComponent.forgeSlotIndex) &&
+      this._selectedCraftingComponent.source === SELECTED_CRAFTING_COMPONENT_SOURCES.SELECT_CRAFTING_PART &&
+      this._selectedCraftingComponent.state === SELECTED_CRAFTING_COMPONENT_STATES.PREVIEW
+    );
+  }
+
   _getOverlayInnerHtml() {
     if (this._loading) {
       return html`
@@ -198,7 +207,7 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
     if (this._previewCardAbilities) {
       return html`
         <sc-preview-card-abilities-overlay
-          .selectedCard="${this._selectedCard}"
+          .selectedCard=${this._selectedCard}
         ></sc-preview-card-abilities-overlay>
       `;
     }
@@ -263,6 +272,15 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
           .gameVersion=${this.gameVersion}
           .selectedCraftingComponent=${this._selectedCraftingComponent}
         ></sc-select-forge-for-crafting-part-overlay>
+      `;
+    }
+    if (this._addCraftingPart) {
+      return html`
+        <sc-add-crafting-part-overlay
+          .game=${this.game}
+          .gameVersion=${this.gameVersion}
+          .selectedCraftingComponent=${this._selectedCraftingComponent}
+        ></sc-add-crafting-part-overlay>
       `;
     }
     return null;

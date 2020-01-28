@@ -36,19 +36,19 @@ export class ScFinalizeForgeDraftCardOverlay extends connect(localStore)(LitElem
       <div btn-group-stack>
         <div btn-group class="btn-group-tight">
           <sc-btn
-            .btntype="${SC_BTN_TYPES.GENERIC.PRIMARY}"
-            @click="${() => this._decrementNumberOfInstances()}"
+            .btntype=${SC_BTN_TYPES.GENERIC.PRIMARY}
+            @click=${() => this._decrementNumberOfInstances()}
             ?disabled=${this._numberOfInstances <= 1}>
             <span class="square-btn">-</span>
           </sc-btn>
           <sc-btn
-            .btntype="${SC_BTN_TYPES.GENERIC.PRIMARY}"
-            @click="${() => this._addToDeck()}"
+            .btntype=${SC_BTN_TYPES.GENERIC.PRIMARY}
+            @click=${() => this._addToDeck()}
             ?disabled=${!this._selectedName}>
           ${Localize.localeMap.SC_BTN.OTHER.ADD_CARDS_TO_DECK(this._numberOfInstances)}</sc-btn>
           <sc-btn
-            .btntype="${SC_BTN_TYPES.GENERIC.PRIMARY}"
-            @click="${() => this._incrementNumberOfInstances()}"
+            .btntype=${SC_BTN_TYPES.GENERIC.PRIMARY}
+            @click=${() => this._incrementNumberOfInstances()}
             ?disabled=${this._numberOfInstances >= this.maxNumberOfInstances}>
             <span class="square-btn">+</span>
           </sc-btn>

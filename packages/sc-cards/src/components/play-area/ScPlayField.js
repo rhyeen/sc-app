@@ -25,11 +25,11 @@ export class ScPlayField extends LitElement {
       <div class="field-slot-left" field-slot>
         ${this._getFieldSlotCardHtml(0)}
       </div>
-      <div ?overlay="${!!this.selectedCard}" field-slot-separator></div>
+      <div ?overlay=${!!this.selectedCard} field-slot-separator></div>
       <div class="field-slot-middle" field-slot>
         ${this._getFieldSlotCardHtml(1)}
       </div>
-      <div ?overlay="${!!this.selectedCard}" field-slot-separator></div>
+      <div ?overlay=${!!this.selectedCard} field-slot-separator></div>
       <div class="field-slot-right" field-slot>
         ${this._getFieldSlotCardHtml(2)}
       </div>

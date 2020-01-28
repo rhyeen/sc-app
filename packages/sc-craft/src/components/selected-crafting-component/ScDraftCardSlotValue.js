@@ -19,12 +19,27 @@ export class ScDraftCardSlotValue extends LitElement {
   static get properties() {
     return {
       slot: { type: Object },
+      modifiedSlot: { type: Object }
     };
   }
 
   _getHtml() {
-    if (this.slot.isFilled()) {
-      return html`<sc-card-abilitiy-value .ability=${this.slot.ability}></sc-card-abilitiy-value>`;
+    if (this._wasFilled()) {
+      return this._getSlotHtml(this.modifiedSlot, true, false);
+    }
+    if (this._wasModified()) {
+      return this._getSlotHtml(this.modifiedSlot, false, true);
+    }
+    return this._getSlotHtml(this.slot, false, false);
+  }
+
+  _getHtml() {
+    if (this._hasAbility()) {
+      return html`
+        <sc-card-ability-value
+          .ability=${this.slot ? this.slot.ability : null}
+          .modifiedAbility=${this.modifiedSlot ? this.modifiedSlot.ability : null}></sc-card-ability-value>
+      `;
     }
     return html`
       <div card-ability>
@@ -35,5 +50,15 @@ export class ScDraftCardSlotValue extends LitElement {
         </div>
       </div>
     `;
+  }
+
+  _hasAbility() {
+    if (this.slot && this.slot.isFilled()) {
+      return true;
+    }
+    if (this.modifiedSlot && this.modifiedSlot.isFilled()) {
+      return true;
+    }
+    return false;
   }
 }

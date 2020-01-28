@@ -25,12 +25,12 @@ export class ScFullFinalizedCard extends LitElement {
         }
       </style>
       <header>
-        <sc-card-value valueType="${VALUE_TYPES.COST}" .card="${this.card}"></sc-card-value>
+        <sc-card-value valueType=${VALUE_TYPES.COST} .card=${this.card}></sc-card-value>
         ${this._getNameContextHtml()}
       </header>
       <section>
-        <sc-card-abilities .abilities="${this.card.abilities}"></sc-card-abilities>
-        <sc-card-conditions .conditions="${this.card.conditions}"></sc-card-conditions>
+        <sc-card-abilities .abilities=${this.card.abilities}></sc-card-abilities>
+        <sc-card-conditions .conditions=${this.card.conditions}></sc-card-conditions>
       </section>
       <footer>
         ${this._getFooterHtml()}
@@ -50,11 +50,11 @@ export class ScFullFinalizedCard extends LitElement {
     if (this.card.type === CardType.Minion) {
       return html`
         <div class="footer-left">
-          <sc-card-value valueType="${VALUE_TYPES.RANGE}" .card="${this.card}"></sc-card-value>
-          <sc-card-value valueType="${VALUE_TYPES.ATTACK}" .card="${this.card}"></sc-card-value>
+          <sc-card-value valueType=${VALUE_TYPES.RANGE} .card=${this.card}></sc-card-value>
+          <sc-card-value valueType=${VALUE_TYPES.ATTACK} .card=${this.card}></sc-card-value>
         </div>
         <div class="footer-right">
-          <sc-card-value valueType="${VALUE_TYPES.HEALTH}" .card="${this.card}"></sc-card-value>
+          <sc-card-value valueType=${VALUE_TYPES.HEALTH} .card=${this.card}></sc-card-value>
         </div>
       `;
     }
