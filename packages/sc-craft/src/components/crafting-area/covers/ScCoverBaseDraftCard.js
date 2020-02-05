@@ -1,12 +1,10 @@
-import { LitElement, css, html } from 'lit-element';
+import { LitElement, html } from 'lit-element';
 import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
 import { ScCoverForgeCardStyles } from './sc-cover-forge-card-styles.js';
 
 export class ScCoverBaseDraftCard extends LitElement {
   static get styles() {
-    return [
-      ScCoverForgeCardStyles,
-    ];
+    return [ScCoverForgeCardStyles];
   }
 
   render() {

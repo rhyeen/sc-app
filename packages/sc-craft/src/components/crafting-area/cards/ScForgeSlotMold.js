@@ -25,8 +25,8 @@ export class ScForgeSlotMold extends LitElement {
           fill: ${FORGE.ICON.COLOR};
           margin-left: -4px; /* the anvil icon just appears a bit off-center */
         }
-      `
-    ]
+      `,
+    ];
   }
 
   render() {

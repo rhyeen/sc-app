@@ -21,7 +21,6 @@ import { ScFullFinalizedCard } from './src/components/selected-crafting-componen
 import { ScCoverForgeCard } from './src/components/crafting-area/covers/ScCoverForgeCard.js';
 import { ScCoverBaseDraftCard } from './src/components/crafting-area/covers/ScCoverBaseDraftCard.js';
 
-
 window.customElements.define('sc-forge-slot-mold', ScForgeSlotMold);
 window.customElements.define('sc-reduced-draft-card-ability-slots', ScReducedDraftCardAbilitySlots);
 window.customElements.define('sc-reduced-draft-card', ScReducedDraftCard);
@@ -41,4 +40,3 @@ window.customElements.define('sc-full-finalized-card', ScFullFinalizedCard);
 
 window.customElements.define('sc-cover-forge-card', ScCoverForgeCard);
 window.customElements.define('sc-cover-base-draft-card', ScCoverBaseDraftCard);
-

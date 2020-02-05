@@ -2,7 +2,6 @@ import { html, css, LitElement } from 'lit-element';
 import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
 import { AREAS } from '../../../../sc-cards/sc-cards-styles.js';
 
-
 export class ScCraftingArea extends LitElement {
   static get styles() {
     return [
@@ -22,7 +21,7 @@ export class ScCraftingArea extends LitElement {
           flex: 1;
           width: 100%;
         }
-      `
+      `,
     ];
   }
 
@@ -36,11 +35,11 @@ export class ScCraftingArea extends LitElement {
     `;
   }
 
-  static get properties() { 
+  static get properties() {
     return {
       game: { type: Game },
       gameVersion: { type: Number },
       selectedCraftingComponent: { type: Object },
-    }
+    };
   }
 }

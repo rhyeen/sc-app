@@ -4,12 +4,12 @@ export function separateSlotsWithAbilities(abilitySlots) {
   if (!abilitySlots || !abilitySlots.length) {
     return { slotsWithAbilities, slotsWithoutAbilities };
   }
-  for (const slot of abilitySlots) {
+  abilitySlots.forEach(slot => {
     if (slot.isFilled()) {
       slotsWithAbilities.push(slot);
     } else {
       slotsWithoutAbilities.push(slot);
     }
-  }
+  });
   return { slotsWithAbilities, slotsWithoutAbilities };
 }

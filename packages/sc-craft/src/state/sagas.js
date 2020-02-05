@@ -1,4 +1,4 @@
-import { all, takeEvery, takeLatest, put, call } from 'redux-saga/effects'; // eslint-disable-line import/extensions
+import { all, takeEvery, put } from 'redux-saga/effects'; // eslint-disable-line import/extensions
 import { DraftCardModifier } from '@shardedcards/sc-types/dist/card/services/draft-card-modifier.js';
 import { AddCraftedCardToDeckAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action/player-turn-actions/add-crafted-card-to-deck-action.js';
 import { AddCraftingPartAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action/player-turn-actions/add-crafting-part-action.js';
@@ -47,19 +47,23 @@ function _addCardToDeck(cardName, cardNameId, numberOfInstances) {
   const playerId = GameSelectors.getPlayerId(state);
   const card = _getFinalizedSelectedForgeDraftCard();
   const selectedCraftingComponent = Selectors.getSelectedCraftingComponent(state);
-  const {forgeSlotIndex} = selectedCraftingComponent;
+  const { forgeSlotIndex } = selectedCraftingComponent;
   const turn = GameSelectors.getPendingTurn(state);
-  return CraftInterface.addCardToDeck({name: cardName, id: cardNameId}, card.hash, playerId, gameId, forgeSlotIndex, numberOfInstances, turn);
+  return CraftInterface.addCardToDeck(
+    { name: cardName, id: cardNameId },
+    card.hash,
+    playerId,
+    gameId,
+    forgeSlotIndex,
+    numberOfInstances,
+    turn,
+  );
 }
 
 function _getAddCardToDeckAction(numberOfInstances, cardOrigin) {
   const state = localStore.getState();
   const { forgeSlotIndex } = Selectors.getSelectedCraftingComponent(state);
-  return new AddCraftedCardToDeckAction(
-    forgeSlotIndex,
-    numberOfInstances,
-    cardOrigin,
-  );
+  return new AddCraftedCardToDeckAction(forgeSlotIndex, numberOfInstances, cardOrigin);
 }
 
 function* _addFinalizedCardToDeck({ cardName, cardNameId, numberOfInstances }) {
@@ -96,22 +100,13 @@ function* _addCraftingPart() {
 
 function* saga() {
   yield all([
-    takeEvery(
-      Actions.SELECT_FORGE_FOR_CRAFTING_PART.REQUEST,
-      _selectForgeForCraftingPart,
-    ),
+    takeEvery(Actions.SELECT_FORGE_FOR_CRAFTING_PART.REQUEST, _selectForgeForCraftingPart),
     takeEvery(
       Actions.FINISH_FORGE_SELECTED_BASE_DRAFT_CARD.REQUEST,
       _finishForgeSelectedBaseDraftCard,
     ),
-    takeEvery(
-      Actions.FINALIZE_SELECTED_FORGE_DRAFT_CARD.REQUEST,
-      _finalizeSelectedForgeDraftCard,
-    ),
-    takeEvery(
-      Actions.ADD_FINALIZED_CARD_TO_DECK.REQUEST,
-      _addFinalizedCardToDeck,
-    ),
+    takeEvery(Actions.FINALIZE_SELECTED_FORGE_DRAFT_CARD.REQUEST, _finalizeSelectedForgeDraftCard),
+    takeEvery(Actions.ADD_FINALIZED_CARD_TO_DECK.REQUEST, _addFinalizedCardToDeck),
     takeEvery(Actions.ADD_CRAFTING_PART.REQUEST, _addCraftingPart),
   ]);
 }

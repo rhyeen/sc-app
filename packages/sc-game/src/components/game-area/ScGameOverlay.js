@@ -52,7 +52,7 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
       _showGameMenu: { type: Boolean },
       _selectedCard: { type: Object },
       _selectedCraftingComponent: { type: Object },
-      _loading: { type: Boolean }
+      _loading: { type: Boolean },
     };
   }
 
@@ -124,7 +124,8 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
   get _previewBaseDraftCard() {
     return (
       ScGameOverlay._validIndex(this._selectedCraftingComponent.baseCardIndex) &&
-      this._selectedCraftingComponent.source === SELECTED_CRAFTING_COMPONENT_SOURCES.SELECT_BASE_DRAFT_CARD &&
+      this._selectedCraftingComponent.source ===
+        SELECTED_CRAFTING_COMPONENT_SOURCES.SELECT_BASE_DRAFT_CARD &&
       this._selectedCraftingComponent.state === SELECTED_CRAFTING_COMPONENT_STATES.PREVIEW
     );
   }
@@ -132,7 +133,8 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
   get _forgeBaseDraftCard() {
     return (
       ScGameOverlay._validIndex(this._selectedCraftingComponent.baseCardIndex) &&
-      this._selectedCraftingComponent.source === SELECTED_CRAFTING_COMPONENT_SOURCES.SELECT_BASE_DRAFT_CARD &&
+      this._selectedCraftingComponent.source ===
+        SELECTED_CRAFTING_COMPONENT_SOURCES.SELECT_BASE_DRAFT_CARD &&
       this._selectedCraftingComponent.state === SELECTED_CRAFTING_COMPONENT_STATES.TARGET_FIELD
     );
   }
@@ -140,7 +142,8 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
   get _previewForgeDraftCard() {
     return (
       ScGameOverlay._validIndex(this._selectedCraftingComponent.forgeSlotIndex) &&
-      this._selectedCraftingComponent.source === SELECTED_CRAFTING_COMPONENT_SOURCES.SELECT_FORGE_SLOT &&
+      this._selectedCraftingComponent.source ===
+        SELECTED_CRAFTING_COMPONENT_SOURCES.SELECT_FORGE_SLOT &&
       this._selectedCraftingComponent.state === SELECTED_CRAFTING_COMPONENT_STATES.PREVIEW
     );
   }
@@ -148,7 +151,8 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
   get _finalizeForgeDraftCard() {
     return (
       ScGameOverlay._validIndex(this._selectedCraftingComponent.forgeSlotIndex) &&
-      this._selectedCraftingComponent.source === SELECTED_CRAFTING_COMPONENT_SOURCES.SELECT_FORGE_SLOT &&
+      this._selectedCraftingComponent.source ===
+        SELECTED_CRAFTING_COMPONENT_SOURCES.SELECT_FORGE_SLOT &&
       this._selectedCraftingComponent.state === SELECTED_CRAFTING_COMPONENT_STATES.FINALIZE
     );
   }
@@ -156,7 +160,8 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
   get _selectForgeForCraftingPart() {
     return (
       ScGameOverlay._validIndex(this._selectedCraftingComponent.craftingPartIndex) &&
-      this._selectedCraftingComponent.source === SELECTED_CRAFTING_COMPONENT_SOURCES.SELECT_CRAFTING_PART &&
+      this._selectedCraftingComponent.source ===
+        SELECTED_CRAFTING_COMPONENT_SOURCES.SELECT_CRAFTING_PART &&
       this._selectedCraftingComponent.state === SELECTED_CRAFTING_COMPONENT_STATES.TARGET_FIELD
     );
   }
@@ -165,7 +170,8 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
     return (
       ScGameOverlay._validIndex(this._selectedCraftingComponent.craftingPartIndex) &&
       ScGameOverlay._validIndex(this._selectedCraftingComponent.forgeSlotIndex) &&
-      this._selectedCraftingComponent.source === SELECTED_CRAFTING_COMPONENT_SOURCES.SELECT_CRAFTING_PART &&
+      this._selectedCraftingComponent.source ===
+        SELECTED_CRAFTING_COMPONENT_SOURCES.SELECT_CRAFTING_PART &&
       this._selectedCraftingComponent.state === SELECTED_CRAFTING_COMPONENT_STATES.PREVIEW
     );
   }

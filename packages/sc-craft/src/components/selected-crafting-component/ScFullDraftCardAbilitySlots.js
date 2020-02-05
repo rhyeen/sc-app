@@ -7,11 +7,11 @@ export class ScFullDraftCardAbilitySlots extends LitElement {
     `;
   }
 
-  static get properties() { 
+  static get properties() {
     return {
       slots: { type: Array },
-      modifiedSlots: { type: Array }
-    }
+      modifiedSlots: { type: Array },
+    };
   }
 
   _getSlotsHtml() {
@@ -19,7 +19,7 @@ export class ScFullDraftCardAbilitySlots extends LitElement {
       return html``;
     }
     const result = [];
-    for(let i = 0; i < this.slots.length; i++) {
+    for (let i = 0; i < this.slots.length; i += 1) {
       const modifiedSlot = this.modifiedSlots ? this.modifiedSlots[i] : null;
       result.push(ScFullDraftCardAbilitySlots._getSlotHtml(this.slots[i], modifiedSlot));
     }
@@ -28,7 +28,10 @@ export class ScFullDraftCardAbilitySlots extends LitElement {
 
   static _getSlotHtml(slot, modifiedSlot) {
     return html`
-      <sc-draft-card-slot-value .slot=${slot} .modifiedSlot=${modifiedSlot}></sc-draft-card-slot-value>
+      <sc-draft-card-slot-value
+        .slot=${slot}
+        .modifiedSlot=${modifiedSlot}
+      ></sc-draft-card-slot-value>
     `;
   }
 }

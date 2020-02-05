@@ -10,9 +10,9 @@ const DROPDOWN = {
     MAX_WIDTH: css`300px`,
     HEIGHT: css`40px`,
     PADDING: css`10px`,
-    BODER_RADIUS: css`4px`
-  }
-}
+    BODER_RADIUS: css`4px`,
+  },
+};
 
 export class ScDropdown extends LitElement {
   static get styles() {
@@ -26,7 +26,7 @@ export class ScDropdown extends LitElement {
 
         [selected-item] {
           max-width: ${DROPDOWN.SELECTED_ITEM.MAX_WIDTH};
-          height: calc(${DROPDOWN.SELECTED_ITEM.HEIGHT} - 2*${DROPDOWN.SELECTED_ITEM.PADDING});
+          height: calc(${DROPDOWN.SELECTED_ITEM.HEIGHT} - 2 * ${DROPDOWN.SELECTED_ITEM.PADDING});
           border: 1px solid ${APP_COLORS.OFF_BLACK};
           display: flex;
           justify-content: space-between;
@@ -102,13 +102,13 @@ export class ScDropdown extends LitElement {
 
   render() {
     if (!this._selectedItem && this.items && this.items.length) {
+      // eslint-disable-next-line prefer-destructuring
       this._selectedItem = this.items[0];
     }
 
     return html`
       <div class="dropdown-wrapper" @click=${this._wasClicked}>
-        ${this._getSelectedItemHtml()}
-        ${this._getDropdownMenuHtml()}
+        ${this._getSelectedItemHtml()} ${this._getDropdownMenuHtml()}
       </div>
     `;
   }
@@ -120,7 +120,7 @@ export class ScDropdown extends LitElement {
       loading: { type: Boolean },
       wrapSelected: { type: Boolean },
       _selectedItem: { type: Object },
-      _isOpen: { type: Boolean }
+      _isOpen: { type: Boolean },
     };
   }
 
@@ -142,22 +142,28 @@ export class ScDropdown extends LitElement {
   _getSelectedItemHtml() {
     const classes = {
       opened: !!this._isOpen,
-      'wrap-selected': !!this.wrapSelected
+      'wrap-selected': !!this.wrapSelected,
     };
     if (this.loading) {
       return html`
         <div selected-item class=${classMap(classes)} disabled>
-          <div class="text"><sc-loading .text=${Localize.localeMap.SC_GAME.LOADING} reduced></sc-loading></div>
+          <div class="text">
+            <sc-loading .text=${Localize.localeMap.SC_GAME.LOADING} reduced></sc-loading>
+          </div>
           <div class="icon">${DropdownIcon()}</div>
         </div>
       `;
     }
     return html`
-      <div selected-item class=${classMap(classes)} @click=${() => this._isOpen = !this._isOpen}>
+      <div selected-item class=${classMap(classes)} @click=${() => this._toggleOpen()}>
         <div class="text">${this._selectedItem[this.itemLabelKey]}</div>
         <div class="icon">${DropdownIcon()}</div>
       </div>
     `;
+  }
+
+  _toggleOpen() {
+    this._isOpen = !this._isOpen;
   }
 
   _getDropdownMenuHtml() {
@@ -173,13 +179,12 @@ export class ScDropdown extends LitElement {
 
   _getDropdownItemHtml(item) {
     const classes = {
-      selected: item === this._selectedItem
+      selected: item === this._selectedItem,
     };
     return html`
-      <div
-        dropdown-menu-item
-        class=${classMap(classes)}
-        @click=${(e) => this._selectItem(e, item)}>${item[this.itemLabelKey]}</div>
+      <div dropdown-menu-item class=${classMap(classes)} @click=${e => this._selectItem(e, item)}>
+        ${item[this.itemLabelKey]}
+      </div>
     `;
   }
 
@@ -189,8 +194,8 @@ export class ScDropdown extends LitElement {
     this._isOpen = false;
     const newEvent = new CustomEvent('select-item', {
       detail: {
-        item
-      }
+        item,
+      },
     });
     this.dispatchEvent(newEvent);
   }
@@ -201,7 +206,7 @@ export class ScDropdown extends LitElement {
   }
 
   _handleClick() {
-    // @NOTE: since we perform event.stopPropogation on any clicks within this element, 
+    // @NOTE: since we perform event.stopPropogation on any clicks within this element,
     // then we can assume any globally triggered mouse click is a click outside of this element
     this._isOpen = false;
   }

@@ -80,9 +80,6 @@ const INITIAL_STATE = _resetState();
 
 const reducer = (state = INITIAL_STATE, action) => {
   const newState = state;
-  let cardId;
-  let cardInstance;
-  let fieldSlotIndex;
   switch (action.type) {
     case Actions.SELECT_HAND_CARD:
       return _setSelectedCard(

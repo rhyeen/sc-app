@@ -45,12 +45,7 @@ export const ScUseAbilityBtnStyles = css`
 
 export class ScUseAbilityBtn extends LitElement {
   static get styles() {
-    return [
-      ScIconsStyles,
-      ScCardAbilityConditionStyles,
-      ScBtnStyles,
-      ScUseAbilityBtnStyles,
-    ];
+    return [ScIconsStyles, ScCardAbilityConditionStyles, ScBtnStyles, ScUseAbilityBtnStyles];
   }
 
   render() {

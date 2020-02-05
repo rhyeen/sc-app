@@ -59,7 +59,11 @@ export class ScAttackedMinionCover extends LitElement {
     const oldCard = this._getTargetCard(this.game);
     const newCard = result.game.getCard(oldCard.hash, oldCard.id);
     const isDiscarded = !ScAttackedMinionCover._sameCard(oldCard, this._getTargetCard(result.game));
-    return ScAttackedMinionCover._getHealthResultHtml(oldCard.remainingHealth, newCard.remainingHealth, isDiscarded);
+    return ScAttackedMinionCover._getHealthResultHtml(
+      oldCard.remainingHealth,
+      newCard.remainingHealth,
+      isDiscarded,
+    );
   }
 
   _getTargetCard(game) {
@@ -70,7 +74,11 @@ export class ScAttackedMinionCover extends LitElement {
     const oldCard = this._getSourceCard(this.game);
     const newCard = result.game.getCard(oldCard.hash, oldCard.id);
     const isDiscarded = !ScAttackedMinionCover._sameCard(oldCard, this._getTargetCard(result.game));
-    return ScAttackedMinionCover._getHealthResultHtml(oldCard.remainingHealth, newCard.remainingHealth, isDiscarded);
+    return ScAttackedMinionCover._getHealthResultHtml(
+      oldCard.remainingHealth,
+      newCard.remainingHealth,
+      isDiscarded,
+    );
   }
 
   _getSourceCard(game) {

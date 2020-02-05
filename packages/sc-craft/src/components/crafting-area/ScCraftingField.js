@@ -1,6 +1,9 @@
 import { html, css, LitElement } from 'lit-element';
 import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
-import { finishForgeSelectedBaseDraftCard, selectForgeForCraftingPart } from '../../state/actions.js';
+import {
+  finishForgeSelectedBaseDraftCard,
+  selectForgeForCraftingPart,
+} from '../../state/actions.js';
 import { localStore } from '../../state/store.js';
 import { SELECTED_CRAFTING_COMPONENT_SOURCES } from '../../state/state-specifiers.js';
 
@@ -35,12 +38,12 @@ export class ScCraftingField extends LitElement {
     `;
   }
 
-  static get properties() { 
+  static get properties() {
     return {
       gameVersion: { type: Number },
       game: { type: Game },
-      selectedCraftingComponent: { type: Object }
-    }
+      selectedCraftingComponent: { type: Object },
+    };
   }
 
   _getCraftingForgeHtml(forgeSlotIndex) {
@@ -65,7 +68,10 @@ export class ScCraftingField extends LitElement {
   }
 
   get _addingCraftingPart() {
-    return this.selectedCraftingComponent.source === SELECTED_CRAFTING_COMPONENT_SOURCES.SELECT_CRAFTING_PART;
+    return (
+      this.selectedCraftingComponent.source ===
+      SELECTED_CRAFTING_COMPONENT_SOURCES.SELECT_CRAFTING_PART
+    );
   }
 
   _selectForge(forgeSlotIndex) {
@@ -87,7 +93,8 @@ export class ScCraftingField extends LitElement {
           .game=${this.game}
           .gameVersion=${this.gameVersion}
           .selectedCraftingComponent=${this.selectedCraftingComponent}
-          .baseCardIndex=${baseCardIndex}></sc-cover-base-draft-card>
+          .baseCardIndex=${baseCardIndex}
+        ></sc-cover-base-draft-card>
       `;
     }
     return html`

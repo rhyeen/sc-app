@@ -1,7 +1,7 @@
 import { html, css, LitElement } from 'lit-element';
 import { CardType } from '@shardedcards/sc-types/dist/card/enums/card-type.js';
 import { CardOrigin } from '@shardedcards/sc-types/dist/card/entities/card-origin/card-origin.js';
-import { CardRarityColor } from '../../../../sc-cards/sc-cards-styles';
+import { CardRarityColor } from '../../../../sc-cards/sc-cards-styles.js';
 import { VALUE_TYPES } from '../../../../sc-cards/src/components/card-parts/ScCardValue.js';
 import { ScFullCardStyles } from '../../../../sc-cards/src/components/selected-card/ScFullCard.js';
 
@@ -13,7 +13,7 @@ export class ScFullFinalizedCard extends LitElement {
         sc-dropdown {
           flex: 1;
         }
-      `
+      `,
     ];
   }
 
@@ -63,7 +63,9 @@ export class ScFullFinalizedCard extends LitElement {
 
   _getNameContextHtml() {
     if (this.cardOrigin) {
-      return html`<div card-name>${this.cardOrigin.name}</div>`;
+      return html`
+        <div card-name>${this.cardOrigin.name}</div>
+      `;
     }
     return html`
       <sc-dropdown
@@ -71,15 +73,16 @@ export class ScFullFinalizedCard extends LitElement {
         @select-item=${this._selectName}
         .loading=${!this.possibleNames || !this.possibleNames.length}
         itemLabelKey="name"
-        wrapSelected></sc-dropdown>
+        wrapSelected
+      ></sc-dropdown>
     `;
   }
 
   _selectName(event) {
     const newEvent = new CustomEvent('select-name', {
       detail: {
-        name: event.detail.item
-      }
+        name: event.detail.item,
+      },
     });
     this.dispatchEvent(newEvent);
   }

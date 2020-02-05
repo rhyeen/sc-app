@@ -3,7 +3,7 @@ import { html } from 'lit-element';
 export const LOCALE_EN = {
   SC_GAME: {
     LOADING_GAME: 'Loading game',
-    LOADING: 'Loading'
+    LOADING: 'Loading',
   },
   SC_ROOT: {
     PAGE_NOT_FOUND: {

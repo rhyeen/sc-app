@@ -53,7 +53,7 @@ export const SC_BTN_STYLES = {
   BUTTON: {
     PADDING: css`10px 16px`,
     PADDING_CONDENSED: css`8px 12px`,
-    MARGIN: css`0`
+    MARGIN: css`0`,
   },
 };
 

@@ -2,16 +2,17 @@ import { LitElement, css, html } from 'lit-element';
 import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
 import { DraftCardModifier } from '@shardedcards/sc-types/dist/card/services/draft-card-modifier.js';
 import { ScCoverForgeCardStyles, DRAFT_CARDS } from './sc-cover-forge-card-styles.js';
-import { ScIconsStyles, RemoveIcon, ForgeIcon } from '../../../../../sc-app/src/components/shared/ScIcons.js';
+import {
+  ScIconsStyles,
+  RemoveIcon,
+  ForgeIcon,
+} from '../../../../../sc-app/src/components/shared/ScIcons.js';
 import { SELECTED_CRAFTING_COMPONENT_SOURCES } from '../../../state/state-specifiers.js';
 import { Ability, CardStat } from '../../../../../sc-cards/src/entities/card-aspects.js';
 
 export class ScCoverForgeCard extends LitElement {
   static get styles() {
-    return [
-      ScIconsStyles,
-      ScCoverForgeCardStyles
-    ];
+    return [ScIconsStyles, ScCoverForgeCardStyles];
   }
 
   render() {
@@ -51,7 +52,7 @@ export class ScCoverForgeCard extends LitElement {
     if (isSeparator) {
       return this._cardInForge ? DRAFT_CARDS.FORGE_COVER.FORGE_BASE_DRAFT_CARD_BORDER : css`none`;
     }
-    return  DRAFT_CARDS.FORGE_COVER.FORGE_BASE_DRAFT_CARD_BORDER;
+    return DRAFT_CARDS.FORGE_COVER.FORGE_BASE_DRAFT_CARD_BORDER;
   }
 
   get _cardInForge() {
@@ -59,7 +60,10 @@ export class ScCoverForgeCard extends LitElement {
   }
 
   get _addingCraftingPart() {
-    return this.selectedCraftingComponent.source === SELECTED_CRAFTING_COMPONENT_SOURCES.SELECT_CRAFTING_PART;
+    return (
+      this.selectedCraftingComponent.source ===
+      SELECTED_CRAFTING_COMPONENT_SOURCES.SELECT_CRAFTING_PART
+    );
   }
 
   get _cardModified() {
@@ -83,7 +87,7 @@ export class ScCoverForgeCard extends LitElement {
     if (this._addingCraftingPart) {
       return this._cardModified ? this._getCraftingPartIcon() : html``;
     }
-    return this._cardInForge ? ForgeIcon(): html``;
+    return this._cardInForge ? ForgeIcon() : html``;
   }
 
   get _selectedCraftingPart() {
@@ -92,8 +96,12 @@ export class ScCoverForgeCard extends LitElement {
 
   _getCraftingPartIcon() {
     if (this._selectedCraftingPart.type) {
-      return html`${CardStat.getIcon(this._selectedCraftingPart.type)}`;
+      return html`
+        ${CardStat.getIcon(this._selectedCraftingPart.type)}
+      `;
     }
-    return html`${Ability.getIcon(this._selectedCraftingPart.ability.id)}`;
+    return html`
+      ${Ability.getIcon(this._selectedCraftingPart.ability.id)}
+    `;
   }
 }

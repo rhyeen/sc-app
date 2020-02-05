@@ -27,7 +27,7 @@ export class ScReducedDraftCardAbilitySlots extends LitElement {
         .slots-overview {
           font-size: 13px;
         }
-      `
+      `,
     ];
   }
 
@@ -37,35 +37,43 @@ export class ScReducedDraftCardAbilitySlots extends LitElement {
     `;
   }
 
-  static get properties() { 
+  static get properties() {
     return {
-      slots: { type: Array }
-    }
+      slots: { type: Array },
+    };
   }
 
   _getHtml() {
-    const { slotsWithAbilities , slotsWithoutAbilities } = separateSlotsWithAbilities(this.slots);
+    const { slotsWithAbilities, slotsWithoutAbilities } = separateSlotsWithAbilities(this.slots);
     let abilitiesOverviewHtml = html``;
     let abilityAndSlotBreak = html``;
     let slotsOverviewHtml = html``;
     if (slotsWithAbilities.length) {
       abilitiesOverviewHtml = html`
-        <div class="abilities-overview">${Localize.localeMap.SC_CRAFT.CRAFTING_CARD_SLOTS.ABILITY_COUNT(slotsWithAbilities.length)}</div>
+        <div class="abilities-overview">
+          ${Localize.localeMap.SC_CRAFT.CRAFTING_CARD_SLOTS.ABILITY_COUNT(
+            slotsWithAbilities.length,
+          )}
+        </div>
       `;
     }
     if (slotsWithAbilities.length && slotsWithoutAbilities.length) {
-      abilityAndSlotBreak = html`<div class="abilities-slots-break"></div>`;
+      abilityAndSlotBreak = html`
+        <div class="abilities-slots-break"></div>
+      `;
     }
     if (slotsWithoutAbilities.length) {
       slotsOverviewHtml = html`
-        <div class="slots-overview">${Localize.localeMap.SC_CRAFT.CRAFTING_CARD_SLOTS.SLOT_COUNT(slotsWithoutAbilities.length)}</div>
+        <div class="slots-overview">
+          ${Localize.localeMap.SC_CRAFT.CRAFTING_CARD_SLOTS.SLOT_COUNT(
+            slotsWithoutAbilities.length,
+          )}
+        </div>
       `;
     }
     return html`
       <div class="reduced-overview">
-        ${abilitiesOverviewHtml}
-        ${abilityAndSlotBreak}
-        ${slotsOverviewHtml}
+        ${abilitiesOverviewHtml} ${abilityAndSlotBreak} ${slotsOverviewHtml}
       </div>
     `;
   }

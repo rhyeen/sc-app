@@ -1,4 +1,4 @@
-import { put, takeEvery, takeLatest, all, call } from 'redux-saga/effects'; // eslint-disable-line import/extensions
+import { put, takeEvery, all } from 'redux-saga/effects'; // eslint-disable-line import/extensions
 import { ActionTargetType } from '@shardedcards/sc-types/dist/turn/enums/action-type.js';
 import { PlaceMinionAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action/player-turn-actions/place-minion-action.js';
 import { PlayMinionAttackAction } from '@shardedcards/sc-types/dist/turn/entities/turn-action/player-turn-actions/play-minion-attack-action.js';

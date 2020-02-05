@@ -42,8 +42,14 @@ window.customElements.define('sc-place-minion-overlay', ScPlaceMinionOverlay);
 window.customElements.define('sc-preview-base-draft-card-overlay', ScPreviewBaseDraftCardOverlay);
 window.customElements.define('sc-forge-base-draft-card-overlay', ScForgeBaseDraftCardOverlay);
 window.customElements.define('sc-preview-forge-draft-card-overlay', ScPreviewForgeDraftCardOverlay);
-window.customElements.define('sc-finalize-forge-draft-card-overlay', ScFinalizeForgeDraftCardOverlay);
-window.customElements.define('sc-select-forge-for-crafting-part-overlay', ScSelectForgeForCraftingPartOverlay);
+window.customElements.define(
+  'sc-finalize-forge-draft-card-overlay',
+  ScFinalizeForgeDraftCardOverlay,
+);
+window.customElements.define(
+  'sc-select-forge-for-crafting-part-overlay',
+  ScSelectForgeForCraftingPartOverlay,
+);
 window.customElements.define('sc-add-crafting-part-overlay', ScAddCraftingPartOverlay);
 window.customElements.define('sc-game-overlay', ScGameOverlay);
 

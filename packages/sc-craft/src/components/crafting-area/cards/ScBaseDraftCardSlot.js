@@ -1,6 +1,6 @@
 import { html, css, LitElement } from 'lit-element';
 import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
-import { CARDS } from '../../../../../sc-cards/sc-cards-styles';
+import { CARDS } from '../../../../../sc-cards/sc-cards-styles.js';
 
 import { localStore } from '../../../state/store.js';
 import { selectBaseDraftCard } from '../../../state/actions.js';
@@ -13,7 +13,7 @@ export class ScBaseDraftCardSlot extends LitElement {
           width: calc(${CARDS.MINION.WIDTH} - 2 * ${CARDS.MINION.PADDING});
           height: calc(${CARDS.MINION.HEIGHT} - 2 * ${CARDS.MINION.PADDING});
         }
-      `
+      `,
     ];
   }
 
@@ -27,7 +27,7 @@ export class ScBaseDraftCardSlot extends LitElement {
     return {
       game: { type: Game },
       gameVersion: { type: Number },
-      baseCardIndex: { type: Number }
+      baseCardIndex: { type: Number },
     };
   }
 
@@ -40,14 +40,14 @@ export class ScBaseDraftCardSlot extends LitElement {
       return ScBaseDraftCardSlot._getEmptyDraftCard();
     }
     return html`
-      <sc-reduced-draft-card
-        .card=${card}
-        @click=${this._draftCardClicked}></sc-reduced-draft-card>
+      <sc-reduced-draft-card .card=${card} @click=${this._draftCardClicked}></sc-reduced-draft-card>
     `;
   }
 
   static _getEmptyDraftCard() {
-    return html`<div empty-draft-card></div>`;
+    return html`
+      <div empty-draft-card></div>
+    `;
   }
 
   _draftCardClicked() {

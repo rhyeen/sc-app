@@ -187,7 +187,7 @@ export class ScLoading extends LitElement {
     return {
       text: { type: String },
       reduced: { type: Boolean },
-      _showContent: { type: Boolean }
+      _showContent: { type: Boolean },
     };
   }
 

@@ -5,8 +5,8 @@ export const AREAS = {
     HEIGHT: css`240px`,
   },
   CRAFTING_AREA: {
-    PADDING: css`10px`
-  }
+    PADDING: css`10px`,
+  },
 };
 
 export const FORGE = {
@@ -20,5 +20,5 @@ export const FORGE = {
     WIDTH: css`32px`,
     HEIGHT: css`32px`,
     COLOR: css`#CFD8DC`,
-  }
+  },
 };

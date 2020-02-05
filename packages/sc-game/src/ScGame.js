@@ -40,7 +40,7 @@ export class ScGame extends connect(localStore)(LitElement) {
       playerDeckId: { type: String },
       dungeonId: { type: String },
       _game: { type: Game },
-      _gameVersion: { type: Number }
+      _gameVersion: { type: Number },
     };
   }
 
@@ -68,10 +68,6 @@ export class ScGame extends connect(localStore)(LitElement) {
       <sc-game-footer .game=${this._game} .gameVersion=${this._gameVersion}></sc-game-footer>
       <sc-game-overlay .game=${this._game} .gameVersion=${this._gameVersion}></sc-game-overlay>
     `;
-  }
-
-  constructor() {
-    super();
   }
 
   _newGame() {

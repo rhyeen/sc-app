@@ -1,13 +1,16 @@
 import { html, LitElement } from 'lit-element';
 
-import { Log } from 'interface-handler/src/logger';
+import { Log } from 'interface-handler/src/logger.js';
 import { localStore } from '../../state/store.js';
 
 import { ScOverlayStyles, ScBtnGroupStyles } from './sc-overlay-styles.js';
 import { SC_BTN_TYPES } from '../../../../sc-app/src/components/shared/ScBtn.js';
 import { Localize } from '../../../../utils/localizer.js';
 
-import { cancelSelectCraftingComponent, finalizeSelectedForgeDraftCard } from '../../../../sc-craft/src/state/actions.js';
+import {
+  cancelSelectCraftingComponent,
+  finalizeSelectedForgeDraftCard,
+} from '../../../../sc-craft/src/state/actions.js';
 
 export class ScPreviewForgeDraftCardOverlay extends LitElement {
   static get styles() {
@@ -24,10 +27,7 @@ export class ScPreviewForgeDraftCardOverlay extends LitElement {
         >
           ${Localize.localeMap.SC_BTN.PRESET.CANCEL}</sc-btn
         >
-        <sc-btn
-          .btntype=${SC_BTN_TYPES.GENERIC.PRIMARY}
-          @click=${() => this._finalizeCard()}
-        >
+        <sc-btn .btntype=${SC_BTN_TYPES.GENERIC.PRIMARY} @click=${() => this._finalizeCard()}>
           ${Localize.localeMap.SC_BTN.OTHER.FINISH_FORGE}</sc-btn
         >
       </div>
@@ -46,7 +46,7 @@ export class ScPreviewForgeDraftCardOverlay extends LitElement {
 
   _finalizeCard() {
     if (!this.selectedCraftingComponent.card) {
-       Log.error(`selectedCraftingCompobnent does not have a card`);
+      Log.error(`selectedCraftingCompobnent does not have a card`);
     }
     localStore.dispatch(finalizeSelectedForgeDraftCard.request());
   }

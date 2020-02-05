@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { GamePhase } from '@shardedcards/sc-types/dist/game/enums/game-phase';
+import { GamePhase } from '@shardedcards/sc-types/dist/game/enums/game-phase.js';
 
 const _gameMenuSelector = state => state.scGame.ui.menu;
 const _loadingSelector = state => state.scGame.ui.loading;
@@ -43,7 +43,7 @@ export const getGame = createSelector(
 export const getGameId = createSelector(
   _gameSelector,
   game => game.id,
-)
+);
 
 export const getGameVersion = createSelector(
   _gameVersionSelector,

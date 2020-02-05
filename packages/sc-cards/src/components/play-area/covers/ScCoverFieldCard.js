@@ -53,7 +53,9 @@ export class ScCoverFieldCard extends LitElement {
     if (!this._getFieldSlotCard()) {
       return false;
     }
-    const validTargetIndices = this.game.getValidPlayerMinionAttackTargets(this.selectedCard.fieldSlotIndex);
+    const validTargetIndices = this.game.getValidPlayerMinionAttackTargets(
+      this.selectedCard.fieldSlotIndex,
+    );
     return validTargetIndices.includes(this.fieldSlotIndex);
   }
 

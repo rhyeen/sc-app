@@ -160,11 +160,7 @@ export function RemoveIcon(customClasses) {
   );
 }
 export function DropdownIcon(customClasses) {
-  return getBaseSvg(
-    customClasses,
-    'dropdown-svg-icon',
-    svg`<path d="M7,10L12,15L17,10H7Z"/>`,
-  );
+  return getBaseSvg(customClasses, 'dropdown-svg-icon', svg`<path d="M7,10L12,15L17,10H7Z"/>`);
 }
 
 export const ScIconsStyles = css`

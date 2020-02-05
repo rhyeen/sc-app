@@ -1,12 +1,11 @@
 import { createSelector } from 'reselect';
-import { SELECTED_CRAFTING_COMPONENT_SOURCES } from './state-specifiers';
+import { SELECTED_CRAFTING_COMPONENT_SOURCES } from './state-specifiers.js';
 
 const _usedCraftingPartsSelector = state => state.scCraft.ui.usedCraftingParts;
 const _selectedCraftingComponentSelector = state => state.scCraft.ui.selectedCraftingComponent;
 const _finalizedCardSelector = state => state.scCraft.ui.finalizedCard;
 const _modifiedCardSelector = state => state.scCraft.ui.modifiedCard;
 const _gameSelector = state => state.scGame.entities.game;
-
 
 export const getUsedCraftingParts = createSelector(
   _usedCraftingPartsSelector,
@@ -64,7 +63,8 @@ export const getSelectedCraftingComponent = createSelector(
       if (_validIndex(selectedCraftingComponent.forgeSlotIndex)) {
         card = game.player.craftingTable.forge[selectedCraftingComponent.forgeSlotIndex].card;
       }
-      craftingPart = game.player.craftingTable.craftingParts[selectedCraftingComponent.craftingPartIndex];
+      craftingPart =
+        game.player.craftingTable.craftingParts[selectedCraftingComponent.craftingPartIndex];
     }
     return {
       ...selectedCraftingComponent,
@@ -73,4 +73,3 @@ export const getSelectedCraftingComponent = createSelector(
     };
   },
 );
-

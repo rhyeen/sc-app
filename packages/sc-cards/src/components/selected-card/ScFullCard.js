@@ -54,9 +54,7 @@ export const ScFullCardStyles = css`
 
 export class ScFullCard extends LitElement {
   static get styles() {
-    return [
-      ScFullCardStyles,
-    ];
+    return [ScFullCardStyles];
   }
 
   render() {

@@ -1,7 +1,7 @@
 import { html, css, LitElement } from 'lit-element';
 import { CardType } from '@shardedcards/sc-types/dist/card/enums/card-type.js';
-import { CARDS, CardRarityColor } from '../../../../../sc-cards/sc-cards-styles';
-import { VALUE_TYPES } from '../../../../../sc-cards/src/components/card-parts/ScCardValue';
+import { CARDS, CardRarityColor } from '../../../../../sc-cards/sc-cards-styles.js';
+import { VALUE_TYPES } from '../../../../../sc-cards/src/components/card-parts/ScCardValue.js';
 
 export class ScReducedDraftCard extends LitElement {
   static get styles() {
@@ -48,14 +48,11 @@ export class ScReducedDraftCard extends LitElement {
       </style>
 
       <header>
-        <sc-card-value
-          valueType=${VALUE_TYPES.COST}
-          .card=${this.card}
-          reduced
-        ></sc-card-value>
+        <sc-card-value valueType=${VALUE_TYPES.COST} .card=${this.card} reduced></sc-card-value>
       </header>
       <sc-reduced-draft-card-ability-slots
-          .slots=${this.card.slots}></sc-reduced-draft-card-ability-slots>
+        .slots=${this.card.slots}
+      ></sc-reduced-draft-card-ability-slots>
       <footer>
         ${this._getFooterHtml()}
       </footer>

@@ -4,7 +4,6 @@ import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
 import { APP_COLORS } from '../../../../sc-app/sc-app-styles.js';
 import { AREAS } from '../sc-craft-styles.js';
 import { localStore } from '../../state/store.js';
-import * as Selectors from '../../state/selectors.js';
 
 import { selectCraftingPart } from '../../state/actions.js';
 import { Localize } from '../../../../utils/localizer.js';
@@ -45,7 +44,7 @@ export class ScCraftingParts extends connect(localStore)(LitElement) {
         .dynamic-value {
           font-weight: 700;
         }
-      `
+      `,
     ];
   }
 
@@ -56,34 +55,43 @@ export class ScCraftingParts extends connect(localStore)(LitElement) {
     `;
   }
 
-  static get properties() { 
+  static get properties() {
     return {
       game: { type: Game },
-      gameVersion: { type: Number }
-    }
+      gameVersion: { type: Number },
+    };
   }
 
   _getPartsTitle() {
     if (this._allForgeSlotsEmpty()) {
-      return html`${Localize.localeMap.SC_CRAFT.CRAFTING_PARTS.FORGE_EMPTY}`;
+      return html`
+        ${Localize.localeMap.SC_CRAFT.CRAFTING_PARTS.FORGE_EMPTY}
+      `;
     }
     if (this._craftingPartsLeftToUse() <= 0) {
-      return html`${Localize.localeMap.SC_CRAFT.CRAFTING_PARTS.NO_USES_REMAIN}`;
+      return html`
+        ${Localize.localeMap.SC_CRAFT.CRAFTING_PARTS.NO_USES_REMAIN}
+      `;
     }
-    return html`${Localize.localeMap.SC_CRAFT.CRAFTING_PARTS.FORGE_NOT_EMPTY(this._craftingPartsLeftToUse())}`;
+    return html`
+      ${Localize.localeMap.SC_CRAFT.CRAFTING_PARTS.FORGE_NOT_EMPTY(this._craftingPartsLeftToUse())}
+    `;
   }
 
   _getCraftingPartsHtml() {
-    return this.game.player.craftingTable.craftingParts.map((craftingPart, craftingPartIndex) => html`
+    return this.game.player.craftingTable.craftingParts.map(
+      (craftingPart, craftingPartIndex) => html`
         <sc-crafting-part
           .craftingPart=${craftingPart}
           @click=${() => ScCraftingParts._selectCraftingPart(craftingPartIndex)}
           ?disabled=${this._allForgeSlotsEmpty() || this._craftingPartsLeftToUse() <= 0}
         ></sc-crafting-part>
-      `);
+      `,
+    );
   }
 
   _allForgeSlotsEmpty() {
+    // eslint-disable-next-line no-restricted-syntax
     for (const forgeSlot of this.game.player.craftingTable.forge) {
       if (forgeSlot.card) {
         return false;

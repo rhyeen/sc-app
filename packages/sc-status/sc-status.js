@@ -1,4 +1,3 @@
-import './src/state/sagas.js';
 import { ScEnergyBarItem } from './src/components/bar-items/ScEnergyBarItem.js';
 import { ScHealthBarItem } from './src/components/bar-items/ScHealthBarItem.js';
 

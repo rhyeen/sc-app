@@ -1,4 +1,4 @@
-import { GamePhase } from '@shardedcards/sc-types/dist/game/enums/game-phase';
+import { GamePhase } from '@shardedcards/sc-types/dist/game/enums/game-phase.js';
 import * as Actions from './actions.js';
 
 import { localStore } from './store.js';
@@ -11,7 +11,7 @@ const INITIAL_STATE = {
     game: {
       version: 0,
     },
-    loading: false
+    loading: false,
   },
   entities: {
     pendingTurn: [],
@@ -24,13 +24,30 @@ const INITIAL_STATE = {
   },
 };
 
-function _setLoading(state, loading) {
-  return  {
+function _setGame(state, game) {
+  return {
     ...state,
     ui: {
       ...state.ui,
-      loading
-    }
+      game: {
+        ...state.ui.game,
+        version: state.ui.game.version + 1,
+      },
+    },
+    entities: {
+      ...state.entities,
+      game,
+    },
+  };
+}
+
+function _setLoading(state, loading) {
+  return {
+    ...state,
+    ui: {
+      ...state.ui,
+      loading,
+    },
   };
 }
 
@@ -94,23 +111,6 @@ function _addOpponentTurn(state, opponentTurn) {
     entities: {
       ...state.entities,
       turnHistory: [...state.entities.turnHistory, opponentTurn],
-    },
-  };
-}
-
-function _setGame(state, game) {
-  return {
-    ...state,
-    ui: {
-      ...state.ui,
-      game: {
-        ...state.ui.game,
-        version: state.ui.game.version + 1,
-      },
-    },
-    entities: {
-      ...state.entities,
-      game,
     },
   };
 }

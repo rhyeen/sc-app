@@ -6,7 +6,10 @@ import { ScOverlayStyles, ScBtnGroupStyles } from './sc-overlay-styles.js';
 import { SC_BTN_TYPES } from '../../../../sc-app/src/components/shared/ScBtn.js';
 import { Localize } from '../../../../utils/localizer.js';
 
-import { cancelSelectCraftingComponent, addCraftingPart } from '../../../../sc-craft/src/state/actions.js';
+import {
+  cancelSelectCraftingComponent,
+  addCraftingPart,
+} from '../../../../sc-craft/src/state/actions.js';
 import * as CraftSelectors from '../../../../sc-craft/src/state/selectors.js';
 
 export class ScAddCraftingPartOverlay extends LitElement {
@@ -16,7 +19,10 @@ export class ScAddCraftingPartOverlay extends LitElement {
 
   render() {
     return html`
-      <sc-full-draft-card .card=${this.selectedCraftingComponent.card} .modifiedCard=${this._modifiedCard}></sc-full-draft-card>
+      <sc-full-draft-card
+        .card=${this.selectedCraftingComponent.card}
+        .modifiedCard=${this._modifiedCard}
+      ></sc-full-draft-card>
       <div btn-group>
         <sc-btn
           .btntype=${SC_BTN_TYPES.PRESET.CANCEL}
@@ -26,7 +32,7 @@ export class ScAddCraftingPartOverlay extends LitElement {
         >
         <sc-btn
           .btntype=${SC_BTN_TYPES.GENERIC.PRIMARY}
-          @click=${() => this._addCraftingPart()}
+          @click=${() => ScAddCraftingPartOverlay._addCraftingPart()}
         >
           ${Localize.localeMap.SC_BTN.OTHER.ADD_PART}</sc-btn
         >
@@ -54,7 +60,7 @@ export class ScAddCraftingPartOverlay extends LitElement {
     localStore.dispatch(cancelSelectCraftingComponent());
   }
 
-  _addCraftingPart() {
+  static _addCraftingPart() {
     localStore.dispatch(addCraftingPart.request());
   }
 }
