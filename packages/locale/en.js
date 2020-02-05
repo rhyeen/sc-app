@@ -60,8 +60,6 @@ export const LOCALE_EN = {
       RESET_GAME: 'reset game',
       END_TURN: 'end turn',
       FINISH_CRAFTING: 'finish crafting',
-      GAME_WON: 'You win!',
-      GAME_LOST: 'You lose!',
       PLAY_CARD: 'play',
       FORGE_CARD: 'forge',
       FINISH_FORGE: 'finish card',

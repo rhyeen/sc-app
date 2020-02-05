@@ -74,15 +74,13 @@ export class ScCraftingParts extends connect(localStore)(LitElement) {
   }
 
   _getCraftingPartsHtml() {
-    return this.game.player.craftingTable.craftingParts.map((craftingPart, craftingPartIndex) => {
-      return html`
+    return this.game.player.craftingTable.craftingParts.map((craftingPart, craftingPartIndex) => html`
         <sc-crafting-part
           .craftingPart=${craftingPart}
           @click=${() => ScCraftingParts._selectCraftingPart(craftingPartIndex)}
           ?disabled=${this._allForgeSlotsEmpty() || this._craftingPartsLeftToUse() <= 0}
         ></sc-crafting-part>
-      `;
-    });
+      `);
   }
 
   _allForgeSlotsEmpty() {

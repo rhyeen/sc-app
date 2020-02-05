@@ -11,15 +11,6 @@ export function getCardNames(cardHash) {
   }
 }
 
-export function createCard(cardName, cardHash, playerId, gameId) {
-  switch (InterfaceState.get()) {
-    case INTERFACE_STATE.HTTP:
-      return CallHttp.createCard(cardName, cardHash, playerId, gameId);
-    default:
-      return InterfaceState.invalid();
-  }
-}
-
 export function addCardToDeck(cardName, cardHash, playerId, gameId, forgeSlotIndex, numberOfInstances, turnUpToAddCardToDeckAction) {
   switch (InterfaceState.get()) {
     case INTERFACE_STATE.HTTP:
@@ -29,29 +20,3 @@ export function addCardToDeck(cardName, cardHash, playerId, gameId, forgeSlotInd
   }
 }
 
-export function getCraftingBaseCard() {
-  switch (InterfaceState.get()) {
-    case INTERFACE_STATE.HTTP:
-      return CallHttp.getCraftingBaseCard();
-    default:
-      return InterfaceState.invalid();
-  }
-}
-
-export function getCraftingParts() {
-  switch (InterfaceState.get()) {
-    case INTERFACE_STATE.HTTP:
-      return CallHttp.getCraftingParts();
-    default:
-      return InterfaceState.invalid();
-  }
-}
-
-export function getCardIdentifiers(card) {
-  switch (InterfaceState.get()) {
-    case INTERFACE_STATE.HTTP:
-      return CallHttp.getCardIdentifiers(card);
-    default:
-      return InterfaceState.invalid();
-  }
-}

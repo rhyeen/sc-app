@@ -35,16 +35,6 @@ export const isDrafting = createSelector(
   game => game.phase === GamePhase.Draft,
 );
 
-export const hasWon = createSelector(
-  _gameSelector,
-  game => game.phase === GamePhase.Win,
-);
-
-export const hasLost = createSelector(
-  _gameSelector,
-  game => game.phase === GamePhase.Lose,
-);
-
 export const getGame = createSelector(
   _gameSelector,
   game => game,

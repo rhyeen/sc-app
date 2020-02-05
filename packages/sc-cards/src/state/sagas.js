@@ -97,27 +97,12 @@ function* _selectAbility({ abilityId }) {
   }
 }
 
-function isOpponentTargetedAbilitySelected() {
-  const state = localStore.getState();
-  const selectedAbility = Selectors.getSelectedAbility(state);
-  return selectedAbility.targets === ActionTargetType.TargetOpponentMinion;
-}
-
-function* _cancelSelectMinionTargetedAbility() {
-  if (isOpponentTargetedAbilitySelected()) {
-    yield put(Actions.cancelSelectOpponentMinionTargetedAbility());
-  } else {
-    yield put(Actions.cancelSelectPlayerMinionTargetedAbility());
-  }
-}
-
 function* saga() {
   yield all([
     takeEvery(Actions.PLACE_MINION.REQUEST, _placeMinion),
     takeEvery(Actions.ATTACK_MINION.REQUEST, _attackMinion),
     takeEvery(Actions.USE_SELECTED_ABILITY.REQUEST, _useSelectedAbility),
     takeEvery(Actions.SELECT_ABILITY.REQUEST, _selectAbility),
-    takeEvery(Actions.CANCEL_SELECT_MINION_TARGETED_ABILITY, _cancelSelectMinionTargetedAbility),
   ]);
 }
 

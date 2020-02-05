@@ -39,14 +39,6 @@ function* _endCrafting() {
   }
 }
 
-function* _winGame() {
-  yield put(Actions.winGame.success());
-}
-
-function* _loseGame() {
-  yield put(Actions.loseGame.success());
-}
-
 function _callEndTurn() {
   const state = localStore.getState();
   const turn = Selectors.getPendingTurn(state);
@@ -88,8 +80,6 @@ function* saga() {
   yield all([
     takeLatest(Actions.RESET_GAME.REQUEST, _resetGame),
     takeLatest(Actions.END_CRAFTING.REQUEST, _endCrafting),
-    takeLatest(Actions.WIN_GAME.REQUEST, _winGame),
-    takeLatest(Actions.LOSE_GAME.REQUEST, _loseGame),
     takeLatest(Actions.END_TURN.REQUEST, _endTurn),
     takeLatest(Actions.FULFILL_TURN_ACTION.REQUEST, _fulfillTurnAction),
   ]);

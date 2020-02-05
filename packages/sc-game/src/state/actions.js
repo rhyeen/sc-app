@@ -30,18 +30,6 @@ export const endCrafting = {
   success: opponentTurn => ReduxAction.action(END_CRAFTING.SUCCESS, { opponentTurn }),
 };
 
-export const WIN_GAME = ra.createRequestTypes('WIN_GAME');
-export const winGame = {
-  request: () => ReduxAction.action(WIN_GAME.REQUEST, {}),
-  success: () => ReduxAction.action(WIN_GAME.SUCCESS, {}),
-};
-
-export const LOSE_GAME = ra.createRequestTypes('LOSE_GAME');
-export const loseGame = {
-  request: () => ReduxAction.action(LOSE_GAME.REQUEST, {}),
-  success: () => ReduxAction.action(LOSE_GAME.SUCCESS, {}),
-};
-
 export const FULFILL_TURN_ACTION = ra.createRequestTypes('FULFILL_TURN_ACTION');
 export const fulfillTurnAction = {
   request: turnAction => ReduxAction.action(FULFILL_TURN_ACTION.REQUEST, { turnAction }),

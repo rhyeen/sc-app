@@ -76,33 +76,6 @@ function _setSelectedAbility(state, target, abilityId) {
   };
 }
 
-function _removeSelectedAbility(state) {
-  return {
-    ...state,
-    ui: {
-      ...state.ui,
-      selectedAbility: {
-        target: null,
-        abilityId: null,
-      },
-    },
-  };
-}
-
-// @TODO: determine if needed
-function _setSelectedCardSource(state, source) {
-  return {
-    ...state,
-    ui: {
-      ...state.ui,
-      selectedCard: {
-        ...state.ui.selectedCard,
-        source,
-      },
-    },
-  };
-}
-
 const INITIAL_STATE = _resetState();
 
 const reducer = (state = INITIAL_STATE, action) => {
@@ -149,43 +122,6 @@ const reducer = (state = INITIAL_STATE, action) => {
       return _setSelectedCardState(newState, SELECTED_CARD_STATES.TARGET_FIELD);
     case Actions.SELECT_ABILITY.SUCCESS:
       return _setSelectedAbility(newState, action.target, action.abilityId);
-
-
-
-
-    // @TODO: determine need for below cases
-    case Actions.CANCEL_PLAY_SELECTED_MINION:
-      cardId = newState.ui.selectedCard.id;
-      cardInstance = newState.ui.selectedCard.instance;
-      fieldSlotIndex = newState.ui.selectedCard.fieldSlotIndex;
-      return _setSelectedCard(
-        newState,
-        SELECTED_CARD_SOURCES.SELECT_PLAYER_MINION,
-        cardId,
-        cardInstance,
-        null,
-        fieldSlotIndex,
-      );
-    case Actions.SELECT_PLAYER_MINION:
-      return _setSelectedCard(
-        newState,
-        SELECTED_CARD_SOURCES.SELECT_PLAYER_MINION,
-        action.cardId,
-        action.cardInstance,
-        null,
-        action.fieldSlotIndex,
-      );
-    case Actions.SELECT_OPPONENT_MINION:
-      return _setSelectedCard(
-        newState,
-        SELECTED_CARD_SOURCES.SELECT_OPPONENT_MINION,
-        action.cardId,
-        action.cardInstance,
-        null,
-        action.fieldSlotIndex,
-      );
-    case Actions.PLAY_PLAYER_MINION:
-      return _setSelectedCardSource(newState, SELECTED_CARD_SOURCES.PLAY_PLAYER_MINION);
     default:
       return newState;
   }

@@ -47,24 +47,6 @@ export class ScTargetMinionAbilityCover extends LitElement {
 
   _getTargetResultHtml() {
     return this.caster;
-    // let _caster = this._deepCopy(this.caster);
-    // let _target = this._deepCopy(this.target);
-    // const state = localStore.getState();
-    // const _playerFieldSlots = Selector.getPlayerFieldSlots(state);
-    // const _opponentFieldSlots = Selector.getOpponentFieldSlots(state);
-    // const cards = Selector.getCards(state);
-    // const { updatedCards, opponentFieldSlots } = CardActions.useCardAbility(cards, _target.playAreaIndex, _caster, _playerFieldSlots, _opponentFieldSlots);
-    // _caster = Cards.getUpdatedCard(_caster, updatedCards);
-    // _target = Cards.getUpdatedCard(_target, updatedCards);
-    // switch(this.caster.abilityId) {
-    //   case CARD_ABILITIES.SPELLSHOT:
-    //     return this.static (this.target.card.health, _target.card.health, opponentFieldSlots[this.target.playAreaIndex]);
-    //   case CARD_ABILITIES.REACH:
-    //     return this._getRangeResultHtml(this.target.card.range, _target.card.range);
-    //   default:
-    //     Log.error(`unexpected ability: ${this.caster.abilityId}`);
-    //     return html``;
-    // }
   }
 
   static _getHealthResultHtml(oldHealth, newHealth, playAreaSlot) {

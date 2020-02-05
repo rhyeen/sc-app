@@ -1,7 +1,7 @@
+import { GamePhase } from '@shardedcards/sc-types/dist/game/enums/game-phase';
 import * as Actions from './actions.js';
 
 import { localStore } from './store.js';
-import { GamePhase } from '@shardedcards/sc-types/dist/game/enums/game-phase';
 
 const INITIAL_STATE = {
   ui: {
@@ -162,10 +162,6 @@ const reducer = (state = INITIAL_STATE, action) => {
       newState = _setLoading(newState, false);
       newState = _endTurn(newState);
       return _addOpponentTurn(newState, action.opponentTurn);
-    case Actions.WIN_GAME.SUCCESS:
-      return _updateGamePhase(newState, GamePhase.Win);
-    case Actions.LOSE_GAME.SUCCESS:
-      return _updateGamePhase(newState, GamePhase.Lose);
     case Actions.RECORD_ACTION:
       return _updatePendingTurn(newState, action.action);
     case Actions.END_TURN.REQUEST:
