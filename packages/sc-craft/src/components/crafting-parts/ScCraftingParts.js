@@ -59,20 +59,15 @@ export class ScCraftingParts extends connect(localStore)(LitElement) {
   static get properties() { 
     return {
       game: { type: Game },
-      gameVersion: { type: Number },
-      _usedCraftingParts: { type: Array }
+      gameVersion: { type: Number }
     }
-  }
-
-  stateChanged(state) {
-    this._usedCraftingParts = Selectors.getUsedCraftingParts(state);
   }
 
   _getPartsTitle() {
     if (this._allForgeSlotsEmpty()) {
       return html`${Localize.localeMap.SC_CRAFT.CRAFTING_PARTS.FORGE_EMPTY}`;
     }
-    if (this._maximumCraftingPartsUsed()) {
+    if (this._craftingPartsLeftToUse() <= 0) {
       return html`${Localize.localeMap.SC_CRAFT.CRAFTING_PARTS.NO_USES_REMAIN}`;
     }
     return html`${Localize.localeMap.SC_CRAFT.CRAFTING_PARTS.FORGE_NOT_EMPTY(this._craftingPartsLeftToUse())}`;
@@ -80,15 +75,11 @@ export class ScCraftingParts extends connect(localStore)(LitElement) {
 
   _getCraftingPartsHtml() {
     return this.game.player.craftingTable.craftingParts.map((craftingPart, craftingPartIndex) => {
-      // @NOTE: do not show crafting parts that have already been used
-      if (this._usedCraftingParts.includes(craftingPartIndex)) {
-        return html``;
-      }
       return html`
         <sc-crafting-part
           .craftingPart=${craftingPart}
           @click=${() => ScCraftingParts._selectCraftingPart(craftingPartIndex)}
-          ?disabled=${this._allForgeSlotsEmpty() || this._maximumCraftingPartsUsed()}
+          ?disabled=${this._allForgeSlotsEmpty() || this._craftingPartsLeftToUse() <= 0}
         ></sc-crafting-part>
       `;
     });
@@ -103,12 +94,8 @@ export class ScCraftingParts extends connect(localStore)(LitElement) {
     return true;
   }
 
-  _maximumCraftingPartsUsed() {
-    return this._usedCraftingParts.length >= this.game.player.craftingTable.maxCraftingPartsUsed;
-  }
-
   _craftingPartsLeftToUse() {
-    return this.game.player.craftingTable.maxCraftingPartsUsed - this._usedCraftingParts.length;
+    return this.game.player.craftingTable.remainingUsableCraftingParts;
   }
 
   static _selectCraftingPart(craftingPartIndex) {

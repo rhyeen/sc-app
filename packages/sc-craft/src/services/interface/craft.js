@@ -20,6 +20,15 @@ export function createCard(cardName, cardHash, playerId, gameId) {
   }
 }
 
+export function addCardToDeck(cardName, cardHash, playerId, gameId, forgeSlotIndex, numberOfInstances, turnUpToAddCardToDeckAction) {
+  switch (InterfaceState.get()) {
+    case INTERFACE_STATE.HTTP:
+      return CallHttp.addCardToDeck(cardName, cardHash, playerId, gameId, forgeSlotIndex, numberOfInstances, turnUpToAddCardToDeckAction);
+    default:
+      return InterfaceState.invalid();
+  }
+}
+
 export function getCraftingBaseCard() {
   switch (InterfaceState.get()) {
     case INTERFACE_STATE.HTTP:

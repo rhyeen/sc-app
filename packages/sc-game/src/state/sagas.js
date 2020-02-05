@@ -7,8 +7,6 @@ import * as Selectors from './selectors.js';
 import { localStore } from './store.js';
 
 import * as Actions from './actions.js';
-import * as CardsActions from '../../../sc-cards/src/state/actions.js';
-import { GamePhase } from '@shardedcards/sc-types/dist/game/enums/game-phase';
 
 function _buildGame(gameData) {
   const game = GameBuilder.buildGame(gameData);
@@ -30,27 +28,12 @@ function _callEndCrafting() {
   return GameInterface.endCrafting(gameId, turn);
 }
 
-function* _setGameState(gameState) {
-  switch (gameState) {
-    case GamePhase.Lose:
-      yield put(Actions.loseGame.request());
-      break;
-    case GamePhase.Win:
-      yield put(Actions.winGame.request());
-      break;
-    default:
-      break;
-  }
-}
-
 function* _endCrafting() {
   try {
-    const { opponentTurn, updatedCards, gameState, newCards } = yield call(_callEndCrafting);
-    yield put(Actions.endCrafting.success(opponentTurn));
-    yield put(CardsActions.setUpdatedCards(updatedCards));
-    yield put(CardsActions.setNewCards(newCards));
-    yield put(Actions.beginTurn.request());
-    yield _setGameState(gameState);
+    const { data } = yield call(_callEndCrafting);
+    const game = yield call(_buildGame, data.game);
+    yield put(Actions.setGame(game));
+    yield put(Actions.endCrafting.success(data.opponentTurn));
   } catch (e) {
     yield Log.error(`@TODO: unable to endCrafting(): ${e}`);
   }

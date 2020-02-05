@@ -72,7 +72,8 @@ export class ScFinalizeForgeDraftCardOverlay extends connect(localStore)(LitElem
       _finalizedCard: { type: Object },
       _numberOfInstances: { type: Number },
       _possibleCards: { type: Array },
-      _selectedName: { type: String }
+      _selectedName: { type: String },
+      _selectedNameId: { type: String }
     };
   }
 
@@ -101,11 +102,12 @@ export class ScFinalizeForgeDraftCardOverlay extends connect(localStore)(LitElem
   }
 
   _addToDeck() {
-    localStore.dispatch(addFinalizedCardToDeck.request(this._selectedName, this._numberOfInstances));
+    localStore.dispatch(addFinalizedCardToDeck.request(this._selectedName, this._selectedNameId, this._numberOfInstances));
   }
 
   _selectName(event) {
     this._selectedName = event.detail.name;
+    this._selectedNameId = event.detail.id;
   }
 
   static _getFinalizedCard(state) {
@@ -141,11 +143,13 @@ export class ScFinalizeForgeDraftCardOverlay extends connect(localStore)(LitElem
     }
     this._possibleNames = ScFinalizeForgeDraftCardOverlay._getPossibleNames(state);
     if (this._possibleNames && this._possibleNames.length) {
-      this._selectedName = this._possibleNames[0];
+      this._selectedName = this._possibleNames[0].name;
+      this._selectedNameId = this._possibleNames[0].id;
     }
     this._cardOrigin = ScFinalizeForgeDraftCardOverlay._getCardOrigin(state);
     if (this._cardOrigin) {
       this._selectedName = this._cardOrigin.name;
+      this._selectedNameId = null;
     }
   }
 }

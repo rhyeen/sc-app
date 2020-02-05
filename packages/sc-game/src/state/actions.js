@@ -48,6 +48,9 @@ export const fulfillTurnAction = {
   success: () => ReduxAction.action(FULFILL_TURN_ACTION.SUCCESS, {}),
 };
 
+export const FLUSH_TURN_ACTIONS = ra.createRequestRaw('FLUSH_TURN_ACTIONS');
+export const flushTurnActions = () => ReduxAction.action(FLUSH_TURN_ACTIONS, {});
+
 export const SET_GAME = ra.createRequestRaw('SET_GAME');
 export const setGame = game => ReduxAction.action(SET_GAME, { game });
 

@@ -29,7 +29,7 @@ function* _setCraftingParts() {
   }
 }
 
-function _getAddCraftingPartAction() {
+function __getAddCraftingPartAction() {
   const state = localStore.getState();
   const { craftingPartIndex, forgeSlotIndex } = Selectors.getSelectedCraftingPart(state);
   return new AddCraftingPartAction(craftingPartIndex, forgeSlotIndex);
@@ -37,7 +37,7 @@ function _getAddCraftingPartAction() {
 
 function* _finishAddCraftingPart() {
   const forgeCard = yield _getModifiedForgeCard();
-  const action = yield _getAddCraftingPartAction();
+  const action = yield __getAddCraftingPartAction();
   yield put(GameActions.recordAction(action));
   yield put(Actions.finishAddCraftingPart.success(forgeCard));
 }
@@ -111,17 +111,15 @@ function* _finalizeSelectedForgeDraftCard() {
   yield put(Actions.setFinalizedSelectedForgeDraftCardNameData(data.names, data.cardOrigin));
 }
 
-function _createCard(cardName) {
+function _addCardToDeck(cardName, cardNameId, numberOfInstances) {
   const state = localStore.getState();
-  const { cardOrigin } = Selectors.getFinalizedCard(state);
-  // @NOTE: this means that the call to get card names returned back a cardOrigin that already existed.
-  if (cardOrigin) {
-    return { data: { cardOrigin }};
-  }
   const gameId = GameSelectors.getGameId(state);
   const playerId = GameSelectors.getPlayerId(state);
   const card = _getFinalizedSelectedForgeDraftCard();
-  return CraftInterface.createCard(cardName, card.hash, playerId, gameId);
+  const selectedCraftingComponent = Selectors.getSelectedCraftingComponent(state);
+  const forgeSlotIndex = selectedCraftingComponent.forgeSlotIndex;
+  const turn = GameSelectors.getPendingTurn(state);
+  return CraftInterface.addCardToDeck({name: cardName, id: cardNameId}, card.hash, playerId, gameId, forgeSlotIndex, numberOfInstances, turn);
 }
 
 function _getAddCardToDeckAction(numberOfInstances, cardOrigin) {
@@ -134,10 +132,11 @@ function _getAddCardToDeckAction(numberOfInstances, cardOrigin) {
   );
 }
 
-function* _addFinalizedCardToDeck({ cardName, numberOfInstances }) {
-  const { data } = yield _createCard(cardName);
+function* _addFinalizedCardToDeck({ cardName, cardNameId, numberOfInstances }) {
+  const { data } = yield _addCardToDeck(cardName, cardNameId, numberOfInstances);
   const action = yield _getAddCardToDeckAction(numberOfInstances, data.cardOrigin);
   yield put(GameActions.fulfillTurnAction.request(action));
+  yield put(GameActions.flushTurnActions());
   yield put(Actions.addFinalizedCardToDeck.success());
 }
 
@@ -151,6 +150,18 @@ function _getModifiedForgeCard() {
 function* _selectForgeForCraftingPart() {
   const draftCard = yield _getModifiedForgeCard();
   yield put(Actions.selectForgeForCraftingPart.success(draftCard));
+}
+
+function _getAddCraftingPartAction() {
+  const state = localStore.getState();
+  const { craftingPartIndex, forgeSlotIndex } = Selectors.getSelectedCraftingComponent(state);
+  return new AddCraftingPartAction(craftingPartIndex, forgeSlotIndex);
+}
+
+function* _addCraftingPart() {
+  const action = yield _getAddCraftingPartAction();
+  yield put(GameActions.fulfillTurnAction.request(action));
+  yield put(Actions.addCraftingPart.success());
 }
 
 function* saga() {
@@ -171,6 +182,7 @@ function* saga() {
       Actions.ADD_FINALIZED_CARD_TO_DECK.REQUEST,
       _addFinalizedCardToDeck,
     ),
+    takeEvery(Actions.ADD_CRAFTING_PART.REQUEST, _addCraftingPart),
     takeLatest(Actions.SET_CRAFTING_BASE_CARD.REQUEST, _setCraftingBaseCard),
     takeLatest(Actions.SET_CRAFTING_PARTS.REQUEST, _setCraftingParts),
     takeEvery(Actions.FINISH_ADD_CRAFTING_PART.REQUEST, _finishAddCraftingPart),

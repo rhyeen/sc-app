@@ -29,8 +29,8 @@ export const setFinalizedSelectedForgeDraftCardNameData = (possibleNames, cardOr
 
 export const ADD_FINALIZED_CARD_TO_DECK = ra.createRequestTypes('ADD_FINALIZED_CARD_TO_DECK');
 export const addFinalizedCardToDeck = {
-  request: (cardName, numberOfInstances) =>
-    ReduxAction.action(ADD_FINALIZED_CARD_TO_DECK.REQUEST, { cardName, numberOfInstances }),
+  request: (cardName, cardNameId, numberOfInstances) =>
+    ReduxAction.action(ADD_FINALIZED_CARD_TO_DECK.REQUEST, { cardName, cardNameId, numberOfInstances }),
   success: () => ReduxAction.action(ADD_FINALIZED_CARD_TO_DECK.SUCCESS, {}),
 };
 

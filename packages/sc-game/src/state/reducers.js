@@ -15,6 +15,7 @@ const INITIAL_STATE = {
   },
   entities: {
     pendingTurn: [],
+    flushedTurn: [],
     turnHistory: [],
     game: null,
     playerId: null,
@@ -63,12 +64,26 @@ function _updatePendingTurn(state, action) {
 }
 
 function _endTurn(state) {
+  const fullTurn = [...state.entities.flushedTurn, ...state.entities.pendingTurn];
   return {
     ...state,
     entities: {
       ...state.entities,
-      turnHistory: [...state.entities.turnHistory, state.entities.pendingTurn],
+      turnHistory: [...state.entities.turnHistory, fullTurn],
       pendingTurn: [],
+      flushedTurn: [],
+    },
+  };
+}
+
+function _flushPendingTurn(state) {
+  const fullTurn = [...state.entities.flushedTurn, ...state.entities.pendingTurn];
+  return {
+    ...state,
+    entities: {
+      ...state.entities,
+      pendingTurn: [],
+      flushedTurn: fullTurn,
     },
   };
 }
@@ -169,6 +184,8 @@ const reducer = (state = INITIAL_STATE, action) => {
       return _setDungeonId(newState, action.dungeonId);
     case Actions.SET_LOADING:
       return _setLoading(newState, action.loading);
+    case Actions.FLUSH_TURN_ACTIONS:
+      return _flushPendingTurn(newState);
     default:
       return newState;
   }
