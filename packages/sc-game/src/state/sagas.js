@@ -7,6 +7,8 @@ import * as Selectors from './selectors.js';
 import { localStore } from './store.js';
 
 import * as Actions from './actions.js';
+import * as AppActions from '../../../sc-app/src/state/actions.js';
+import { ROUTES } from '../../../sc-app/src/entities/route.js';
 
 function _buildGame(gameData) {
   const game = GameBuilder.buildGame(gameData);
@@ -17,8 +19,17 @@ function* _resetGame({ playerId, playerDeckId, dungeonId }) {
   yield put(Actions.setGame(null));
   const { data } = yield call(GameInterface.newGame, playerId, playerDeckId, dungeonId);
   const game = yield call(_buildGame, data.game);
+  yield put(AppActions.updateActivePage.request(ROUTES.PAGES.GAME, game.id));
   yield put(Actions.setGame(game));
   yield put(Actions.resetGame.success());
+}
+
+function* _loadGame({ gameId, playerId, playerDeckId, dungeonId }) {
+  yield put(Actions.setGame(null));
+  const { data } = yield call(GameInterface.getGame, gameId, playerId, playerDeckId, dungeonId);
+  const game = yield call(_buildGame, data.game);
+  yield put(Actions.setGame(game));
+  yield put(Actions.loadGame.success());
 }
 
 function _callEndCrafting() {
@@ -79,6 +90,7 @@ function* _fulfillTurnAction({ turnAction }) {
 function* saga() {
   yield all([
     takeLatest(Actions.RESET_GAME.REQUEST, _resetGame),
+    takeLatest(Actions.LOAD_GAME.REQUEST, _loadGame),
     takeLatest(Actions.END_CRAFTING.REQUEST, _endCrafting),
     takeLatest(Actions.END_TURN.REQUEST, _endTurn),
     takeLatest(Actions.FULFILL_TURN_ACTION.REQUEST, _fulfillTurnAction),

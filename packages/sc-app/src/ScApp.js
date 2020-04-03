@@ -35,6 +35,7 @@ export class ScApp extends connect(localStore)(LitElement) {
     Localize.useFallbackLocale('EN');
     InterfaceState.set(INTERFACE_STATE.HTTP);
     this._page = '';
+    this._pageId = '';
     // @TODO:
     this._playerId = 'US_1';
     this._playerDeckId = 'DD_2'; // DD_1
@@ -56,7 +57,13 @@ export class ScApp extends connect(localStore)(LitElement) {
   }
 
   stateChanged(state) {
+    const oldPage = this._page;
+    const oldPageId = this._pageId;
     this._page = Selector.getActivePage(state);
+    this._pageId = Selector.getPageId(state);
+    if (oldPage !== this._page || oldPageId !== this._pageId) {
+      this.requestUpdate();
+    }
   }
 
   _activePageHtml() {
@@ -64,9 +71,10 @@ export class ScApp extends connect(localStore)(LitElement) {
       case ROUTES.PAGES.GAME:
         return html`
           <sc-game
-            playerId=${this._playerId}
-            playerDeckId=${this._playerDeckId}
-            dungeonId=${this._dungeonId}
+            .playerId=${this._playerId}
+            .playerDeckId=${this._playerDeckId}
+            .dungeonId=${this._dungeonId}
+            .gameId=${this._pageId}
           ></sc-game>
         `;
       default:

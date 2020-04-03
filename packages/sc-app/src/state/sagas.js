@@ -3,13 +3,17 @@ import { Route } from '../entities/route.js';
 import * as Actions from './actions.js';
 import { localStore } from './store.js';
 
-function* _updateActivePage({ activePage }) {
+function* _updateActivePage({ activePage, activePageId }) {
   const _activePage = yield call(Route.importPage, activePage);
-  yield put(Actions.updateActivePage.success(_activePage));
+  yield call(Route.setActivePageUrl, activePage, activePageId);
+  yield put(Actions.updateActivePage.success(_activePage, activePageId));
 }
 
 function* _navigate({ path }) {
-  yield _updateActivePage({ activePage: Route.getPageFromPath(path) });
+  yield _updateActivePage({
+    activePage: Route.getPageFromPath(path),
+    activePageId: Route.getPageIdFromPath(path),
+  });
 }
 
 function* saga() {

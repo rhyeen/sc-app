@@ -2,7 +2,13 @@ import { LitElement, html, css } from 'lit-element';
 import { Game } from '@shardedcards/sc-types/dist/game/entities/game.js';
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
-import { resetGame, setPlayerId, setPlayerDeckId, setDungeonId } from './state/actions.js';
+import {
+  resetGame,
+  loadGame,
+  setPlayerId,
+  setPlayerDeckId,
+  setDungeonId,
+} from './state/actions.js';
 import { localStore } from './state/store.js';
 import * as Selectors from './state/selectors.js';
 import { Localize } from '../../utils/localizer.js';
@@ -39,6 +45,7 @@ export class ScGame extends connect(localStore)(LitElement) {
       playerId: { type: String },
       playerDeckId: { type: String },
       dungeonId: { type: String },
+      gameId: { type: String },
       _game: { type: Game },
       _gameVersion: { type: Number },
     };
@@ -74,7 +81,13 @@ export class ScGame extends connect(localStore)(LitElement) {
     localStore.dispatch(setPlayerId(this.playerId));
     localStore.dispatch(setPlayerDeckId(this.playerDeckId));
     localStore.dispatch(setDungeonId(this.dungeonId));
-    localStore.dispatch(resetGame.request(this.playerId, this.playerDeckId, this.dungeonId));
+    if (!this.gameId) {
+      localStore.dispatch(resetGame.request(this.playerId, this.playerDeckId, this.dungeonId));
+    } else {
+      localStore.dispatch(
+        loadGame.request(this.gameId, this.playerId, this.playerDeckId, this.dungeonId),
+      );
+    }
   }
 
   stateChanged(state) {

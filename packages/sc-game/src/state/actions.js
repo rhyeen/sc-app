@@ -18,6 +18,13 @@ export const resetGame = {
   success: () => ReduxAction.action(RESET_GAME.SUCCESS, {}),
 };
 
+export const LOAD_GAME = ra.createRequestTypes('LOAD_GAME');
+export const loadGame = {
+  request: (gameId, playerId, playerDeckId, dungeonId) =>
+    ReduxAction.action(LOAD_GAME.REQUEST, { gameId, playerId, playerDeckId, dungeonId }),
+  success: () => ReduxAction.action(LOAD_GAME.SUCCESS, {}),
+};
+
 export const END_TURN = ra.createRequestTypes('END_TURN');
 export const endTurn = {
   request: () => ReduxAction.action(END_TURN.REQUEST, {}),

@@ -1,20 +1,21 @@
 import * as Actions from './actions.js';
 
-import { ROUTES } from '../entities/route.js';
 import { localStore } from './store.js';
 
 const INITIAL_STATE = {
   route: {
-    activePage: ROUTES.PAGES.GAME,
+    activePage: null,
+    activePageId: null,
   },
 };
 
-function _updateActivePage(state, activePage) {
+function _updateActivePage(state, activePage, activePageId) {
   return {
     ...state,
     route: {
       ...state.route,
       activePage,
+      activePageId,
     },
   };
 }
@@ -22,7 +23,7 @@ function _updateActivePage(state, activePage) {
 const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case Actions.UPDATE_ACTIVE_PAGE.SUCCESS:
-      return _updateActivePage(state, action.activePage);
+      return _updateActivePage(state, action.activePage, action.activePageId);
     default:
       return state;
   }

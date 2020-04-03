@@ -10,6 +10,15 @@ export function newGame(playerId, playerDeckId, dungeonId) {
   }
 }
 
+export function getGame(gameId, playerId, playerDeckId, dungeonId) {
+  switch (InterfaceState.get()) {
+    case INTERFACE_STATE.HTTP:
+      return CallHttp.getGame(gameId, playerId, playerDeckId, dungeonId);
+    default:
+      return InterfaceState.invalid();
+  }
+}
+
 export function endCrafting(gameId, turn) {
   switch (InterfaceState.get()) {
     case INTERFACE_STATE.HTTP:
