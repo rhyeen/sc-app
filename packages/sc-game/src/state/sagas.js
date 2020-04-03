@@ -28,6 +28,7 @@ function* _loadGame({ gameId, playerId, playerDeckId, dungeonId }) {
   yield put(Actions.setGame(null));
   const { data } = yield call(GameInterface.getGame, gameId, playerId, playerDeckId, dungeonId);
   const game = yield call(_buildGame, data.game);
+  yield put(Actions.showInGameMenu());
   yield put(Actions.setGame(game));
   yield put(Actions.loadGame.success());
 }

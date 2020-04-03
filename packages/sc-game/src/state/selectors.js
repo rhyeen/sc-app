@@ -27,12 +27,12 @@ export const isGameMenuOpen = createSelector(
 
 export const isBattling = createSelector(
   _gameSelector,
-  game => game.phase === GamePhase.Battle,
+  game => (!game ? false : game.phase === GamePhase.Battle),
 );
 
 export const isDrafting = createSelector(
   _gameSelector,
-  game => game.phase === GamePhase.Draft,
+  game => (!game ? false : game.phase === GamePhase.Draft),
 );
 
 export const getGame = createSelector(
@@ -42,7 +42,7 @@ export const getGame = createSelector(
 
 export const getGameId = createSelector(
   _gameSelector,
-  game => game.id,
+  game => (!game ? null : game.id),
 );
 
 export const getGameVersion = createSelector(

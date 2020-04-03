@@ -17,7 +17,7 @@ export class Route {
   static importPage(page) {
     switch (page) {
       case ROUTES.PAGES.GAME:
-        import(ROUTES.ENDPOINTS.FILE_ROUTES);
+        import(ROUTES.FILE_ROUTES.GAME);
         return page;
       default:
         // @NOTE: don't need to import 404 page, ScApp already does that.
