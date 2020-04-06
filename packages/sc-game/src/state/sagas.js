@@ -62,9 +62,11 @@ function _setCraftingTable(craftingPartsData, baseCardsData) {
   const baseCards = CraftingTableBuilder.buildBaseCards(baseCardsData);
   const craftingParts = CraftingTableBuilder.buildCraftingParts(craftingPartsData);
   const state = localStore.getState();
-  const game = Selectors.getGame(state);
+  const game = Selectors.getGame(state).copy();
   game.player.craftingTable.baseCards = baseCards;
   game.player.craftingTable.craftingParts = craftingParts;
+  // @NOTE: if the player has won/lost the game, immediately show the endgame screen.
+  game.setIsOver();
   return game;
 }
 
@@ -78,7 +80,10 @@ function* _endTurn() {
 function _executeTurnAction(turnAction) {
   const state = localStore.getState();
   const game = Selectors.getGame(state);
-  return turnAction.execute(game);
+  const result = turnAction.execute(game);
+  // @NOTE: if the player has won/lost the game, immediately show the endgame screen.
+  result.game.setIsOver();
+  return result;
 }
 
 function* _fulfillTurnAction({ turnAction }) {

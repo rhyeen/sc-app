@@ -153,12 +153,10 @@ const reducer = (state = INITIAL_STATE, action) => {
     case Actions.HIDE_IN_GAME_MENU:
       return _toggleMenuState(newState, false);
     case Actions.RESET_GAME.SUCCESS:
-      newState = _toggleMenuState(newState, false);
-      return _updateGamePhase(newState, GamePhase.Battle);
+      return _toggleMenuState(newState, false);
     case Actions.END_CRAFTING.REQUEST:
       return _setLoading(newState, true);
     case Actions.END_CRAFTING.SUCCESS:
-      newState = _updateGamePhase(newState, GamePhase.Battle);
       newState = _setLoading(newState, false);
       newState = _endTurn(newState);
       return _addOpponentTurn(newState, action.opponentTurn);

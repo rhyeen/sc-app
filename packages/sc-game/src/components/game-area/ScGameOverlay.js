@@ -50,6 +50,8 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
       gameVersion: { type: Number },
       game: { type: Game },
       _showGameMenu: { type: Boolean },
+      _hasWon: { type: Boolean },
+      _hasLost: { type: Boolean },
       _selectedCard: { type: Object },
       _selectedCraftingComponent: { type: Object },
       _loading: { type: Boolean },
@@ -182,6 +184,16 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
         <sc-loading-overlay></sc-loading-overlay>
       `;
     }
+    if (this._hasWon) {
+      return html`
+        <sc-game-win-overlay></sc-game-win-overlay>
+      `;
+    }
+    if (this._hasLost) {
+      return html`
+        <sc-game-lose-overlay></sc-game-lose-overlay>
+      `;
+    }
     if (this._showGameMenu) {
       return html`
         <sc-game-menu-overlay></sc-game-menu-overlay>
@@ -294,6 +306,8 @@ export class ScGameOverlay extends connect(localStore)(LitElement) {
 
   stateChanged(state) {
     this._showGameMenu = Selectors.isGameMenuOpen(state);
+    this._hasWon = Selectors.hasWon(state);
+    this._hasLost = Selectors.hasLost(state);
     this._selectedCard = CardSelectors.getSelectedCard(state);
     this._selectedCraftingComponent = CraftSelectors.getSelectedCraftingComponent(state);
     // @NOTE: since update is not done on object property changes, we need to force the update.

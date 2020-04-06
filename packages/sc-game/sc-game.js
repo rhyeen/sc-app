@@ -22,6 +22,8 @@ import { ScPreviewForgeDraftCardOverlay } from './src/components/overlay/ScPrevi
 import { ScFinalizeForgeDraftCardOverlay } from './src/components/overlay/ScFinalizeForgeDraftCardOverlay.js';
 import { ScSelectForgeForCraftingPartOverlay } from './src/components/overlay/ScSelectForgeForCraftingPartOverlay.js';
 import { ScAddCraftingPartOverlay } from './src/components/overlay/ScAddCraftingPartOverlay.js';
+import { ScGameLoseOverlay } from './src/components/overlay/ScGameLoseOverlay.js';
+import { ScGameWinOverlay } from './src/components/overlay/ScGameWinOverlay.js';
 import { ScGameOverlay } from './src/components/game-area/ScGameOverlay.js';
 
 import { ScGameFooter } from './src/components/game-area/ScGameFooter.js';
@@ -33,6 +35,8 @@ window.customElements.define('sc-game-menu-bar-item', ScGameMenuBarItem);
 
 window.customElements.define('sc-loading-overlay', ScLoadingOverlay);
 window.customElements.define('sc-game-menu-overlay', ScGameMenuOverlay);
+window.customElements.define('sc-game-win-overlay', ScGameWinOverlay);
+window.customElements.define('sc-game-lose-overlay', ScGameLoseOverlay);
 window.customElements.define('sc-preview-hand-card-overlay', ScPreviewHandCardOverlay);
 window.customElements.define('sc-preview-dungeon-minion-overlay', ScPreviewDungeonMinionOverlay);
 window.customElements.define('sc-preview-player-minion-overlay', ScPreviewPlayerMinionOverlay);

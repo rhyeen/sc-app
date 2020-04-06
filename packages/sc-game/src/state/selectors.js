@@ -25,6 +25,16 @@ export const isGameMenuOpen = createSelector(
   menu => menu.show,
 );
 
+export const hasWon = createSelector(
+  _gameSelector,
+  game => (!game ? false : game.phase === GamePhase.Win),
+);
+
+export const hasLost = createSelector(
+  _gameSelector,
+  game => (!game ? false : game.phase === GamePhase.Lose),
+);
+
 export const isBattling = createSelector(
   _gameSelector,
   game => (!game ? false : game.phase === GamePhase.Battle),

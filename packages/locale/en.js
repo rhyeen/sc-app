@@ -4,6 +4,8 @@ export const LOCALE_EN = {
   SC_GAME: {
     LOADING_GAME: 'Loading game',
     LOADING: 'Loading',
+    LOSE_GAME: 'You lose!',
+    WIN_GAME: 'You win!',
   },
   SC_ROOT: {
     PAGE_NOT_FOUND: {
@@ -57,7 +59,7 @@ export const LOCALE_EN = {
       DONE: 'done',
     },
     OTHER: {
-      RESET_GAME: 'reset game',
+      RESET_GAME: 'new game',
       END_TURN: 'end turn',
       FINISH_CRAFTING: 'finish crafting',
       PLAY_CARD: 'play',
